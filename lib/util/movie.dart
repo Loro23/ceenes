@@ -12,9 +12,16 @@ class Movie {
   var vote_average;
   var vote_count;
 
-  Movie(int id, String title, String original_title, String overview,
-      List genre_ids,  String poster_path,double popularity,
-      double vote_average, double vote_count) {
+  Movie(
+      int id,
+      String title,
+      String original_title,
+      String overview,
+      List genre_ids,
+      String poster_path,
+      double popularity,
+      double vote_average,
+      double vote_count) {
     this.id = id;
     this.title = title;
     this.original_title = original_title;

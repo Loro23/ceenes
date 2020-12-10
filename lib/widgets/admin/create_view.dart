@@ -15,7 +15,6 @@ class _Create_ViewState extends State<Create_View> {
         child: Column(
           children: [
             Text('Spiel erstellen'),
-
           ],
         ),
       ),

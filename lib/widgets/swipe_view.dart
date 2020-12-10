@@ -39,8 +39,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
         cardBuilder: (context, index) => Card(
             child: FutureBuilder(
           future: movies,
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
             if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -51,12 +50,12 @@ class _Swipe_ViewState extends State<Swipe_View> {
               child: Column(
                 children: [
                   Text(movie.title),
-                  Text(movie.overview),
                   Image.network(
-                    "http://image.tmdb.org/t/p/original/" +
-                        movie.poster_path,
-                    height: 250,
+                    "http://image.tmdb.org/t/p/original/" + movie.poster_path,
+                    height: 500,
                   ),
+                  Text(movie.title),
+                  Text(movie.overview),
                   Text(movie.vote_average.toString())
                 ],
               ),
@@ -72,8 +71,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
             //Card is RIGHT swiping
           }
         },
-        swipeCompleteCallback:
-            (CardSwipeOrientation orientation, int index) {
+        swipeCompleteCallback: (CardSwipeOrientation orientation, int index) {
           /// Get orientation & index of swiped card!
         },
       ),

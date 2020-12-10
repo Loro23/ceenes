@@ -8,7 +8,6 @@ class MovieHandler {
     Map result = await tmdb.v3.discover.getMovies(
       page: 1,
       language: 'de',
-      withOrginalLanguage: 'de',
     );
 
     List resulties = result.values.toList();
@@ -28,7 +27,6 @@ class MovieHandler {
           poster_path, popularity, vote_average, vote_count);
       movies.add(movie);
     }
-
     return movies;
   }
 }
