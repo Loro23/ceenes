@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: "/create",
       routes: {
-        "/create":(context)=> Create_View(),},
+        "/create":(context)=> Swipe_View(),},
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

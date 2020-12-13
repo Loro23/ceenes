@@ -79,7 +79,7 @@ List<S2Choice<String>> optionsGenre = [
                  choiceType: S2ChoiceType.chips,
               ),
               SmartSelect<String>.single(
-                 modalValidation:(value)=> value==null ?"select altleast one": null,
+                 modalValidation:(value)=> value==null ?"select atleast one": null,
                  value: numParticipants,
                  title: "Freunde",
                  choiceItems:optionsPatNumber,

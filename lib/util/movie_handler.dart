@@ -8,13 +8,16 @@ class MovieHandler {
   static Future<List<Movie>> getTrendingMovies(int num) async {
     Map result;
 
-    if (num== 3){
+
       result = await tmdb.v3.discover.getMovies(
-        page: num,
-        language: 'de',
-        voteAverageGreaterThan: 7,
+        page: 1,
+        language: 'de-EN',
+        voteAverageGreaterThan: 4,
+
+        //withKeywords: "funny"
+        //withGenres: "10402,10749"
       );
-    }
+
     
     Map resulte = await tmdb.v3.movies.getTopRated();
     print(resulte);
