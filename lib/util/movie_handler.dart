@@ -4,11 +4,22 @@ import 'movie.dart';
 class MovieHandler {
   static List<Movie> movies = [];
 
-  static Future<List<Movie>> getTrendingMovies() async {
-    Map result = await tmdb.v3.discover.getMovies(
-      page: 1,
-      language: 'de',
-    );
+
+  static Future<List<Movie>> getTrendingMovies(int num) async {
+    Map result;
+
+    if (num== 3){
+      result = await tmdb.v3.discover.getMovies(
+        page: num,
+        language: 'de',
+        voteAverageGreaterThan: 7,
+      );
+    }
+    
+    Map resulte = await tmdb.v3.movies.getTopRated();
+    print(resulte);
+
+
 
     List resulties = result.values.toList();
 

@@ -1,3 +1,5 @@
+import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
+import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:flutter/material.dart';
 import 'util/api.dart';
@@ -14,6 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      initialRoute: "/create",
+      routes: {
+        "/create":(context)=> Create_View(),},
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -32,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Swipe_View(),
+      child: Create_View(),
     );
   }
 }
