@@ -7,7 +7,12 @@ import '../util/api.dart';
 import '../util/movie.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+List<int> movieIds = [];
 class Swipe_View extends StatefulWidget {
+
+  Swipe_View(List<int> _movieIds){
+    movieIds = _movieIds;
+  }
   @override
   _Swipe_ViewState createState() => _Swipe_ViewState();
 }
@@ -17,7 +22,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   @override
   void initState() {
-    this.movies = MovieHandler.getTrendingMovies(3);
+    for (int i in movieIds){
+      tmdb.v3.movies.getDetails(i);
+      //TODO details des response in Movie Objekt umwdandeln und dann in die movies liste packen
+    }
   }
 
   @override

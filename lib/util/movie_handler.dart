@@ -1,3 +1,5 @@
+import 'package:ceenes_prototype/util/session.dart';
+
 import 'api.dart';
 import 'movie.dart';
 
@@ -5,22 +7,20 @@ class MovieHandler {
   static List<Movie> movies = [];
 
 
-  static Future<List<Movie>> getTrendingMovies(int num) async {
+  static Future<List<Movie>> getMovies(Session session) async {
     Map result;
 
 
       result = await tmdb.v3.discover.getMovies(
         page: 1,
-        language: 'de-EN',
+        language: 'de',
         voteAverageGreaterThan: 4,
 
-        //withKeywords: "funny"
-        //withGenres: "10402,10749"
       );
 
     
     Map resulte = await tmdb.v3.movies.getTopRated();
-    print(resulte);
+    //print(resulte);
 
 
 
