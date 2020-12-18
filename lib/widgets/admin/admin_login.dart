@@ -9,11 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'create_view.dart';
 
-Session b;
+Session session;
 
 class AdminLogin extends StatefulWidget {
   AdminLogin(int numPats, int numMov, List<String> genres) {
-    b = new Session(numPats, numMov, genres);
+    session = new Session(numPats, numMov, genres);
   }
 
   @override
@@ -23,7 +23,6 @@ class AdminLogin extends StatefulWidget {
 class _AdminLoginState extends State<AdminLogin> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  List<Movie> movies;
 
   List<int> movieIds = [];
 
@@ -32,49 +31,45 @@ class _AdminLoginState extends State<AdminLogin> {
   //in movieIds
   //firestore > Collection mit Id von der Sesson > movies > firestore.upload(moviesIds)
 
-  void createRecord() async {
+  void createRecord(List movies) async {
     await firestore
         .collection("sessions")
-        .document(b.sessionId.toString())
+        .document(session.sessionId.toString())
         .setData({}).then((value) {
       firestore
           .collection("sessions")
-          .document(b.sessionId.toString())
+          .document(session.sessionId.toString())
           .collection("movies")
-          .document("movieIds")
+          .document("movie_entries")
           .setData({});
 
       for (int i = 0; i < 20; i++) {
         firestore
             .collection("sessions")
-            .document(b.sessionId.toString())
+            .document(session.sessionId.toString())
             .collection("movies")
-            .document("movieIds")
-            .updateData({i.toString(): movieIds[i]});
+            .document("movie_entries")
+            .updateData({i.toString(): movies[1][i].toString()});
       }
       firestore
           .collection("sessions")
-          .document(b.sessionId.toString())
+          .document(session.sessionId.toString())
           .collection("votes")
           .document("dummy_doc")
           .setData({});
     });
   }
 
-  fetchMovieIds() async {
+  uploadMovies() async {
     // ignore: missing_return
-    movies = await MovieHandler.getMovies(b).then((value) {
-      for (Movie m in value) {
-        movieIds.add(m.id);
-        print(m.id);
-      }
-      createRecord();
+    await MovieHandler.getMovies(session).then((_movies) {
+      createRecord(_movies);
     });
   }
 
   @override
   initState() {
-    fetchMovieIds();
+    uploadMovies();
   }
 
   @override
@@ -86,7 +81,7 @@ class _AdminLoginState extends State<AdminLogin> {
             Text("Deine Gruppe wurde erstellt!"),
             Text(
                 "wenn ihr swipen wollt müsst ihr lediglich den Code auf der Find Group Seite angeben und ihr könnt swipen"),
-            Text(b.sessionId.toString()),
+            Text(session.sessionId.toString()),
             FloatingActionButton(
               onPressed: () {
                 Navigator.of(context)

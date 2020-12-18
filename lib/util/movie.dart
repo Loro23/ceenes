@@ -1,35 +1,42 @@
 import 'dart:core';
 
 class Movie {
-  var id;
-  var title;
-  var original_title;
-  var rating;
-  var overview;
-  var genre_ids;
-  var popularity;
-  var poster_path;
-  var vote_average;
-  var vote_count;
+  String adult;
+  String genres;
+  String id;
+  String original_language;
+  String original_title;
+  String overview;
+  String popularity;
+  String poster_path;
+  String release_date;
+  String title;
+  String vote_average;
+  String vote_count;
+
+  String homepage = null;
+  String imdb_id = null;
+  String production_companies = null;
+  String runtime = null;
+  String spoken_languages = null;
 
   Movie(
-      int id,
-      String title,
-      String original_title,
-      String overview,
-      List genre_ids,
-      String poster_path,
-      double popularity,
-      double vote_average,
-      double vote_count) {
-    this.id = id;
-    this.title = title;
-    this.original_title = original_title;
-    this.overview = overview;
-    this.genre_ids = genre_ids;
-    this.poster_path = poster_path;
-    this.popularity = popularity;
-    this.vote_average = vote_average;
-    this.vote_count = vote_count;
-  }
+    this.adult,
+    this.genres,
+    this.id,
+    this.original_language,
+    this.original_title,
+    this.overview,
+    this.popularity,
+    this.poster_path,
+    this.release_date,
+    this.title,
+    this.vote_average,
+    this.vote_count, [
+    this.homepage,
+    this.imdb_id,
+    this.production_companies,
+    this.runtime,
+    this.spoken_languages,
+  ]);
 }

@@ -18,12 +18,15 @@ class Swipe_View extends StatefulWidget {
 }
 
 class _Swipe_ViewState extends State<Swipe_View> {
-  Future<List<Movie>> movies;
+  List<Movie> movies;
 
   @override
   void initState() {
     for (int i in movieIds){
-      tmdb.v3.movies.getDetails(i);
+      tmdb.v3.movies.getDetails(i).then((_movie) {
+        print(_movie);
+       // movies.add(Movie(_movie["id"]))
+      });
       //TODO details des response in Movie Objekt umwdandeln und dann in die movies liste packen
     }
   }
@@ -46,7 +49,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
           minHeight: MediaQuery.of(context).size.height * 0.8,
           cardBuilder: (context, index) => Card(
               child: FutureBuilder(
-            future: movies,
+            future: null,
             builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
               if (!snapshot.hasData) {
                 return Center(
