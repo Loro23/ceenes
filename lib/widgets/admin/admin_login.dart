@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:html';
 
 import 'package:ceenes_prototype/util/movie.dart';
@@ -22,20 +23,14 @@ class AdminLogin extends StatefulWidget {
 
 class _AdminLoginState extends State<AdminLogin> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  String movies;
 
-
-  List<int> movieIds = [];
-
-  //api request
-  //antwort: ids
-  //in movieIds
-  //firestore > Collection mit Id von der Sesson > movies > firestore.upload(moviesIds)
-
-  void createRecord(List movies) async {
+  void createRecord() async {
     await firestore
         .collection("sessions")
         .document(session.sessionId.toString())
         .setData({}).then((value) {
+      /*
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
@@ -43,14 +38,26 @@ class _AdminLoginState extends State<AdminLogin> {
           .document("movie_entries")
           .setData({});
 
-      for (int i = 0; i < 20; i++) {
+           */
+      /*
         firestore
             .collection("sessions")
             .document(session.sessionId.toString())
             .collection("movies")
             .document("movie_entries")
-            .updateData({i.toString(): movies[1][i].toString()});
-      }
+            .updateData({"movies_json": this.movies}); //pass the movies map as a json into firestore to reduce number of reading operations
+
+       */
+
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .setData({});
+
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"movies_json": this.movies});
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
@@ -61,9 +68,10 @@ class _AdminLoginState extends State<AdminLogin> {
   }
 
   uploadMovies() async {
-    // ignore: missing_return
-    await MovieHandler.getMovies(session).then((_movies) {
-      createRecord(_movies);
+    await MovieHandler.getMovies(session).then((movies) {
+      this.movies =
+          json.encode(movies); //movie result als json string erstellen
+      createRecord(); // eintrag erstellen mit movies als Liste bevor
     });
   }
 
@@ -76,22 +84,56 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        child: Column(
-          children: [
-            Text("Deine Gruppe wurde erstellt!"),
-            Text(
-                "wenn ihr swipen wollt müsst ihr lediglich den Code auf der Find Group Seite angeben und ihr könnt swipen"),
-            Text(session.sessionId.toString()),
-            FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return Swipe_View(movieIds);
-                }));
-              },
-              child: Text("Start"),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    "Deine Gruppe wurde erstellt!",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: SelectableText(
+                    "Um zu starten, müssen deine Freunde den unterstehenden Code eingeben. Wenn alle den Code haben, kannst auch du anfangen, indem "
+                    "du auf Start klickst. Sobald du und deine Freunde fertig sind, könnt ihr euch alle die Ergebnisse anschauen. Los gehts!",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    session.sessionId.toString(),
+                    style: TextStyle(
+                        letterSpacing: 10,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return Swipe_View(this.movies);
+                      }));
+                    },
+                    child: Text("Start"),
+                    backgroundColor: Colors.pinkAccent,
+                    //label: Text("Start"),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

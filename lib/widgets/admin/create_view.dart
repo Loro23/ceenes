@@ -86,15 +86,19 @@ class _Create_ViewState extends State<Create_View> {
                     setState(() => numParticipants = state.value),
                 modalType: S2ModalType.popupDialog,
               ),
-              FloatingActionButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return AdminLogin(int.parse(valueNumber),
-                          int.parse(numParticipants), valueGenre);
-                    }));
-                  },
-                  child: Text("Start")),
+              SizedBox(
+                height: 100,
+                width: 100,
+                child: FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return AdminLogin(int.parse(valueNumber),
+                            int.parse(numParticipants), valueGenre);
+                      }));
+                    },
+                    child: Text("Weiter")),
+              ),
             ],
           ),
         ),

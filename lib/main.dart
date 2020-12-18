@@ -1,5 +1,6 @@
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
+import 'package:ceenes_prototype/widgets/login_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:flutter/material.dart';
 import 'util/api.dart';
@@ -16,7 +17,6 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-
   // Set default `_initialized` and `_error` state to false
   @override
   _MyAppState createState() => _MyAppState();
@@ -68,11 +68,16 @@ class _MyAppState extends State<MyApp> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(Colors.blue),
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.refresh, color: Colors.pinkAccent, size: 25,),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: Colors.pinkAccent,
+                      size: 25,
+                    ),
                     onPressed: () {
                       html.window.location.reload();
                     },
@@ -88,7 +93,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       initialRoute: "/create",
       routes: {
-        "/create":(context)=> Create_View(),},
+        "/create": (context) => Login_view(),
+      },
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
