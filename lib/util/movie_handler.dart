@@ -6,15 +6,17 @@ import 'movie.dart';
 class MovieHandler {
   static Future<List> getMovies(Session session) async {
     List movies = [];
+    double number = session.numMov / 20;
 
+    for(int i= 0; i < number; i++)
     await tmdb.v3.discover
         .getMovies(
-      page: 1,
+      page: i+1,
       language: 'en',
       voteAverageGreaterThan: 5,
     )
         .then((result) {
-      movies = result.values.toList()[1];
+      movies = movies + result.values.toList()[1];
     });
 
     return movies;

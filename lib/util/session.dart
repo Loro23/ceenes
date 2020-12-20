@@ -15,6 +15,7 @@ class Session {
     this.sessionId = rng.nextInt(1000000);
     this.finalGenres = this.connect(genres);
   }
+  
 
   String connect(List<String> genres) {
     String _finalGenres = "";

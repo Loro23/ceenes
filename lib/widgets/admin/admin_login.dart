@@ -123,7 +123,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return Swipe_View(this.movies);
+                        return Swipe_View(this.movies,session.sessionId);
                       }));
                     },
                     child: Text("Start"),
