@@ -30,25 +30,6 @@ class _AdminLoginState extends State<AdminLogin> {
         .collection("sessions")
         .document(session.sessionId.toString())
         .setData({}).then((value) {
-      /*
-      firestore
-          .collection("sessions")
-          .document(session.sessionId.toString())
-          .collection("movies")
-          .document("movie_entries")
-          .setData({});
-
-           */
-      /*
-        firestore
-            .collection("sessions")
-            .document(session.sessionId.toString())
-            .collection("movies")
-            .document("movie_entries")
-            .updateData({"movies_json": this.movies}); //pass the movies map as a json into firestore to reduce number of reading operations
-
-       */
-
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
@@ -78,6 +59,7 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   initState() {
     uploadMovies();
+    super.initState();
   }
 
   @override
@@ -123,7 +105,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return Swipe_View(this.movies,session.sessionId);
+                        return Swipe_View(this.movies, session);
                       }));
                     },
                     child: Text("Start"),

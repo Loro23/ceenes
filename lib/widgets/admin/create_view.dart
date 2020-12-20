@@ -30,6 +30,22 @@ class _Create_ViewState extends State<Create_View> {
     S2Choice<String>(value: '28', title: 'Action'),
     S2Choice<String>(value: '16', title: 'animiert'),
     S2Choice<String>(value: '99', title: 'Dokumentation'),
+    S2Choice<String>(value: '18', title: 'Drama'),
+    S2Choice<String>(value: '10751', title: 'Familie'),
+    S2Choice<String>(value: '14', title: 'Fantasie'),
+    S2Choice<String>(value: '36', title: 'Geschichte'),
+    S2Choice<String>(value: '35', title: 'Komödie'),
+    S2Choice<String>(value: '10752', title: 'Krieg'),
+    S2Choice<String>(value: '80', title: 'Krimi'),
+    S2Choice<String>(value: '10402', title: 'Musik'),
+    S2Choice<String>(value: '9648', title: 'Mystisch'),
+    S2Choice<String>(value: '10749', title: 'Romantisch'),
+    S2Choice<String>(value: '878', title: 'Sci-Fi'),
+    S2Choice<String>(value: '27', title: 'Horror'),
+    S2Choice<String>(value: '107770', title: 'TV-Film'),
+    S2Choice<String>(value: '53', title: 'Thriller'),
+    S2Choice<String>(value: '37', title: 'Western'),
+    S2Choice<String>(value: '12', title: 'Abenteuer'),
   ];
 
   List<S2Choice<String>> optionsPatNumber = [
@@ -93,8 +109,8 @@ class _Create_ViewState extends State<Create_View> {
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return AdminLogin(int.parse(valueNumber),
-                            int.parse(numParticipants), valueGenre);
+                        return AdminLogin(int.parse(numParticipants),
+                            int.parse(valueNumber), valueGenre);
                       }));
                     },
                     child: Text("Weiter")),

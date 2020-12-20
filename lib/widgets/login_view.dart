@@ -94,7 +94,7 @@ class _Login_viewState extends State<Login_view> {
                       await fetchMovies(int.parse(code)).whenComplete(() {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return Swipe_View(movies_enc, int.parse(code));
+                          return Swipe_View(movies_enc, session);
                         }));
                       });
                     },

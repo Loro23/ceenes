@@ -8,16 +8,17 @@ class MovieHandler {
     List movies = [];
     double number = session.numMov / 20;
 
-    for(int i= 0; i < number; i++)
-    await tmdb.v3.discover
-        .getMovies(
-      page: i+1,
-      language: 'en',
-      voteAverageGreaterThan: 5,
-    )
-        .then((result) {
-      movies = movies + result.values.toList()[1];
-    });
+    for (int i = 0; i < number; i++)
+      await tmdb.v3.discover
+          .getMovies(
+        page: i + 1,
+        language: 'en',
+        voteAverageGreaterThan: 5,
+        withGenres: session.finalGenres,
+      )
+          .then((result) {
+        movies = movies + result.values.toList()[1];
+      });
 
     return movies;
   }
