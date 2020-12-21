@@ -52,7 +52,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   @override
   Widget build(BuildContext context) {
-    print(session.sessionId.toString());
+    //print(session.sessionId.toString());
     CardController controller;
     return Material(
       child: Container(
@@ -88,7 +88,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image.network(
-                                "http://image.tmdb.org/t/p/original/" +
+                                "http://image.tmdb.org/t/p/w500/" +
                                     movies_dec[index]["poster_path"],
                                 height: 400,
                               ))),
@@ -109,21 +109,21 @@ class _Swipe_ViewState extends State<Swipe_View> {
                 swipeCompleteCallback:
                     (CardSwipeOrientation orientation, int index) async {
                   if (orientation == CardSwipeOrientation.LEFT) {
-                    print("left");
+                    //print("left");
                     setState(() {
                       counter += 1;
                       movies_rating.add(0);
                     });
-                    print("counter: " + counter.toString());
+                    //print("counter: " + counter.toString());
                   } else if (orientation == CardSwipeOrientation.RIGHT) {
-                    print("right");
+                    //print("right");
 
                     setState(() {
-                      print("in set state");
+                      //print("in set state");
                       counter += 1;
                       movies_rating.add(1);
                     });
-                    print("counter: " + counter.toString());
+                    //print("counter: " + counter.toString());
                   }
 
                   if (counter == session.numMov) {
