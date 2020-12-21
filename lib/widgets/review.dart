@@ -106,7 +106,7 @@ class _ReviewState extends State<Review> {
 
   Widget getReviewView() {
     if (sortedMap == null) {
-      return Center(child: Text("bitte refereshen"));
+      return Center(child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
     }
     return Column(
       children: [

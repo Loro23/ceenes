@@ -63,10 +63,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
               child: TinderSwapCard(
                 swipeUp: false,
                 swipeDown: false,
-                animDuration: 3,
+                animDuration: 300,
                 orientation: AmassOrientation.TOP,
                 totalNum: session.numMov,
-                stackNum: 2,
+                stackNum: 3,
                 swipeEdge: 4.0,
                 maxWidth: MediaQuery.of(context).size.width * 0.9,
                 maxHeight: MediaQuery.of(context).size.height * 0.9,
