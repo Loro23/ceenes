@@ -9,13 +9,13 @@ import 'dart:collection';
 
 import 'package:tmdb_api/tmdb_api.dart';
 
-Session session;
-List movies_dec;
+int _sessionId;
+List _movies_dec;
 
 class Review extends StatefulWidget {
-  Review(Session _session, List _movies_dec) {
-    session = _session;
-    movies_dec = _movies_dec;
+  Review(int sessionId, List movies_dec) {
+    _sessionId = sessionId;
+    _movies_dec = movies_dec;
   }
 
   @override
@@ -38,25 +38,50 @@ class _ReviewState extends State<Review> {
   Color _reviewButtonColor = Colors.blue;
 
   Future getRating() async {
+    showDialog(
+      barrierDismissible: false,
+      child: Dialog(
+
+        child: SizedBox(
+          height: 100,
+          width: 150,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new CircularProgressIndicator(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text("Lade Ergebnisse..."),
+              ),
+            ],
+          ),
+        ),
+      ), context: context,
+    );
+
     setState(() {
       rating = [];
       snapshotWithoutDummy = [];
       sortedMap = null;
-      isEnabled = false;
-      _reviewButtonText = "warten...";
-      _reviewButtonColor = Colors.red;
     });
 
-    for (int i = 0; i < session.numMov; i++) {
+    print(0);
+    print(_movies_dec.length);
+    for (int i = 0; i < _movies_dec.length; i++) {
       rating.add(0);
     }
 
+    print(1);
     await firestore
         .collection("sessions")
-        .document(session.sessionId.toString())
+        .document(_sessionId.toString())
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
+          print(2);
       for (int i = 0; i < snapshot.documents.length; i++) {
         if (snapshot.documents[i].id == "dummy_doc") {
           continue;
@@ -77,8 +102,8 @@ class _ReviewState extends State<Review> {
       //hier werden fie filme und das rating gespeichert, sie müssen noch nach dem value sorteiert werden
       Map<Map<String, dynamic>, int> mapping = {};
 
-      for (int i = 0; i < movies_dec.length; i++) {
-        mapping.putIfAbsent(movies_dec[i], () => rating[i]);
+      for (int i = 0; i < _movies_dec.length; i++) {
+        mapping.putIfAbsent(_movies_dec[i], () => rating[i]);
       }
 
       //um die map zu sortieren nutzen wir die was von stackoverflow
@@ -95,13 +120,14 @@ class _ReviewState extends State<Review> {
       }
     });
 
-    Timer(Duration(seconds: 3), () {
+
+    Timer(Duration(milliseconds: 1000), () {
       setState(() {
-        isEnabled = true;
-        _reviewButtonColor = Colors.blue;
-        _reviewButtonText = "Refresh";
+        Navigator.pop(context);
       });
     });
+
+
   }
 
   Widget getReviewView() {
@@ -110,7 +136,7 @@ class _ReviewState extends State<Review> {
     }
     return Column(
       children: [
-        Text("Hier ist euer Ergebnis"),
+        Container(child: Text("Hier ist euer Ergebnis"), color: Colors.transparent,),
         Expanded(
           child: ListView.builder(
             itemCount: sortedMap.length,
@@ -125,7 +151,7 @@ class _ReviewState extends State<Review> {
                       children: [
                         Image.network(
                           "http://image.tmdb.org/t/p/w92/" +
-                              movies_dec[index]["poster_path"],
+                              _movies_dec[index]["poster_path"],
                           height: 120,
                         ),
                         Expanded(
@@ -161,7 +187,7 @@ class _ReviewState extends State<Review> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: isEnabled ? () => getRating() : null,
+        onPressed: getRating,
         label: Text(_reviewButtonText),
         backgroundColor: _reviewButtonColor,
       ),

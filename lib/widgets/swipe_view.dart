@@ -15,13 +15,13 @@ import '../util/movie.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 GlobalKey key = GlobalKey();
-String movies;
-Session session;
+String _movies;
+int _sessionId;
 
 class Swipe_View extends StatefulWidget {
-  Swipe_View(String _movies, Session _session) {
-    movies = _movies;
-    session = _session;
+  Swipe_View(String movies, int sessionId) {
+    _movies = movies;
+    _sessionId = sessionId;
     //_movies is the json form of the movie map
   }
   @override
@@ -38,7 +38,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
   uploadRanking(List<int> movies_rating) async {
     await firestore
         .collection("sessions")
-        .document(session.sessionId.toString())
+        .document(_sessionId.toString())
         .collection("votes")
         .document(Random().nextInt(1000).toString())
         .setData({"rating": json.encode(movies_rating)});
@@ -46,7 +46,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   @override
   void initState() {
-    movies_dec = jsonDecode(movies);
+    movies_dec = jsonDecode(_movies);
     //print(movies_dec);
   }
 
@@ -58,14 +58,14 @@ class _Swipe_ViewState extends State<Swipe_View> {
       child: Container(
         child: Column(
           children: [
-            Text(session.sessionId.toString()),
+            Text(_sessionId.toString()),
             Expanded(
               child: TinderSwapCard(
                 swipeUp: false,
                 swipeDown: false,
                 animDuration: 300,
                 orientation: AmassOrientation.TOP,
-                totalNum: session.numMov,
+                totalNum: movies_dec.length,
                 stackNum: 3,
                 swipeEdge: 4.0,
                 maxWidth: MediaQuery.of(context).size.width * 0.9,
@@ -126,7 +126,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                     //print("counter: " + counter.toString());
                   }
 
-                  if (counter == session.numMov) {
+                  if (counter == movies_dec.length) {
                     print("letzte karte" + index.toString());
                     showDialog(
                       context: context,
@@ -149,11 +149,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
                         );
                       },
                     );
-                    //TODO prüfen ob der code richtig ist
                     await uploadRanking(movies_rating).whenComplete(() {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return Review(session, movies_dec);
+                        return Review(_sessionId, movies_dec);
                       }));
                     });
                   }
