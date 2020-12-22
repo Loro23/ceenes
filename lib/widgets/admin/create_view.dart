@@ -18,7 +18,7 @@ class Create_View extends StatefulWidget {
 
 class _Create_ViewState extends State<Create_View> {
   String valueNumber = "20";
-  List<String> valueGenre = ["ß"];
+  List<String> valueGenre = ["0"];
   String numParticipants = "2";
 
   final mycontroller = TextEditingController();
@@ -111,14 +111,14 @@ class _Create_ViewState extends State<Create_View> {
       body: Material(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.all(30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Gruppe erstellen',
                     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 Text('Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 Content(
                   title: "Anzahl Filme",
                   child: ChipsChoice<int>.single(
