@@ -17,7 +17,7 @@ class Create_View extends StatefulWidget {
 
 class _Create_ViewState extends State<Create_View> {
   String valueNumber = "20";
-  List<String> valueGenre = ["0"];
+  List<String> valueGenre = [];
   String numParticipants = "2";
 
   final mycontroller = TextEditingController();
@@ -29,7 +29,6 @@ class _Create_ViewState extends State<Create_View> {
   ];
 
   List<S2Choice<String>> optionsGenre = [
-    S2Choice<String>(value: '0', title: 'Alle'),
     S2Choice<String>(value: '28', title: 'Action'),
     S2Choice<String>(value: '16', title: 'animiert'),
     S2Choice<String>(value: '99', title: 'Dokumentation'),
@@ -51,53 +50,10 @@ class _Create_ViewState extends State<Create_View> {
     S2Choice<String>(value: '12', title: 'Abenteuer'),
   ];
 
-  List<S2Choice<String>> optionsPatNumber = [
-    S2Choice<String>(value: '1', title: '1'),
-    S2Choice<String>(value: '2', title: '2'),
-    S2Choice<String>(value: '3', title: '3'),
-    S2Choice<String>(value: '4', title: '4'),
-    S2Choice<String>(value: '5', title: '5'),
-    S2Choice<String>(value: '6', title: '6'),
-    S2Choice<String>(value: '7', title: '7'),
-    S2Choice<String>(value: '8', title: '8'),
-    S2Choice<String>(value: '9', title: '9'),
-    S2Choice<String>(value: '10', title: '10'),
-    S2Choice<String>(value: '11', title: '11'),
-    S2Choice<String>(value: '12', title: '12'),
-  ];
-
   int tag = 0;
   String valueNumber2 = "20";
   List<String> optionsNumber2 = ["20", "40", "60"];
-  List<String> valueGenre2 = ["0"];
-  List<String> optionsGenre2 = [
-    'Action',
 
-    'animiert',
-    'Dokumentation',
-    'Drama',
-    'Familie',
-    'Fantasie',
-
-    'Geschichte',
-    'Komödie',
-    'Krieg',
-    'Krimi',
-    'Musik',
-    'Mystisch',
-    'Romantisch',
-    'Sci-Fi',
-
-
-    'Horror',
-    'Thriller',
-    'Abenteuer',
-
-    'Western',
-    'TV-Film',
-
-
-  ];
 
   int tag1 = 0;
   String numParticipants2 = "2";
@@ -116,10 +72,10 @@ class _Create_ViewState extends State<Create_View> {
     "12"
   ];
   int tag2 = 0;
-  String runtime2 = "Egal";
+  String valueRuntime2 = "Egal";
   List<String> optionsRuntime2 = ["Egal", "30", "45", "60", "90", "90+"];
 
-  List<String> valueProvider2 = ["0"];
+  List<String> valueProvider2 = [];
   List<String> optionsProvider2 = ['Netflix', "Prime Video", "Sky", "Joyn"];
 
   @override
@@ -135,7 +91,7 @@ class _Create_ViewState extends State<Create_View> {
           },
           label: Text("Weiter")),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+        //padding: EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -144,174 +100,117 @@ class _Create_ViewState extends State<Create_View> {
             Text(
                 'Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Column(
-              children: [
-                Container(
-                  child: Text('Anzahl Filme'),
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[100],
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[50],
-                  child: ChipsChoice<int>.single(
-                    value: tag,
-                    onChanged: (val) => setState(() => tag = val),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsNumber2,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
-                    ),
-                    runSpacing: 4,
-                  ),
-                ),
-              ],
+            Container(
+              child: Text('Anzahl Filme'),
+              width: double.maxFinite,
+              color: Colors.blueGrey[100],
+              padding: const EdgeInsets.all(8.0),
             ),
-            Column(
-              children: [
-                Container(
-                  child: Text('Optional: Wähle Genres aus'),
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[100],
-                  padding: const EdgeInsets.all(8.0),
+            Container(
+              width: double.maxFinite,
+              color: Colors.blueGrey[50],
+              child: ChipsChoice<int>.single(
+                value: tag,
+                onChanged: (val) => setState(() {tag = val; valueNumber= optionsNumber2[tag]; print(valueNumber);} ),
+                choiceItems: C2Choice.listFrom<int, String>(
+                  source: optionsNumber2,
+                  value: (i, v) => i,
+                  label: (i, v) => v,
                 ),
-                Container(
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[50],
-                  child: ChipsChoice<String>.multiple(
-                    value: valueGenre2,
-                    onChanged: (val) => setState(() => valueGenre2 = val),
-                    choiceItems: C2Choice.listFrom<String, String>(
-                      source: optionsGenre2,
-                      value: (i, v) => v,
-                      label: (i, v) => v,
-                      tooltip: (i, v) => v,
-                    ),
-
-                    //wrapped: true,
-                    //textDirection: TextDirection.ltr,
-                    //alignment: WrapAlignment.spaceEvenly,
-                    runSpacing: 4,
-                  ),
-                ),
-              ],
+                runSpacing: 4,
+              ),
             ),
-            Column(
-              children: [
-                Container(
-                  child: Text("Wie viele Leute seid ihr?"),
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[100],
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[50],
-                  child: ChipsChoice<int>.single(
-                    value: tag1,
-                    onChanged: (val) => setState(() => tag1 = val),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsPatNumber2,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
-                    ),
-                    //wrapped: true,
-                    //textDirection: TextDirection.ltr,
-                    //alignment: WrapAlignment.spaceEvenly,
-                    runSpacing: 4,
-                  ),
-                ),
-              ],
+            Container(
+              child: Text('Optional: Wähle Genres aus'),
+              width: double.maxFinite,
+              color: Colors.blueGrey[100],
+              padding: const EdgeInsets.all(8.0),
             ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                      "Optional: Wie viele Minuten soll der Film maximal dauern?"),
-                  color: Colors.blueGrey[100],
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[50],
-                  child: ChipsChoice<int>.single(
-                    value: tag2,
-                    onChanged: (val) => setState(() => tag2 = val),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsRuntime2,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
-                    ),
-
-                    //wrapped: true,
-                    //textDirection: TextDirection.ltr,
-                    //alignment: WrapAlignment.spaceAround,
-                    runSpacing: 4,
-                    spacing: 4,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Container(
-                  child: Text(
-                    'Optional: Welche Streaminganbieter habt ihr?',
-                  ),
-                  color: Colors.blueGrey[100],
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.all(8.0),
-                ),
-                Container(
-                  width: double.maxFinite,
-                  color: Colors.blueGrey[50],
-                  child: ChipsChoice<String>.multiple(
-                    value: valueProvider2,
-                    onChanged: (val) => setState(() => valueProvider2 = val),
-                    choiceItems: C2Choice.listFrom<String, String>(
-                      source: optionsProvider2,
-                      value: (i, v) => v,
-                      label: (i, v) => v,
-                      tooltip: (i, v) => v,
-                    ),
-                    choiceStyle: C2ChoiceStyle(),
-                    wrapped: true,
-                    //textDirection: TextDirection.ltr,
-                    //alignment: WrapAlignment.spaceEvenly,
-                    runSpacing: 4,
-                  ),
-                ),
-              ],
-            ),
-            SmartSelect<String>.single(
-              modalValidation: (value) =>
-                  value == null ? "select altleast one" : null,
-              value: valueNumber,
-              title: "Filme",
-              choiceItems: optionsNumber,
-              onChange: (state) => setState(() => valueNumber = state.value),
-              modalType: S2ModalType.popupDialog,
-            ),
-            SmartSelect<String>.multiple(
-              modalValidation: (value) => value == null ? "Alle" : null,
+          Container(
+            width: double.maxFinite,
+            color: Colors.blueGrey[50],
+            child: SmartSelect<String>.multiple(
               value: valueGenre,
               title: "Genres",
               choiceItems: optionsGenre,
-              onChange: (state) => setState(() => valueGenre = state.value),
-              modalType: S2ModalType.popupDialog,
+              placeholder: "",
+              onChange: (state) => setState(()  {valueGenre = state.value; print(valueGenre);}),
+              modalType: S2ModalType.bottomSheet,
               choiceType: S2ChoiceType.chips,
+              choiceStyle: S2ChoiceStyle(
+                runSpacing: 4
+              ),
+
             ),
-            SmartSelect<String>.single(
-              modalValidation: (value) =>
-                  value == null ? "select atleast one" : null,
-              value: numParticipants,
-              title: "Freunde",
-              choiceItems: optionsPatNumber,
-              onChange: (state) =>
-                  setState(() => numParticipants = state.value),
-              modalType: S2ModalType.fullPage,
+          ),
+            Container(
+              child: Text("Wie viele Leute seid ihr?"),
+              width: double.maxFinite,
+              color: Colors.blueGrey[100],
+              padding: const EdgeInsets.all(8.0),
+            ),
+            Container(
+              width: double.maxFinite,
+              color: Colors.blueGrey[50],
+              child: ChipsChoice<int>.single(
+                value: tag1,
+                onChanged: (val) => setState(() {tag1 = val; numParticipants = optionsPatNumber2[val]; print(numParticipants);}),
+                choiceItems: C2Choice.listFrom<int, String>(
+                  source: optionsPatNumber2,
+                  value: (i, v) => i,
+                  label: (i, v) => v,
+                ),
+
+                runSpacing: 4,
+              ),
+            ),
+            Container(
+              child: Text(
+                  "Optional: Wie viele Minuten soll der Film maximal dauern?"),
+              color: Colors.blueGrey[100],
+              width: double.maxFinite,
+              padding: const EdgeInsets.all(8.0),
+            ),
+            Container(
+              width: double.maxFinite,
+              color: Colors.blueGrey[50],
+              child: ChipsChoice<int>.single(
+                value: tag2,
+                onChanged: (val) => setState(() {tag2 = val;  valueRuntime2 = optionsRuntime2[val]; print(valueRuntime2);}),
+                choiceItems: C2Choice.listFrom<int, String>(
+                  source: optionsRuntime2,
+                  value: (i, v) => i,
+                  label: (i, v) => v,
+                ),
+                runSpacing: 4,
+                spacing: 4,
+              ),
+            ),
+            Container(
+              child: Text(
+                'Optional: Welche Streaminganbieter habt ihr?',
+              ),
+              color: Colors.blueGrey[100],
+              width: double.maxFinite,
+              padding: const EdgeInsets.all(8.0),
+            ),
+            Container(
+              width: double.maxFinite,
+              color: Colors.blueGrey[50],
+              child: ChipsChoice<String>.multiple(
+                value: valueProvider2,
+                onChanged: (val) => setState(() { valueProvider2 = val; print(valueProvider2);}),
+                choiceItems: C2Choice.listFrom<String, String>(
+                  source: optionsProvider2,
+                  value: (i, v) => v,
+                  label: (i, v) => v,
+                  tooltip: (i, v) => v,
+                ),
+                choiceStyle: C2ChoiceStyle(),
+                wrapped: true,
+
+                runSpacing: 4,
+              ),
             ),
             SizedBox(
               height: 50,
