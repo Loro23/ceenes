@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
       );
     }
     return MaterialApp(
+      theme: ThemeData.dark(),
       title: 'Flutter Demo',
       initialRoute: "/start",
       routes: {
