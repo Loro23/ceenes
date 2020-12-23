@@ -41,7 +41,6 @@ class _ReviewState extends State<Review> {
     showDialog(
       barrierDismissible: false,
       child: Dialog(
-
         child: SizedBox(
           height: 100,
           width: 150,
@@ -59,7 +58,8 @@ class _ReviewState extends State<Review> {
             ],
           ),
         ),
-      ), context: context,
+      ),
+      context: context,
     );
 
     setState(() {
@@ -81,7 +81,7 @@ class _ReviewState extends State<Review> {
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
-          print(2);
+      print(2);
       for (int i = 0; i < snapshot.documents.length; i++) {
         if (snapshot.documents[i].id == "dummy_doc") {
           continue;
@@ -120,23 +120,24 @@ class _ReviewState extends State<Review> {
       }
     });
 
-
     Timer(Duration(milliseconds: 1000), () {
       setState(() {
         Navigator.pop(context);
       });
     });
-
-
   }
 
   Widget getReviewView() {
     if (sortedMap == null) {
-      return Center(child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
+      return Center(
+          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
     }
     return Column(
       children: [
-        Container(child: Text("Hier ist euer Ergebnis"), color: Colors.transparent,),
+        Container(
+          child: Text("Hier ist euer Ergebnis"),
+          color: Colors.transparent,
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: sortedMap.length,

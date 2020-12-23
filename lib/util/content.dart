@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Content extends StatefulWidget {
-
   final String title;
   final Widget child;
 
@@ -15,8 +14,9 @@ class Content extends StatefulWidget {
   @override
   _ContentState createState() => _ContentState();
 }
-class _ContentState extends State<Content> with AutomaticKeepAliveClientMixin<Content>  {
 
+class _ContentState extends State<Content>
+    with AutomaticKeepAliveClientMixin<Content> {
   @override
   bool get wantKeepAlive => true;
 
@@ -38,15 +38,10 @@ class _ContentState extends State<Content> with AutomaticKeepAliveClientMixin<Co
             child: Text(
               widget.title,
               style: const TextStyle(
-                  color: Colors.blueGrey,
-                  fontWeight: FontWeight.w500
-              ),
+                  color: Colors.blueGrey, fontWeight: FontWeight.w500),
             ),
           ),
-          Flexible(
-              fit: FlexFit.loose,
-              child: widget.child
-          ),
+          Flexible(fit: FlexFit.loose, child: widget.child),
         ],
       ),
     );

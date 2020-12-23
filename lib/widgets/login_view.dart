@@ -11,7 +11,6 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
-
 class Login_view extends StatefulWidget {
   @override
   _Login_viewState createState() => _Login_viewState();
@@ -27,18 +26,17 @@ class _Login_viewState extends State<Login_view> {
         .document(sessionId.toString())
         .get()
         .then((value) {
-
       print(value.data()["movies_json"]);
       movies_enc = value.data()["movies_json"];
     });
   }
+
   final TextEditingController _controller = TextEditingController();
   final FocusNode _pinPutFocusNode = FocusNode();
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
       border: Border.all(color: Colors.pinkAccent),
-
       borderRadius: BorderRadius.circular(5.0),
     );
   }
@@ -49,7 +47,7 @@ class _Login_viewState extends State<Login_view> {
       child: Container(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left:30, right: 30, top: 30),
+            padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
             child: Column(
               children: [
                 Padding(
@@ -60,7 +58,7 @@ class _Login_viewState extends State<Login_view> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only( top: 30),
+                  padding: const EdgeInsets.only(top: 30),
                   child: PinPut(
                     autofocus: true,
                     pinAnimationType: PinAnimationType.slide,
@@ -122,25 +120,29 @@ class _Login_viewState extends State<Login_view> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Icon(Icons.error_outline, color: Colors.red),
+                                      child: Icon(Icons.error_outline,
+                                          color: Colors.red),
                                     ),
                                     Expanded(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: new Text("Die Session existiert nicht. Überprüfe deine Eingabe", overflow: TextOverflow.clip),
+                                        child: new Text(
+                                            "Die Session existiert nicht. Überprüfe deine Eingabe",
+                                            overflow: TextOverflow.clip),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ), context: context,
+                              ),
+                              context: context,
                             );
-                          }
-                          else{
+                          } else {
                             fetchMovies(int.parse(sessionId)).whenComplete(() {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (BuildContext context) {
-                                    return Swipe_View(movies_enc, int.parse(sessionId));
-                                  }));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return Swipe_View(
+                                    movies_enc, int.parse(sessionId));
+                              }));
                             });
                           }
                         });
@@ -159,10 +161,10 @@ class _Login_viewState extends State<Login_view> {
     );
   }
 
-  Future<bool> checkCorrect(String sessionId) async{
-
-    final snapshot  = await firestore.collection("sessions").document(sessionId).get();
-    if (!snapshot.exists){
+  Future<bool> checkCorrect(String sessionId) async {
+    final snapshot =
+        await firestore.collection("sessions").document(sessionId).get();
+    if (!snapshot.exists) {
       return false;
     }
     return true;
