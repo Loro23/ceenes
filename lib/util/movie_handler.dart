@@ -5,6 +5,7 @@ import 'movie.dart';
 
 class MovieHandler {
   static Future<List> getMovies(Session session) async {
+    print("getmovies");
     List movies = [];
     double number = session.numMov / 20;
 
@@ -13,12 +14,14 @@ class MovieHandler {
           .getMovies(
         page: i + 1,
         language: 'en',
-        voteAverageGreaterThan: 5,
+        voteAverageGreaterThan: session.getVotes(),
         withGenres: session.finalGenres,
+        //withRuntimeLessThan: 50,
       )
           .then((result) {
         movies = movies + result.values.toList()[1];
       });
+    print("getmovies");
 
     return movies;
   }

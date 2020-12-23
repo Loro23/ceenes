@@ -16,6 +16,9 @@ class Create_View extends StatefulWidget {
 }
 
 class _Create_ViewState extends State<Create_View> {
+  Color dark_0 = Color.fromRGBO(21, 21, 21, 1);
+  Color dark_1 = Color.fromRGBO(37, 37, 37, 1);
+  Color white_0 = Color.fromRGBO(238, 238, 238, 1);
   String valueNumber = "20";
   List<String> valueGenre = [];
   String numParticipants = "2";
@@ -54,7 +57,6 @@ class _Create_ViewState extends State<Create_View> {
   String valueNumber2 = "20";
   List<String> optionsNumber2 = ["20", "40", "60"];
 
-
   int tag1 = 0;
   String numParticipants2 = "2";
   List<String> optionsPatNumber2 = [
@@ -74,6 +76,9 @@ class _Create_ViewState extends State<Create_View> {
   int tag2 = 0;
   String valueRuntime2 = "Egal";
   List<String> optionsRuntime2 = ["Egal", "30", "45", "60", "90", "90+"];
+  int tag3 = 4;
+  String valueVotes = "5";
+  List<String> optionsVotes = ["1", "2", "3", "4", "5", "6", "7+"];
 
   List<String> valueProvider2 = [];
   List<String> optionsProvider2 = ['Netflix', "Prime Video", "Sky", "Joyn"];
@@ -85,137 +90,171 @@ class _Create_ViewState extends State<Create_View> {
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              return AdminLogin(int.parse(numParticipants),
-                  int.parse(valueNumber), valueGenre);
+              return AdminLogin(
+                  int.parse(numParticipants),
+                  int.parse(valueNumber),
+                  valueGenre,
+                  valueRuntime2,
+                  valueVotes);
             }));
           },
           label: Text("Weiter")),
-      body: SingleChildScrollView(
-        //padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Gruppe erstellen',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-            Text(
-                'Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Container(
-              child: Text('Anzahl Filme'),
-              width: double.maxFinite,
-              color: Colors.blueGrey[100],
-              padding: const EdgeInsets.all(8.0),
-            ),
-            Container(
-              width: double.maxFinite,
-              color: Colors.blueGrey[50],
-              child: ChipsChoice<int>.single(
-                value: tag,
-                onChanged: (val) => setState(() {tag = val; valueNumber= optionsNumber2[tag]; print(valueNumber);} ),
-                choiceItems: C2Choice.listFrom<int, String>(
-                  source: optionsNumber2,
-                  value: (i, v) => i,
-                  label: (i, v) => v,
-                ),
-                runSpacing: 4,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        color: dark_0,
+        child: SingleChildScrollView(
+          //padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Gruppe erstellen',
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
-            ),
-            Container(
-              child: Text('Optional: Wähle Genres aus'),
-              width: double.maxFinite,
-              color: Colors.blueGrey[100],
-              padding: const EdgeInsets.all(8.0),
-            ),
-          Container(
-            width: double.maxFinite,
-            color: Colors.blueGrey[50],
-            child: SmartSelect<String>.multiple(
-              value: valueGenre,
-              title: "Genres",
-              choiceItems: optionsGenre,
-              placeholder: "",
-              onChange: (state) => setState(()  {valueGenre = state.value; print(valueGenre);}),
-              modalType: S2ModalType.bottomSheet,
-              choiceType: S2ChoiceType.chips,
-              choiceStyle: S2ChoiceStyle(
-                runSpacing: 4
+              Text(
+                  'Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+              Content(
+                title: "Anzahl Filme",
+                child: ChipsChoice<int>.single(
+                  value: tag,
+                  onChanged: (val) => setState(() {
+                    tag = val;
+                    valueNumber = optionsNumber2[tag];
+                    print(valueNumber);
+                  }),
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: optionsNumber2,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                  ),
+                  runSpacing: 4,
+                  choiceActiveStyle: C2ChoiceStyle(
+                    color: Colors.lightBlueAccent,
+                  ),
+                ),
+              ),
+              Content(
+                title: 'Mindestbewertung (von 10)',
+                child: ChipsChoice<int>.single(
+                  value: tag3,
+                  onChanged: (val) => setState(() {
+                    tag3 = val;
+                    valueVotes = optionsVotes[tag3];
+                    print(valueVotes);
+                  }),
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: optionsVotes,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                  ),
+                  runSpacing: 4,
+                  choiceActiveStyle: C2ChoiceStyle(
+                    color: Colors.lightBlueAccent,
+                  ),
+                ),
+              ),
+              Content(
+                title: 'Optional: Wähle Genres aus',
+                child: SmartSelect<String>.multiple(
+                  value: valueGenre,
+                  title: "Genres",
+                  choiceItems: optionsGenre,
+                  placeholder: "Wählen",
+                  modalTitle: "Wähle die Genres, die ihr haben wollt. ",
+                  onChange: (state) => setState(() {
+                    valueGenre = state.value;
+                    print(valueGenre);
+                  }),
+                  modalType: S2ModalType.bottomSheet,
+                  choiceType: S2ChoiceType.chips,
+                  choiceStyle:
+                      S2ChoiceStyle(runSpacing: 4, activeColor: Colors.green),
+                ),
+              ),
+              Content(
+                title: "Wie viele Leute seid ihr?",
+                child: ChipsChoice<int>.single(
+                  value: tag1,
+                  onChanged: (val) => setState(() {
+                    tag1 = val;
+                    numParticipants = optionsPatNumber2[val];
+                    print(numParticipants);
+                  }),
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: optionsPatNumber2,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                  ),
+                  runSpacing: 4,
+                  choiceActiveStyle: C2ChoiceStyle(
+                    color: Colors.lightBlueAccent,
+                  ),
+                ),
+              ),
+              /*
+              Container(
+                child: Text(
+                    "Optional: Wie viele Minuten soll der Film maximal dauern?"),
+                color: Colors.blueGrey[100],
+                width: double.maxFinite,
+                padding: const EdgeInsets.all(8.0),
+              ),
+              Container(
+                width: double.maxFinite,
+                color: Colors.blueGrey[50],
+                child: ChipsChoice<int>.single(
+                  value: tag2,
+                  onChanged: (val) => setState(() {tag2 = val;  valueRuntime2 = optionsRuntime2[val]; print(valueRuntime2);}),
+                  choiceItems: C2Choice.listFrom<int, String>(
+                    source: optionsRuntime2,
+                    value: (i, v) => i,
+                    label: (i, v) => v,
+                  ),
+                  runSpacing: 4,
+                  spacing: 4,
+                ),
               ),
 
-            ),
+              Container(
+                child: Text(
+                  'Optional: Welche Streaminganbieter habt ihr?',
+                ),
+                color: Colors.blueGrey[100],
+                width: double.maxFinite,
+                padding: const EdgeInsets.all(8.0),
+              ),
+              Container(
+                width: double.maxFinite,
+                color: Colors.blueGrey[50],
+                child: ChipsChoice<String>.multiple(
+                  value: valueProvider2,
+                  onChanged: (val) => setState(() { valueProvider2 = val; print(valueProvider2);}),
+                  choiceItems: C2Choice.listFrom<String, String>(
+                    source: optionsProvider2,
+                    value: (i, v) => v,
+                    label: (i, v) => v,
+                    tooltip: (i, v) => v,
+                  ),
+                  choiceStyle: C2ChoiceStyle(),
+                  wrapped: true,
+
+                  runSpacing: 4,
+                ),
+              ),
+
+               */
+              SizedBox(
+                height: 50,
+              )
+            ],
           ),
-            Container(
-              child: Text("Wie viele Leute seid ihr?"),
-              width: double.maxFinite,
-              color: Colors.blueGrey[100],
-              padding: const EdgeInsets.all(8.0),
-            ),
-            Container(
-              width: double.maxFinite,
-              color: Colors.blueGrey[50],
-              child: ChipsChoice<int>.single(
-                value: tag1,
-                onChanged: (val) => setState(() {tag1 = val; numParticipants = optionsPatNumber2[val]; print(numParticipants);}),
-                choiceItems: C2Choice.listFrom<int, String>(
-                  source: optionsPatNumber2,
-                  value: (i, v) => i,
-                  label: (i, v) => v,
-                ),
-
-                runSpacing: 4,
-              ),
-            ),
-            Container(
-              child: Text(
-                  "Optional: Wie viele Minuten soll der Film maximal dauern?"),
-              color: Colors.blueGrey[100],
-              width: double.maxFinite,
-              padding: const EdgeInsets.all(8.0),
-            ),
-            Container(
-              width: double.maxFinite,
-              color: Colors.blueGrey[50],
-              child: ChipsChoice<int>.single(
-                value: tag2,
-                onChanged: (val) => setState(() {tag2 = val;  valueRuntime2 = optionsRuntime2[val]; print(valueRuntime2);}),
-                choiceItems: C2Choice.listFrom<int, String>(
-                  source: optionsRuntime2,
-                  value: (i, v) => i,
-                  label: (i, v) => v,
-                ),
-                runSpacing: 4,
-                spacing: 4,
-              ),
-            ),
-            Container(
-              child: Text(
-                'Optional: Welche Streaminganbieter habt ihr?',
-              ),
-              color: Colors.blueGrey[100],
-              width: double.maxFinite,
-              padding: const EdgeInsets.all(8.0),
-            ),
-            Container(
-              width: double.maxFinite,
-              color: Colors.blueGrey[50],
-              child: ChipsChoice<String>.multiple(
-                value: valueProvider2,
-                onChanged: (val) => setState(() { valueProvider2 = val; print(valueProvider2);}),
-                choiceItems: C2Choice.listFrom<String, String>(
-                  source: optionsProvider2,
-                  value: (i, v) => v,
-                  label: (i, v) => v,
-                  tooltip: (i, v) => v,
-                ),
-                choiceStyle: C2ChoiceStyle(),
-                wrapped: true,
-
-                runSpacing: 4,
-              ),
-            ),
-            SizedBox(
-              height: 50,
-            )
-          ],
         ),
       ),
     );

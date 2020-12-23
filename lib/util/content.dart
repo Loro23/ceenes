@@ -17,6 +17,10 @@ class Content extends StatefulWidget {
 
 class _ContentState extends State<Content>
     with AutomaticKeepAliveClientMixin<Content> {
+  final Color dark_0 = Color.fromRGBO(21, 21, 21, 1);
+  final Color dark_1 = Color.fromRGBO(37, 37, 37, 1);
+  final Color white_0 = Color.fromRGBO(238, 238, 238, 1);
+
   @override
   bool get wantKeepAlive => true;
 
@@ -24,6 +28,7 @@ class _ContentState extends State<Content>
   Widget build(BuildContext context) {
     super.build(context);
     return Card(
+      color: dark_1,
       elevation: 0,
       margin: const EdgeInsets.all(5),
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -34,14 +39,17 @@ class _ContentState extends State<Content>
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(10),
-            color: Colors.blueGrey[50],
+            color: Colors.black26,
             child: Text(
               widget.title,
               style: const TextStyle(
-                  color: Colors.blueGrey, fontWeight: FontWeight.w500),
+                  color: Colors.white, fontWeight: FontWeight.w500),
             ),
           ),
-          Flexible(fit: FlexFit.loose, child: widget.child),
+          Flexible(
+            fit: FlexFit.loose,
+            child: widget.child,
+          ),
         ],
       ),
     );

@@ -21,6 +21,7 @@ void main() {
 
 class MyApp extends StatefulWidget {
   // Set default `_initialized` and `_error` state to false
+
   @override
   _MyAppState createState() => _MyAppState();
 }

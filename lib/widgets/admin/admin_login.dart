@@ -13,8 +13,9 @@ import 'create_view.dart';
 Session session;
 
 class AdminLogin extends StatefulWidget {
-  AdminLogin(int numPats, int numMov, List<String> genres) {
-    session = new Session(numPats, numMov, genres);
+  AdminLogin(int numPats, int numMov, List<String> genres, String runtime,
+      String votes) {
+    session = new Session(numPats, numMov, genres, runtime, votes);
   }
 
   @override
