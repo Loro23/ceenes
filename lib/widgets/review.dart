@@ -38,9 +38,9 @@ class _ReviewState extends State<Review> {
   Color _reviewButtonColor = Colors.blue;
 
   // ignore: missing_return
-  String getCorrectPosterpath(int id){
-    for (int i = 0; i<_movies_dec.length; i++){
-      if (_movies_dec[i]["id"] == id){
+  String getCorrectPosterpath(int id) {
+    for (int i = 0; i < _movies_dec.length; i++) {
+      if (_movies_dec[i]["id"] == id) {
         return _movies_dec[i]["poster_path"];
       }
     }
@@ -158,13 +158,13 @@ class _ReviewState extends State<Review> {
                   child: InkWell(
                     onTap: () {
                       print("tapped");
-
                     },
                     child: Row(
                       children: [
                         Image.network(
                           "http://image.tmdb.org/t/p/w92/" +
-                              getCorrectPosterpath(sortedMap.entries.elementAt(index).key["id"]),
+                              getCorrectPosterpath(
+                                  sortedMap.entries.elementAt(index).key["id"]),
                           height: 120,
                         ),
                         Expanded(

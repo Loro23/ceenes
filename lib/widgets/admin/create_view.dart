@@ -4,6 +4,8 @@ import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
+import 'package:smart_select/smart_select.dart';
+import 'package:smart_select/smart_select.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -53,6 +55,7 @@ class _Create_ViewState extends State<Create_View> {
     S2Choice<String>(value: '12', title: 'Abenteuer'),
   ];
 
+
   int tag = 0;
   String valueNumber2 = "20";
   List<String> optionsNumber2 = ["20", "40", "60"];
@@ -81,7 +84,7 @@ class _Create_ViewState extends State<Create_View> {
   List<String> optionsVotes = ["1", "2", "3", "4", "5", "6", "7+"];
 
   List<String> valueProvider2 = [];
-  List<String> optionsProvider2 = ['Netflix', "Prime Video", "Sky", "Joyn"];
+  List<String> optionsProvider2 = ['Netflix', "Prime Video", "Sky", "Joyn", "Disney+"];
 
   @override
   Widget build(BuildContext context) {
@@ -101,25 +104,32 @@ class _Create_ViewState extends State<Create_View> {
           label: Text("Weiter")),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        color: dark_0,
+        //color: dark_0,
         child: SingleChildScrollView(
-          //padding: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Gruppe erstellen',
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              Text(
-                  'Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
+              Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                child: Text(
+                  'Gruppe erstellen',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white)),
+                      color: white_0),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom:20 ),
+                child: Text(
+                    'Hier kannst du festlegen, was du für Filme vorgeschlagen bekommen möchtest.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: white_0,
+                    )),
+              ),
               Content(
                 title: "Anzahl Filme",
                 child: ChipsChoice<int>.single(
@@ -157,6 +167,10 @@ class _Create_ViewState extends State<Create_View> {
                   runSpacing: 4,
                   choiceActiveStyle: C2ChoiceStyle(
                     color: Colors.lightBlueAccent,
+                    labelStyle: TextStyle(
+                      //fontSize: 40
+                    )
+
                   ),
                 ),
               ),
@@ -165,6 +179,7 @@ class _Create_ViewState extends State<Create_View> {
                 child: SmartSelect<String>.multiple(
                   value: valueGenre,
                   title: "Genres",
+
                   choiceItems: optionsGenre,
                   placeholder: "Wählen",
                   modalTitle: "Wähle die Genres, die ihr haben wollt. ",
@@ -172,12 +187,23 @@ class _Create_ViewState extends State<Create_View> {
                     valueGenre = state.value;
                     print(valueGenre);
                   }),
-                  modalType: S2ModalType.bottomSheet,
                   choiceType: S2ChoiceType.chips,
-                  choiceStyle:
-                      S2ChoiceStyle(runSpacing: 4, activeColor: Colors.green),
+                  choiceStyle: S2ChoiceStyle(
+                    color: Colors.black,
+                    activeColor: Colors.blue,
+                    runSpacing: 4,
+                    showCheckmark: true
+                  ),
+                  modalType: S2ModalType.bottomSheet,
+                  modalHeaderStyle: S2ModalHeaderStyle(
+                    backgroundColor: dark_1,
+                    textStyle: TextStyle(color: Colors.white)
+                  ),
+
+
                 ),
               ),
+
               Content(
                 title: "Wie viele Leute seid ihr?",
                 child: ChipsChoice<int>.single(
@@ -195,6 +221,7 @@ class _Create_ViewState extends State<Create_View> {
                   runSpacing: 4,
                   choiceActiveStyle: C2ChoiceStyle(
                     color: Colors.lightBlueAccent,
+
                   ),
                 ),
               ),
@@ -221,18 +248,10 @@ class _Create_ViewState extends State<Create_View> {
                   spacing: 4,
                 ),
               ),
+              */
 
-              Container(
-                child: Text(
-                  'Optional: Welche Streaminganbieter habt ihr?',
-                ),
-                color: Colors.blueGrey[100],
-                width: double.maxFinite,
-                padding: const EdgeInsets.all(8.0),
-              ),
-              Container(
-                width: double.maxFinite,
-                color: Colors.blueGrey[50],
+              Content(
+                title: 'Optional: Welche Streaminganbieter habt ihr?',
                 child: ChipsChoice<String>.multiple(
                   value: valueProvider2,
                   onChanged: (val) => setState(() { valueProvider2 = val; print(valueProvider2);}),
@@ -249,7 +268,6 @@ class _Create_ViewState extends State<Create_View> {
                 ),
               ),
 
-               */
               SizedBox(
                 height: 50,
               )
