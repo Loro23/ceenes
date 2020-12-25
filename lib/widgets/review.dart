@@ -37,6 +37,15 @@ class _ReviewState extends State<Review> {
 
   Color _reviewButtonColor = Colors.blue;
 
+  // ignore: missing_return
+  String getCorrectPosterpath(int id){
+    for (int i = 0; i<_movies_dec.length; i++){
+      if (_movies_dec[i]["id"] == id){
+        return _movies_dec[i]["poster_path"];
+      }
+    }
+  }
+
   Future getRating() async {
     showDialog(
       barrierDismissible: false,
@@ -68,8 +77,6 @@ class _ReviewState extends State<Review> {
       sortedMap = null;
     });
 
-    print(0);
-    print(_movies_dec.length);
     for (int i = 0; i < _movies_dec.length; i++) {
       rating.add(0);
     }
@@ -88,13 +95,14 @@ class _ReviewState extends State<Review> {
         }
         List rate =
             jsonDecode(snapshot.documents[i].data().values.elementAt(0));
+        print(rate);
         snapshotWithoutDummy.add(rate);
       }
 
       print('rating berechnen');
-      for (List i in snapshotWithoutDummy) {
-        for (int j = 0; j < i.length; j++) {
-          rating[j] += i[j]; //aufaddieren der votes
+      for (List rate in snapshotWithoutDummy) {
+        for (int j = 0; j < rate.length; j++) {
+          rating[j] += rate[j]; //aufaddieren der votes
         }
       }
 
@@ -104,7 +112,10 @@ class _ReviewState extends State<Review> {
 
       for (int i = 0; i < _movies_dec.length; i++) {
         mapping.putIfAbsent(_movies_dec[i], () => rating[i]);
+        print(i);
+        print(_movies_dec[i]);
       }
+      //print(mapping.entries);
 
       //um die map zu sortieren nutzen wir die was von stackoverflow
 
@@ -147,12 +158,13 @@ class _ReviewState extends State<Review> {
                   child: InkWell(
                     onTap: () {
                       print("tapped");
+
                     },
                     child: Row(
                       children: [
                         Image.network(
                           "http://image.tmdb.org/t/p/w92/" +
-                              _movies_dec[index]["poster_path"],
+                              getCorrectPosterpath(sortedMap.entries.elementAt(index).key["id"]),
                           height: 120,
                         ),
                         Expanded(
