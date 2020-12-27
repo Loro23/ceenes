@@ -1,6 +1,7 @@
 import 'package:ceenes_prototype/util/content.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -10,8 +11,9 @@ import 'package:sticky_headers/sticky_headers.dart';
 import 'package:smart_select/smart_select.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
-GlobalKey key = new GlobalKey();
+import 'package:ceenes_prototype/util/movie.dart';
+import 'package:ceenes_prototype/util/movie_handler.dart';
+import 'dart:convert';
 
 class Create_View extends StatefulWidget {
   @override
@@ -19,22 +21,41 @@ class Create_View extends StatefulWidget {
 }
 
 class _Create_ViewState extends State<Create_View> {
+  String movies;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Session session;
+
+  void createRecord() async {
+    await firestore
+        .collection("sessions")
+        .document(session.sessionId.toString())
+        .setData({}).then((value) {
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .setData({});
+
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"movies_json": this.movies});
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .collection("votes")
+          .document("dummy_doc")
+          .setData({});
+    });
+  }
+
   final introKey = GlobalKey<IntroductionScreenState>();
 
   Color dark_0 = Color.fromRGBO(21, 21, 21, 1);
   Color dark_1 = Color.fromRGBO(37, 37, 37, 1);
   Color white_0 = Color.fromRGBO(238, 238, 238, 1);
-  String valueNumber = "20";
   List<String> valueGenre = [];
-  String numParticipants = "2";
 
   final mycontroller = TextEditingController();
-
-  List<S2Choice<String>> optionsNumber = [
-    S2Choice<String>(value: '20', title: '20'),
-    S2Choice<String>(value: '40', title: '40'),
-    S2Choice<String>(value: '60', title: '60'),
-  ];
 
   List<String> optionsGenre2 = [
     "Action",
@@ -121,26 +142,6 @@ class _Create_ViewState extends State<Create_View> {
     return genreIds;
   }
 
-  int tag = 0;
-  String valueNumber2 = "20";
-  List<String> optionsNumber2 = ["20", "40", "60"];
-
-  int tag1 = 0;
-  String numParticipants2 = "2";
-  List<String> optionsPatNumber2 = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "8",
-    "10",
-    "11",
-    "12"
-  ];
   int tag2 = 0;
   String valueRuntime2 = "Egal";
   List<String> optionsRuntime2 = ["Egal", "30", "45", "60", "90", "90+"];
@@ -151,10 +152,16 @@ class _Create_ViewState extends State<Create_View> {
   List<String> valueProvider2 = [];
   List<String> optionsProvider2 = [
     'Netflix',
-    "Prime Video",
+    "Amazon Prime Video",
     "Sky",
     "Joyn",
-    "Disney+"
+    "Joyn Plus",
+    "Disney Plus",
+    "Apple TV Plus",
+    "Apple TV",
+    "Sky Ticket",
+    "Sky Go",
+    "TV NOW"
   ];
 
   @override
@@ -169,144 +176,61 @@ class _Create_ViewState extends State<Create_View> {
     );
 
     return Scaffold(
-      /*
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext context) {
-              return AdminLogin(
-                  int.parse(numParticipants),
-                  int.parse(valueNumber),
-                  valueGenre,
-                  valueRuntime2,
-                  valueVotes);
-            }));
-          },
-          label: Text("Weiter")),
-
-       */
       body: Container(
-          //padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
           height: MediaQuery.of(context).size.height,
-          //color: Colors.blue,
           child: IntroductionScreen(
             key: introKey,
             pages: [
               PageViewModel(
-                titleWidget: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Anzahl Filme",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
+                titleWidget: Column(children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 25, right: 25, top: 25),
+                    child: Text(
+                      "Streaming-Anbieter",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w600,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Hier kannst du auswählen, wie viele Filme ihr swipen wollt",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-                bodyWidget: Container(
-                  //color: Colors.blue[],
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  alignment: Alignment.center,
-                  child: ChipsChoice<int>.single(
-                    value: tag,
-                    onChanged: (val) => setState(() {
-                      tag = val;
-                      valueNumber = optionsNumber2[tag];
-                      print(valueNumber);
-                    }),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsNumber2,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
-                    ),
-                    runSpacing: 10,
-                    choiceActiveStyle: C2ChoiceStyle(
-                        color: Colors.lightBlueAccent,
-
-                        //borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderWidth: 2,
-                        labelStyle: TextStyle(fontSize: 40),
-                        borderOpacity: 0.5),
-                    choiceStyle: C2ChoiceStyle(
-                        color: Colors.white.withOpacity(0.8),
-                        labelStyle: TextStyle(fontSize: 40)),
-                    wrapped: true,
                   ),
-                ),
-              ),
-              PageViewModel(
-                titleWidget: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Bewertung",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 25, right: 25, top: 25),
+                    child: Text(
+                      "Hier kannst du auswählen, welche Streaminganbieter ihr habt, damit nur Filme angezeigt werden, die ihr auch gucken könnt.",
+                      style: TextStyle(
+                        fontSize: 20,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Hier kannst du auswählen, wie gut die Filme bewertet sein sollen. Es gibt maximal 10 Punkte",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ]),
                 bodyWidget: Container(
-                  //color: Colors.blue,
                   height: MediaQuery.of(context).size.height * 0.5,
                   alignment: Alignment.center,
-                  child: ChipsChoice<int>.single(
-                    alignment: WrapAlignment.start,
-                    value: tag3,
+                  child: ChipsChoice<String>.multiple(
+                    value: valueProvider2,
                     onChanged: (val) => setState(() {
-                      tag3 = val;
-                      valueVotes = optionsVotes[tag3];
-                      print(valueVotes);
+                      valueProvider2 = val;
+                      print(valueProvider2);
                     }),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsVotes,
-                      value: (i, v) => i,
+                    choiceItems: C2Choice.listFrom<String, String>(
+                      source: optionsProvider2,
+                      value: (i, v) => v,
                       label: (i, v) => v,
+                      tooltip: (i, v) => v,
                     ),
                     runSpacing: 10,
                     choiceActiveStyle: C2ChoiceStyle(
                         color: Colors.lightBlueAccent,
-
-                        //borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderWidth: 2,
-                        labelStyle: TextStyle(fontSize: 40),
+                        labelStyle: TextStyle(fontSize: 20),
                         borderOpacity: 0.5),
                     choiceStyle: C2ChoiceStyle(
                         color: Colors.white.withOpacity(0.8),
-                        labelStyle: TextStyle(fontSize: 40)),
+                        labelStyle: TextStyle(fontSize: 20)),
                     wrapped: true,
                   ),
                 ),
@@ -354,8 +278,6 @@ class _Create_ViewState extends State<Create_View> {
                   runSpacing: 6,
                   choiceActiveStyle: C2ChoiceStyle(
                       color: Colors.lightBlueAccent,
-
-                      //borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderWidth: 2,
                       labelStyle: TextStyle(fontSize: 18),
                       borderOpacity: 0.5),
@@ -366,51 +288,52 @@ class _Create_ViewState extends State<Create_View> {
                 ),
               ),
               PageViewModel(
-                titleWidget: Column(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Text(
-                      "Wie viele Leute seid ihr",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w600,
+                titleWidget: Column(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 25),
+                      child: Text(
+                        "Bewertung",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Text(
-                      "Hier kannst du auswählen, mit wie vielen Personen ihr insgesamt swipen wollt.",
-                      style: TextStyle(
-                        fontSize: 20,
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 25),
+                      child: Text(
+                        "Hier kannst du auswählen, wie gut die Filme bewertet sein sollen. Es gibt maximal 10 Punkte",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ]),
+                    )
+                  ],
+                ),
                 bodyWidget: Container(
                   height: MediaQuery.of(context).size.height * 0.5,
                   alignment: Alignment.center,
                   child: ChipsChoice<int>.single(
-                    value: tag1,
+                    alignment: WrapAlignment.start,
+                    value: tag3,
                     onChanged: (val) => setState(() {
-                      tag1 = val;
-                      numParticipants = optionsPatNumber2[val];
-                      print(numParticipants);
+                      tag3 = val;
+                      valueVotes = optionsVotes[tag3];
+                      print(valueVotes);
                     }),
                     choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsPatNumber2,
+                      source: optionsVotes,
                       value: (i, v) => i,
                       label: (i, v) => v,
                     ),
                     runSpacing: 10,
                     choiceActiveStyle: C2ChoiceStyle(
                         color: Colors.lightBlueAccent,
-
-                        //borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderWidth: 2,
                         labelStyle: TextStyle(fontSize: 40),
                         borderOpacity: 0.5),
@@ -421,6 +344,8 @@ class _Create_ViewState extends State<Create_View> {
                   ),
                 ),
               ),
+
+              /*
               PageViewModel(
                 titleWidget: Column(children: [
                   Padding(
@@ -465,8 +390,6 @@ class _Create_ViewState extends State<Create_View> {
                     runSpacing: 10,
                     choiceActiveStyle: C2ChoiceStyle(
                         color: Colors.lightBlueAccent,
-
-                        //borderRadius: BorderRadius.all(Radius.circular(10)),
                         borderWidth: 2,
                         labelStyle: TextStyle(fontSize: 40),
                         borderOpacity: 0.5),
@@ -477,66 +400,10 @@ class _Create_ViewState extends State<Create_View> {
                   ),
                 ),
               ),
-              PageViewModel(
-                titleWidget: Column(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Text(
-                      "Streaming-Anbieter",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 25),
-                    child: Text(
-                      "Hier kannst du auswählen, welche Streaminganbieter ihr habt, damit nur Filme angezeigt werden, die ihr auch gucken könnt.",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ]),
-                bodyWidget: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  alignment: Alignment.center,
-                  child: ChipsChoice<String>.multiple(
-                    value: valueProvider2,
-                    onChanged: (val) => setState(() {
-                      valueProvider2 = val;
-                      print(valueProvider2);
-                    }),
-                    choiceItems: C2Choice.listFrom<String, String>(
-                      source: optionsProvider2,
-                      value: (i, v) => v,
-                      label: (i, v) => v,
-                      tooltip: (i, v) => v,
-                    ),
-                    runSpacing: 10,
-                    choiceActiveStyle: C2ChoiceStyle(
-                        color: Colors.lightBlueAccent,
-
-                        //borderRadius: BorderRadius.all(Radius.circular(10)),
-                        borderWidth: 2,
-                        labelStyle: TextStyle(fontSize: 40),
-                        borderOpacity: 0.5),
-                    choiceStyle: C2ChoiceStyle(
-                        color: Colors.white.withOpacity(0.8),
-                        labelStyle: TextStyle(fontSize: 40)),
-                    wrapped: true,
-                  ),
-                ),
-              ),
+              */
             ],
             onDone: () {},
-
-            //showSkipButton: true,
+            showSkipButton: true,
             showNextButton: true,
             skipFlex: 0,
             nextFlex: 0,
@@ -555,16 +422,44 @@ class _Create_ViewState extends State<Create_View> {
                 "Weiter",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return AdminLogin(
-                      int.parse(numParticipants),
-                      int.parse(valueNumber),
-                      getGenreIds(valueGenre),
-                      valueRuntime2,
-                      valueVotes);
-                }));
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new CircularProgressIndicator(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: new Text("Session erstellen..."),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+                this.session = new Session(getGenreIds(valueGenre),
+                    valueRuntime2, valueVotes, valueProvider2);
+
+                await MovieHandler.getMovies(this.session)
+                    .then((movies) {
+                      this.movies = json.encode(
+                          movies); //movie result als json string erstellen
+                    })
+                    .whenComplete(() => createRecord())
+                    .whenComplete(() {
+                      Navigator.pop(context); //dialog beenden
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return AdminLogin(this.session, this.movies);
+                      }));
+                    });
               },
               backgroundColor: Colors.pinkAccent,
             ),

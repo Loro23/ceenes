@@ -8,6 +8,17 @@ class Session {
   String votes;
   List<String> genres;
   String finalGenres;
+  List<String> provider;
+
+  Session(List<String> genres, String runtime, String votes,
+      List<String> provider) {
+    this.genres = genres;
+    this.runtime = runtime;
+    this.votes = votes;
+    this.provider = provider;
+    var rng = new Random();
+    this.sessionId = rng.nextInt(1000000);
+  }
 
   int getRuntime() {
     print("getRuntime");
@@ -21,42 +32,33 @@ class Session {
   }
 
   int getVotes() {
-    print("getVotes");
-
     if (this.votes == "7+") {
       return 7;
     }
-    print("getVotes");
 
     return int.parse(this.votes);
   }
 
-  Session(int numPats, int numMov, List<String> genres, String runtime,
-      String votes) {
-    this.numPats = numPats;
-    this.numMov = numMov;
-    this.genres = genres;
-    this.runtime = runtime;
-    this.votes = votes;
-    var rng = new Random();
-    this.sessionId = rng.nextInt(1000000);
-    this.finalGenres = this.connect(genres);
+  String getProvider() {
+    return null;
+    //TODO provider austesten
   }
 
-  String connect(List<String> genres) {
+  String connectGenres() {
     print("connect");
     String _finalGenres = "";
-    for (int i = 0; i < genres.length; i++) {
-      if (genres[i] == "0") {
+    for (int i = 0; i < this.genres.length; i++) {
+      if (this.genres[i] == "0") {
         return _finalGenres = "";
       }
-      if (i == genres.length - 1) {
-        _finalGenres = _finalGenres + genres[i];
+      if (i == this.genres.length - 1) {
+        _finalGenres = _finalGenres + this.genres[i];
       } else {
-        _finalGenres = _finalGenres + genres[i] + "|";
+        _finalGenres = _finalGenres + this.genres[i] + "|";
       }
     }
-    print("connect");
+    print("connected");
+    print(_finalGenres);
 
     return _finalGenres;
   }

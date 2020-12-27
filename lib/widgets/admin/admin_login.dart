@@ -10,12 +10,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'create_view.dart';
 
-Session session;
+Session _session;
+String _movies;
 
 class AdminLogin extends StatefulWidget {
-  AdminLogin(int numPats, int numMov, List<String> genres, String runtime,
-      String votes) {
-    session = new Session(numPats, numMov, genres, runtime, votes);
+  AdminLogin(Session session, String movies) {
+    _session = session;
+    _movies = movies;
   }
 
   @override
@@ -24,44 +25,6 @@ class AdminLogin extends StatefulWidget {
 
 class _AdminLoginState extends State<AdminLogin> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String movies;
-
-  void createRecord() async {
-    await firestore
-        .collection("sessions")
-        .document(session.sessionId.toString())
-        .setData({}).then((value) {
-      firestore
-          .collection("sessions")
-          .document(session.sessionId.toString())
-          .setData({});
-
-      firestore
-          .collection("sessions")
-          .document(session.sessionId.toString())
-          .updateData({"movies_json": this.movies});
-      firestore
-          .collection("sessions")
-          .document(session.sessionId.toString())
-          .collection("votes")
-          .document("dummy_doc")
-          .setData({});
-    });
-  }
-
-  uploadMovies() async {
-    await MovieHandler.getMovies(session).then((movies) {
-      this.movies =
-          json.encode(movies); //movie result als json string erstellen
-      createRecord(); // eintrag erstellen mit movies als Liste bevor
-    });
-  }
-
-  @override
-  initState() {
-    uploadMovies();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +60,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
                       child: Text(
-                        session.sessionId.toString(),
+                        _session.sessionId.toString(),
                         style: TextStyle(
                             letterSpacing: 10,
                             fontSize: 40,
@@ -131,7 +94,8 @@ class _AdminLoginState extends State<AdminLogin> {
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        return Swipe_View(this.movies, session.sessionId);
+                        print(_movies);
+                        return Swipe_View(_movies, _session.sessionId);
                       }));
                     },
                     label: Text(

@@ -5,24 +5,60 @@ import 'movie.dart';
 
 class MovieHandler {
   static Future<List> getMovies(Session session) async {
-    print("getmovies");
     List movies = [];
-    double number = session.numMov / 20;
+    List moviesWithProviders = [];
+    int v = 1;
+    //print(session.provider);
+    bool noProvider = false;
 
-    for (int i = 0; i < number; i++)
+    while (moviesWithProviders.length < 20) {
       await tmdb.v3.discover
           .getMovies(
-        page: i + 1,
+        page: v,
         language: 'en',
         voteAverageGreaterThan: session.getVotes(),
-        withGenres: session.finalGenres,
-        //withRuntimeLessThan: 50,
+        withGenres: session.connectGenres(),
       )
-          .then((result) {
-        movies = movies + result.values.toList()[1];
-      });
-    print("getmovies");
+          .then((result) async {
+        movies = result.values.toList()[1];
+        if (session.provider.isNotEmpty) {
+          for (int i = 0; i < movies.length; i++) {
+            await tmdb.v3.movies
+                .getDetails(movies[i]["id"],
+                    appendToResponse: "watch/providers", language: "de-DE")
+                .then((result) {
+              try {
+                List _res =
+                    result["watch/providers"]["results"]["DE"]["flatrate"];
+                if (_res != null) {
+                  List<String> providersForThisMovie = [];
+                  for (int j = 0; j < _res.length; j++) {
+                    providersForThisMovie.add(_res[j]["provider_name"]);
+                  }
 
-    return movies;
+                  for (String provider in providersForThisMovie) {
+                    if (session.provider.contains(provider)) {
+                      moviesWithProviders.add(movies[i]);
+                      break;
+                    }
+                  }
+                }
+              } catch (e) {}
+            });
+          }
+        }
+      }).whenComplete(() {
+        v += 1;
+      });
+      if (session.provider.isEmpty) {
+        noProvider = true;
+        break;
+      }
+    }
+
+    if (noProvider) {
+      return movies;
+    }
+    return moviesWithProviders;
   }
 }

@@ -53,6 +53,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
   @override
   Widget build(BuildContext context) {
     //print(session.sessionId.toString());
+
+    //print(movies_dec);
     CardController controller;
     return WillPopScope(
       onWillPop: () async => false,
