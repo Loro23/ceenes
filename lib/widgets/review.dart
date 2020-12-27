@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ceenes_prototype/util/session.dart';
+import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,6 @@ class _ReviewState extends State<Review> {
   LinkedHashMap<Map<String, dynamic>, int> sortedMap;
 
   bool isEnabled = true;
-
-  String _reviewButtonText = "Refresh";
-
-  Color _reviewButtonColor = Colors.blue;
 
   // ignore: missing_return
   String getCorrectPosterpath(int id) {
@@ -198,15 +195,57 @@ class _ReviewState extends State<Review> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: getRating,
-        label: Text(_reviewButtonText),
-        backgroundColor: _reviewButtonColor,
-      ),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-      //floatingActionButtonLocation: FloatingActionButtonLocation.ri,
-      body: getReviewView(),
-    );
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Material(
+          child: Stack(
+            children: [
+              getReviewView(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FloatingActionButton.extended(
+                        heroTag: "4",
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      StartView()),
+                              (Route<dynamic> route) => false);
+                          /*
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (BuildContext context) {
+                          return StartView();
+                        }));
+
+                         */
+                        },
+                        label: Text(
+                          "Zum Start",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.grey[700],
+                      ),
+                      FloatingActionButton.extended(
+                        heroTag: "5",
+                        onPressed: getRating,
+                        label: Text(
+                          "Neu laden",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        backgroundColor: Colors.lightBlueAccent,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

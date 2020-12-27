@@ -66,58 +66,86 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Text(
-                    "Deine Gruppe wurde erstellt!",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: SelectableText(
-                    "Um zu starten, müssen deine Freunde den unterstehenden Code eingeben. Wenn alle den Code haben, kannst auch du anfangen, indem "
-                    "du auf Start klickst. Sobald du und deine Freunde fertig sind, könnt ihr euch alle die Ergebnisse anschauen. Los gehts!",
-                    style: TextStyle(
-                      fontSize: 20,
+      child: Stack(
+        children: [
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: SelectableText(
+                        "Deine Gruppe wurde erstellt!",
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: SelectableText(
+                        "Um zu starten, müssen deine Freunde den unterstehenden Code eingeben. Wenn alle den Code haben, kannst auch du anfangen, indem "
+                        "du auf Start klickst. Sobald du und deine Freunde fertig sind, könnt ihr euch alle die Ergebnisse anschauen. Los gehts!",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 30),
+                      child: Text(
+                        session.sessionId.toString(),
+                        style: TextStyle(
+                            letterSpacing: 10,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Text(
-                    session.sessionId.toString(),
-                    style: TextStyle(
-                        letterSpacing: 10,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    label: Text(
+                      "Zurück",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.grey[700],
+                    heroTag: "1",
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: FloatingActionButton(
+                  FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
                         return Swipe_View(this.movies, session.sessionId);
                       }));
                     },
-                    child: Text("Start"),
+                    label: Text(
+                      "Start",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     backgroundColor: Colors.pinkAccent,
-                    //label: Text("Start"),
-                  ),
-                )
-              ],
+                    heroTag: "2",
+                  )
+                ],
+              ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }

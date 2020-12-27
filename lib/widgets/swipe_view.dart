@@ -54,63 +54,89 @@ class _Swipe_ViewState extends State<Swipe_View> {
   Widget build(BuildContext context) {
     //print(session.sessionId.toString());
     CardController controller;
-    return Material(
-      child: Container(
-        color: Color.fromRGBO(21, 21, 21, 1),
-        child: Column(
-          children: [
-            Expanded(
-              child: TinderSwapCard(
-                swipeUp: false,
-                swipeDown: false,
-                animDuration: 300,
-                orientation: AmassOrientation.TOP,
-                totalNum: movies_dec.length,
-                stackNum: 3,
-                swipeEdge: 4.0,
-                maxWidth: MediaQuery.of(context).size.width * 0.9,
-                maxHeight: MediaQuery.of(context).size.height * 0.9,
-                minWidth: MediaQuery.of(context).size.width * 0.8,
-                minHeight: MediaQuery.of(context).size.height * 0.8,
-                cardBuilder: (context, index) => Card(
-                    color: Color.fromRGBO(37, 37, 37, 1),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.all(14),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    "http://image.tmdb.org/t/p/w500/" +
-                                        movies_dec[index]["poster_path"],
-                                    height: 400,
-                                  ))),
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  top: 5, left: 20, right: 20, bottom: 5),
-                              alignment: Alignment.centerLeft,
-                              child: Text(movies_dec[index]["title"],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Material(
+        child: Container(
+          color: Color.fromRGBO(21, 21, 21, 1),
+          child: Column(
+            children: [
+              Expanded(
+                child: TinderSwapCard(
+                  swipeUp: false,
+                  swipeDown: false,
+                  animDuration: 300,
+                  orientation: AmassOrientation.TOP,
+                  totalNum: movies_dec.length,
+                  stackNum: 3,
+                  swipeEdge: 4.0,
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                  maxHeight: MediaQuery.of(context).size.height * 0.9,
+                  minWidth: MediaQuery.of(context).size.width * 0.8,
+                  minHeight: MediaQuery.of(context).size.height * 0.8,
+                  cardBuilder: (context, index) => Card(
+                      color: Color.fromRGBO(37, 37, 37, 1),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(14),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
+                                      "http://image.tmdb.org/t/p/w500/" +
+                                          movies_dec[index]["poster_path"],
+                                      height: 400,
+                                    ))),
+                            Container(
+                                padding: const EdgeInsets.only(
+                                    top: 5, left: 20, right: 20, bottom: 5),
+                                alignment: Alignment.centerLeft,
+                                child: Text(movies_dec[index]["title"],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Color.fromRGBO(238, 238, 238, 1),
+                                    ))),
+                            Container(
+                                padding: const EdgeInsets.only(
+                                    left: 20, top: 5, bottom: 5, right: 20),
+                                child: Text(
+                                  movies_dec[index]["overview"],
+                                  overflow: TextOverflow.visible,
+                                  maxLines: 3,
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
                                     color: Color.fromRGBO(238, 238, 238, 1),
-                                  ))),
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  left: 20, top: 5, bottom: 5, right: 20),
-                              child: Text(
-                                movies_dec[index]["overview"],
-                                overflow: TextOverflow.visible,
-                                maxLines: 3,
-                                style: TextStyle(
-                                  color: Color.fromRGBO(238, 238, 238, 1),
+                                  ),
+                                )),
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
+                                      color: Color.fromRGBO(68, 68, 68, 1),
+                                    ),
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(
+                                        left: 20, right: 5, top: 5, bottom: 5),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                            "Genres: " +
+                                                movies_dec[index]["genre_ids"]
+                                                    .toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromRGBO(
+                                                  238, 238, 238, 1),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              )),
-                          Row(
-                            children: [
-                              Flexible(
-                                child: Container(
+                                Container(
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5)),
@@ -118,113 +144,90 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   ),
                                   padding: const EdgeInsets.all(10),
                                   margin: const EdgeInsets.only(
-                                      left: 20, right: 5, top: 5, bottom: 5),
+                                      left: 5, right: 20, top: 5, bottom: 5),
                                   child: Row(
                                     children: [
                                       Text(
-                                          "Genres: " +
-                                              movies_dec[index]["genre_ids"]
-                                                  .toString(),
+                                          movies_dec[index]["vote_average"]
+                                                  .toString() +
+                                              "/10",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Color.fromRGBO(
                                                 238, 238, 238, 1),
                                           )),
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.yellow[300],
+                                        size: 15.0,
+                                        semanticLabel:
+                                            'Text to announce in accessibility modes',
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromRGBO(68, 68, 68, 1),
-                                ),
-                                padding: const EdgeInsets.all(10),
-                                margin: const EdgeInsets.only(
-                                    left: 5, right: 20, top: 5, bottom: 5),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                        movies_dec[index]["vote_average"]
-                                                .toString() +
-                                            "/10",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromRGBO(238, 238, 238, 1),
-                                        )),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow[300],
-                                      size: 15.0,
-                                      semanticLabel:
-                                          'Text to announce in accessibility modes',
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )),
-                cardController: controller,
-                swipeCompleteCallback:
-                    (CardSwipeOrientation orientation, int index) async {
-                  if (orientation == CardSwipeOrientation.LEFT) {
-                    //print("left");
-                    setState(() {
-                      counter += 1;
-                      movies_rating.add(0);
-                    });
-                    //print("counter: " + counter.toString());
-                  } else if (orientation == CardSwipeOrientation.RIGHT) {
-                    //print("right");
+                              ],
+                            ),
+                          ],
+                        ),
+                      )),
+                  cardController: controller,
+                  swipeCompleteCallback:
+                      (CardSwipeOrientation orientation, int index) async {
+                    if (orientation == CardSwipeOrientation.LEFT) {
+                      //print("left");
+                      setState(() {
+                        counter += 1;
+                        movies_rating.add(0);
+                      });
+                      //print("counter: " + counter.toString());
+                    } else if (orientation == CardSwipeOrientation.RIGHT) {
+                      //print("right");
 
-                    setState(() {
-                      //print("in set state");
-                      counter += 1;
-                      movies_rating.add(1);
-                    });
-                    //print("counter: " + counter.toString());
-                  }
+                      setState(() {
+                        //print("in set state");
+                        counter += 1;
+                        movies_rating.add(1);
+                      });
+                      //print("counter: " + counter.toString());
+                    }
 
-                  if (counter == movies_dec.length) {
-                    print("letzte karte" + index.toString());
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return Dialog(
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: new CircularProgressIndicator(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: new Text("Upload Ergebnisse"),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                    await uploadRanking(movies_rating).whenComplete(() {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return Review(_sessionId, movies_dec);
-                      }));
-                    });
-                  }
-                },
+                    if (counter == movies_dec.length) {
+                      print("letzte karte" + index.toString());
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new CircularProgressIndicator(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: new Text("Upload Ergebnisse"),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                      await uploadRanking(movies_rating).whenComplete(() {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          return Review(_sessionId, movies_dec);
+                        }));
+                      });
+                    }
+                  },
+                ),
               ),
-            ),
-            Text("Gruppe: " + _sessionId.toString()),
-          ],
+              Text("Gruppe: " + _sessionId.toString()),
+            ],
+          ),
         ),
       ),
     );
