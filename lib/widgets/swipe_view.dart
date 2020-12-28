@@ -32,8 +32,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  
   int counter = 0;
+  CardController controller;
 
   uploadRanking(List<int> movies_rating) async {
     await firestore
@@ -48,6 +49,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
   void initState() {
     movies_dec = jsonDecode(_movies);
     //print(movies_dec);
+    controller = CardController();
   }
 
   @override
@@ -55,11 +57,12 @@ class _Swipe_ViewState extends State<Swipe_View> {
     //print(session.sessionId.toString());
 
     //print(movies_dec);
-    CardController controller;
+    
     return WillPopScope(
       onWillPop: () async => false,
       child: Material(
         child: Container(
+          constraints: BoxConstraints(maxWidth: 300),
           color: Color.fromRGBO(21, 21, 21, 1),
           child: Column(
             children: [
@@ -227,6 +230,26 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   },
                 ),
               ),
+              
+                 Row(
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 8,
+                      onPressed: (){
+                        controller.triggerLeft();
+                      },
+                      child: Text("Dislike"),
+                    ),
+                    FloatingActionButton(
+                      heroTag: 9,
+                      onPressed: (){
+                        controller.triggerRight();
+                      },
+                      child: Text("like"),
+                    ),
+                  ],
+              ),
+
               Text("Gruppe: " + _sessionId.toString()),
             ],
           ),

@@ -1,5 +1,5 @@
 import 'package:ceenes_prototype/util/session.dart';
-
+import 'dart:math';
 import 'api.dart';
 import 'movie.dart';
 
@@ -11,18 +11,32 @@ class MovieHandler {
     //print(session.provider);
     bool noProvider = false;
 
-    while (moviesWithProviders.length < 20) {
+    List<int> pagesused =[];
+
+    int getrandomnumbers(){
+      while (true){
+        int x = Random().nextInt(150);
+          if (!pagesused.contains(x)){
+            pagesused.add(x);
+            return x;
+          }
+      }
+    } 
+
+    while (moviesWithProviders.length < 15) {
       await tmdb.v3.discover
           .getMovies(
-        page: v,
-        language: 'en',
-        voteAverageGreaterThan: session.getVotes(),
+        page: getrandomnumbers(),
+        language: 'de',
         withGenres: session.connectGenres(),
       )
           .then((result) async {
         movies = result.values.toList()[1];
         if (session.provider.isNotEmpty) {
           for (int i = 0; i < movies.length; i++) {
+            if(moviesWithProviders.length == 15){
+              return moviesWithProviders;
+            }
             await tmdb.v3.movies
                 .getDetails(movies[i]["id"],
                     appendToResponse: "watch/providers", language: "de-DE")

@@ -153,15 +153,9 @@ class _Create_ViewState extends State<Create_View> {
   List<String> optionsProvider2 = [
     'Netflix',
     "Amazon Prime Video",
-    "Sky",
     "Joyn",
-    "Joyn Plus",
     "Disney Plus",
-    "Apple TV Plus",
-    "Apple TV",
     "Sky Ticket",
-    "Sky Go",
-    "TV NOW"
   ];
 
   @override
@@ -285,63 +279,6 @@ class _Create_ViewState extends State<Create_View> {
                       color: Colors.white.withOpacity(0.8),
                       labelStyle: TextStyle(fontSize: 18)),
                   wrapped: true,
-                ),
-              ),
-              PageViewModel(
-                titleWidget: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Bewertung",
-                        style: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 25, right: 25, top: 25),
-                      child: Text(
-                        "Hier kannst du auswählen, wie gut die Filme bewertet sein sollen. Es gibt maximal 10 Punkte",
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-                bodyWidget: Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  alignment: Alignment.center,
-                  child: ChipsChoice<int>.single(
-                    alignment: WrapAlignment.start,
-                    value: tag3,
-                    onChanged: (val) => setState(() {
-                      tag3 = val;
-                      valueVotes = optionsVotes[tag3];
-                      print(valueVotes);
-                    }),
-                    choiceItems: C2Choice.listFrom<int, String>(
-                      source: optionsVotes,
-                      value: (i, v) => i,
-                      label: (i, v) => v,
-                    ),
-                    runSpacing: 10,
-                    choiceActiveStyle: C2ChoiceStyle(
-                        color: Colors.lightBlueAccent,
-                        borderWidth: 2,
-                        labelStyle: TextStyle(fontSize: 40),
-                        borderOpacity: 0.5),
-                    choiceStyle: C2ChoiceStyle(
-                        color: Colors.white.withOpacity(0.8),
-                        labelStyle: TextStyle(fontSize: 40)),
-                    wrapped: true,
-                  ),
                 ),
               ),
 
