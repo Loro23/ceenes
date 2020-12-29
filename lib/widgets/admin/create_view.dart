@@ -59,19 +59,19 @@ class _Create_ViewState extends State<Create_View> {
 
   List<String> optionsGenre2 = [
     "Action",
-    "animiert",
-    "Dokumentation",
+    "Animation",
+    "Dokumentarfilm",
     "Drama",
     "Familie",
-    "Fantasie",
-    "Geschichte",
+    "Fantasy",
+    "Historie",
     "Komödie",
-    "Krieg",
+    "Kriegsfilm",
     "Krimi",
     "Musik",
-    "Mystisch",
-    "Romantisch",
-    "Sci-Fi",
+    "Mystery",
+    "Liebesfilm",
+    "Science Fiction",
     "Horror",
     "TV-Film",
     "Thriller",
@@ -83,13 +83,13 @@ class _Create_ViewState extends State<Create_View> {
     List<String> genreIds = [];
     for (String genre in genres) {
       switch (genre) {
-        case ("action"):
+        case ("Action"):
           genreIds.add("28");
           break;
-        case ("animiert"):
+        case ("Animation"):
           genreIds.add("16");
           break;
-        case ("Dokumentation"):
+        case ("Dokumentarfilm"):
           genreIds.add("99");
           break;
         case ("Drama"):
@@ -98,35 +98,35 @@ class _Create_ViewState extends State<Create_View> {
         case ("Familie"):
           genreIds.add("10751");
           break;
-        case ("Fantasie"):
+        case ("Fantasy"):
           genreIds.add("14");
           break;
-        case ("Geschichte"):
+        case ("Historie"):
           genreIds.add("36");
           break;
         case ("Komödie"):
           genreIds.add("35");
           break;
-        case ("Krieg"):
+        case ("Kriegsfilm"):
           genreIds.add("10752");
           break;
         case ("Krimi"):
           genreIds.add("80");
           break;
-        case ("Mystisch"):
+        case ("Mystery"):
           genreIds.add("9648");
           break;
-        case ("Romantisch"):
+        case ("Liebesfilm"):
           genreIds.add("10749");
           break;
-        case ("Sci-Fi"):
+        case ("Science Fiction"):
           genreIds.add("878");
           break;
         case ("Horror"):
           genreIds.add("27");
           break;
         case ("TV-Film"):
-          genreIds.add("107770");
+          genreIds.add("10770");
           break;
         case ("Thriller"):
           genreIds.add("53");
@@ -136,6 +136,9 @@ class _Create_ViewState extends State<Create_View> {
           break;
         case ("Abenteuer"):
           genreIds.add("12");
+          break;
+        case("Musik"):
+          genreIds.add("10402");
           break;
       }
     }
@@ -157,6 +160,12 @@ class _Create_ViewState extends State<Create_View> {
     "Disney Plus",
     "Sky Ticket",
   ];
+
+  // Note: This is a GlobalKey<FormState>,
+  // not a GlobalKey<MyCustomFormState>.
+  final formKey = GlobalKey<FormState>();
+  List<String> formValue = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -257,28 +266,70 @@ class _Create_ViewState extends State<Create_View> {
                     )
                   ],
                 ),
-                bodyWidget: ChipsChoice<String>.multiple(
-                  value: valueGenre,
-                  onChanged: (val) => setState(() {
-                    valueGenre = val;
-                    print(valueGenre);
-                  }),
-                  choiceItems: C2Choice.listFrom<String, String>(
-                    source: optionsGenre2,
-                    value: (i, v) => v,
-                    label: (i, v) => v,
-                    tooltip: (i, v) => v,
+                bodyWidget: Form(
+                  key:formKey,
+                  child: Column(
+                    children: [
+                      FormField<List<String>>(
+                        autovalidate: true,
+                        initialValue: formValue,
+                        onSaved: (val) => setState(()=> formValue = val),
+                        validator: (List value){
+                          if (value.length == 1 || value.length == 2){
+                            print("mindestens 3 oder keins wählen");
+                            return "Wähle entweder keins aus oder mindestens 3 Genres aus";
+                          }
+                          return null;
+                        },
+                        builder: (state){
+                          return Column(
+                            children: [
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: ChipsChoice<String>.multiple(
+                                  value: state.value,
+                                  onChanged: (val) {
+                                    print(val);
+                                    state.didChange(val);
+                                  },
+                                  choiceItems: C2Choice.listFrom<String, String>(
+                                    source: optionsGenre2,
+                                    value: (i, v) => v,
+                                    label: (i, v) => v,
+                                    tooltip: (i, v) => v,
+                                  ),
+                                  runSpacing: 6,
+                                  choiceActiveStyle: C2ChoiceStyle(
+                                      color: Colors.lightBlueAccent,
+                                      borderWidth: 2,
+                                      labelStyle: TextStyle(fontSize: 18),
+                                      borderOpacity: 0.5),
+                                  choiceStyle: C2ChoiceStyle(
+                                      color: Colors.white.withOpacity(0.8),
+                                      labelStyle: TextStyle(fontSize: 18)),
+                                  wrapped: true,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                                alignment: Alignment.centerLeft,
+
+                                child: Text(
+                                  state.errorText ?? "",
+                                  style: TextStyle(
+                                    color: state.hasError
+                                        ? Colors.redAccent
+                                        : Colors.green
+                                  ),
+                                )
+                              )
+                            ],
+                          );
+                        },
+                      ),
+
+                    ],
                   ),
-                  runSpacing: 6,
-                  choiceActiveStyle: C2ChoiceStyle(
-                      color: Colors.lightBlueAccent,
-                      borderWidth: 2,
-                      labelStyle: TextStyle(fontSize: 18),
-                      borderOpacity: 0.5),
-                  choiceStyle: C2ChoiceStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      labelStyle: TextStyle(fontSize: 18)),
-                  wrapped: true,
                 ),
               ),
 
