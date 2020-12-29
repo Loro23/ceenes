@@ -28,11 +28,9 @@ class _AdminLoginState extends State<AdminLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Ceenes"),
-      ),
-      body: Stack(
+    return Material(
+
+      child: Stack(
         children: [
           Container(
             child: Padding(

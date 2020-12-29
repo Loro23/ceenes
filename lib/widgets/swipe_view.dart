@@ -60,12 +60,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
     return WillPopScope(
       onWillPop: () async => false,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Ceenes"),
-          automaticallyImplyLeading: false,
-        ),
-        body: Container(
+      child: Material(
+        child: Container(
           //constraints: BoxConstraints(maxWidth: 300),
           color: Color.fromRGBO(21, 21, 21, 1),
           child: Column(

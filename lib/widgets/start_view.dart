@@ -21,12 +21,8 @@ class StartView extends StatefulWidget {
 class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Ceenes"),
-        automaticallyImplyLeading: false,
-      ),
-      body: SingleChildScrollView(
+    return Material(
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
           child: Column(
