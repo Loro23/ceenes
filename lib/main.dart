@@ -118,7 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: StartView(),
+      child: Column(
+        children: [
+          Container(
+            child: Text("Ceenes"),
+          ),
+          StartView(),
+        ],
+      ),
     );
   }
 }

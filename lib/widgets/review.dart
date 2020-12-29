@@ -197,8 +197,11 @@ class _ReviewState extends State<Review> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async => false,
-        child: Material(
-          child: Stack(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Ceenes"),
+          ),
+          body: Stack(
             children: [
               getReviewView(),
               Align(

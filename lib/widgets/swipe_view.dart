@@ -32,7 +32,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
+
   int counter = 0;
   CardController controller;
 
@@ -57,12 +57,16 @@ class _Swipe_ViewState extends State<Swipe_View> {
     //print(session.sessionId.toString());
 
     //print(movies_dec);
-    
+
     return WillPopScope(
       onWillPop: () async => false,
-      child: Material(
-        child: Container(
-          constraints: BoxConstraints(maxWidth: 300),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Ceenes"),
+          automaticallyImplyLeading: false,
+        ),
+        body: Container(
+          //constraints: BoxConstraints(maxWidth: 300),
           color: Color.fromRGBO(21, 21, 21, 1),
           child: Column(
             children: [
@@ -75,8 +79,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   totalNum: movies_dec.length,
                   stackNum: 3,
                   swipeEdge: 4.0,
-                  maxWidth: MediaQuery.of(context).size.width * 0.9,
-                  maxHeight: MediaQuery.of(context).size.height * 0.9,
+                  maxWidth: MediaQuery.of(context).size.width * 0.85,
+                  maxHeight: MediaQuery.of(context).size.height * 0.85,
                   minWidth: MediaQuery.of(context).size.width * 0.8,
                   minHeight: MediaQuery.of(context).size.height * 0.8,
                   cardBuilder: (context, index) => Card(
@@ -91,7 +95,6 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     child: Image.network(
                                       "http://image.tmdb.org/t/p/w500/" +
                                           movies_dec[index]["poster_path"],
-                                      height: 400,
                                     ))),
                             Container(
                                 padding: const EdgeInsets.only(
@@ -230,26 +233,24 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   },
                 ),
               ),
-              
-                 Row(
-                  children: [
-                    FloatingActionButton(
-                      heroTag: 8,
-                      onPressed: (){
-                        controller.triggerLeft();
-                      },
-                      child: Text("Dislike"),
-                    ),
-                    FloatingActionButton(
-                      heroTag: 9,
-                      onPressed: (){
-                        controller.triggerRight();
-                      },
-                      child: Text("like"),
-                    ),
-                  ],
+              Row(
+                children: [
+                  FloatingActionButton(
+                    heroTag: 8,
+                    onPressed: () {
+                      controller.triggerLeft();
+                    },
+                    child: Text("Dislike"),
+                  ),
+                  FloatingActionButton(
+                    heroTag: 9,
+                    onPressed: () {
+                      controller.triggerRight();
+                    },
+                    child: Text("like"),
+                  ),
+                ],
               ),
-
               Text("Gruppe: " + _sessionId.toString()),
             ],
           ),

@@ -28,8 +28,11 @@ class _AdminLoginState extends State<AdminLogin> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Stack(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Ceenes"),
+      ),
+      body: Stack(
         children: [
           Container(
             child: Padding(
@@ -59,7 +62,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
-                      child: Text(
+                      child: SelectableText(
                         _session.sessionId.toString(),
                         style: TextStyle(
                             letterSpacing: 10,

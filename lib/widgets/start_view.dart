@@ -21,8 +21,12 @@ class StartView extends StatefulWidget {
 class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Ceenes"),
+        automaticallyImplyLeading: false,
+      ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
           child: Column(
@@ -40,7 +44,7 @@ class _StartViewState extends State<StartView> {
                   width: 250,
                   height: 80,
                   child: Hero(
-                    tag: "0",
+                    tag: "2",
                     child: RaisedButton(
                       child: Text(
                         "Erstellen",
