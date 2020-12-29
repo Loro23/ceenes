@@ -11,17 +11,17 @@ class MovieHandler {
     //print(session.provider);
     bool noProvider = false;
 
-    List<int> pagesused =[];
+    List<int> pagesused = [];
 
-    int getrandomnumbers(){
-      while (true){
+    int getrandomnumbers() {
+      while (true) {
         int x = Random().nextInt(150);
-          if (!pagesused.contains(x)){
-            pagesused.add(x);
-            return x;
-          }
+        if (!pagesused.contains(x)) {
+          pagesused.add(x);
+          return x;
+        }
       }
-    } 
+    }
 
     while (moviesWithProviders.length < 15) {
       await tmdb.v3.discover
@@ -34,7 +34,7 @@ class MovieHandler {
         movies = result.values.toList()[1];
         if (session.provider.isNotEmpty) {
           for (int i = 0; i < movies.length; i++) {
-            if(moviesWithProviders.length == 15){
+            if (moviesWithProviders.length == 15) {
               return moviesWithProviders;
             }
             await tmdb.v3.movies

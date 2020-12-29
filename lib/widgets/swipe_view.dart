@@ -32,9 +32,78 @@ class _Swipe_ViewState extends State<Swipe_View> {
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
+
   int counter = 0;
   CardController controller;
+
+  String getGenres(int index) {
+    String genres = "";
+    for (int genre in movies_dec[index]["genre_ids"]) {
+      switch (genre) {
+        case (28):
+          genres = genres + "Action, ";
+          break;
+        case (16):
+          genres = genres + "Animation, ";
+          break;
+        case (99):
+          genres = genres + "Dokumentarfilm, ";
+          break;
+        case (18):
+          genres = genres + "Drama, ";
+          break;
+        case (10751):
+          genres = genres + "Familie, ";
+          break;
+        case (14):
+          genres = genres + "Fantasy, ";
+          break;
+        case (36):
+          genres = genres + "Historie, ";
+          break;
+        case (35):
+          genres = genres + "Komödie, ";
+          break;
+        case (10752):
+          genres = genres + "Kriegsfilm, ";
+          break;
+        case (80):
+          genres = genres + "Krimi, ";
+          break;
+        case (9648):
+          genres = genres + "Mystery, ";
+          break;
+        case (10749):
+          genres = genres + "Liebesfilm, ";
+          break;
+        case (878):
+          genres = genres + "Science Fiction, ";
+          break;
+        case (27):
+          genres = genres + "Horror, ";
+          break;
+        case (10770):
+          genres = genres + "TV-Film, ";
+          break;
+        case (53):
+          genres = genres + "Thriller, ";
+          break;
+        case (37):
+          genres = genres + "Western, ";
+          break;
+        case (12):
+          genres = genres + "Abenteuer, ";
+          break;
+        case (10402):
+          genres = genres + "Musik, ";
+          break;
+      }
+    }
+    if (genres == "") {
+      return "keine Genres";
+    }
+    return genres.substring(0, genres.length - 2);
+  }
 
   uploadRanking(List<int> movies_rating) async {
     await firestore
@@ -57,7 +126,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
     //print(session.sessionId.toString());
 
     //print(movies_dec);
-    
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Material(
@@ -85,25 +154,48 @@ class _Swipe_ViewState extends State<Swipe_View> {
                         child: Column(
                           children: [
                             Container(
-                                padding: const EdgeInsets.all(14),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      "http://image.tmdb.org/t/p/w500/" +
-                                          movies_dec[index]["poster_path"],
-                                      height: 400,
-                                    ))),
+                              padding: const EdgeInsets.all(14),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    "http://image.tmdb.org/t/p/w500/" +
+                                        movies_dec[index]["poster_path"],
+                                    height: 400,
+                                  )),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 5,
+                                          left: 20,
+                                          right: 20,
+                                          bottom: 5),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(movies_dec[index]["title"],
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Color.fromRGBO(
+                                                238, 238, 238, 1),
+                                          ))),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(right: 20, top: 5, bottom: 5),
+                                  child: IconButton(
+                                    iconSize: 30,
+                                    icon: Icon(Icons.info),
+                                    tooltip: 'mehr Details',
+                                    onPressed: () {print("hallo");},
+                                  ),
+                                ),
+                              ],
+                            ),
                             Container(
-                                padding: const EdgeInsets.only(
-                                    top: 5, left: 20, right: 20, bottom: 5),
-                                alignment: Alignment.centerLeft,
-                                child: Text(movies_dec[index]["title"],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Color.fromRGBO(238, 238, 238, 1),
-                                    ))),
-                            Container(
+                                alignment: Alignment.topLeft,
                                 padding: const EdgeInsets.only(
                                     left: 20, top: 5, bottom: 5, right: 20),
                                 child: Text(
@@ -114,10 +206,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     color: Color.fromRGBO(238, 238, 238, 1),
                                   ),
                                 )),
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: Container(
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
                                     decoration: BoxDecoration(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5)),
@@ -125,53 +220,55 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     ),
                                     padding: const EdgeInsets.all(10),
                                     margin: const EdgeInsets.only(
-                                        left: 20, right: 5, top: 5, bottom: 5),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                            "Genres: " +
-                                                movies_dec[index]["genre_ids"]
-                                                    .toString(),
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  238, 238, 238, 1),
-                                            )),
-                                      ],
-                                    ),
+                                        left: 20, right: 20, top: 5, bottom: 5),
+                                    child: Text(getGenres(index),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(238, 238, 238, 1),
+                                        )),
                                   ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromRGBO(68, 68, 68, 1),
-                                  ),
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.only(
-                                      left: 5, right: 20, top: 5, bottom: 5),
-                                  child: Row(
+                                  Row(
                                     children: [
-                                      Text(
-                                          movies_dec[index]["vote_average"]
-                                                  .toString() +
-                                              "/10",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromRGBO(
-                                                238, 238, 238, 1),
-                                          )),
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.yellow[300],
-                                        size: 15.0,
-                                        semanticLabel:
-                                            'Text to announce in accessibility modes',
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Color.fromRGBO(68, 68, 68, 1),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 5,
+                                            bottom: 5),
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                                movies_dec[index]
+                                                            ["vote_average"]
+                                                        .toString() +
+                                                    "/10",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromRGBO(
+                                                      238, 238, 238, 1),
+                                                )),
+                                            Icon(
+                                              Icons.star,
+                                              color: Colors.yellow[300],
+                                              size: 15.0,
+                                              semanticLabel:
+                                                  'Text to announce in accessibility modes',
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -230,26 +327,24 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   },
                 ),
               ),
-              
-                 Row(
-                  children: [
-                    FloatingActionButton(
-                      heroTag: 8,
-                      onPressed: (){
-                        controller.triggerLeft();
-                      },
-                      child: Text("Dislike"),
-                    ),
-                    FloatingActionButton(
-                      heroTag: 9,
-                      onPressed: (){
-                        controller.triggerRight();
-                      },
-                      child: Text("like"),
-                    ),
-                  ],
+              Row(
+                children: [
+                  FloatingActionButton(
+                    heroTag: 8,
+                    onPressed: () {
+                      controller.triggerLeft();
+                    },
+                    child: Text("Dislike"),
+                  ),
+                  FloatingActionButton(
+                    heroTag: 9,
+                    onPressed: () {
+                      controller.triggerRight();
+                    },
+                    child: Text("like"),
+                  ),
+                ],
               ),
-
               Text("Gruppe: " + _sessionId.toString()),
             ],
           ),

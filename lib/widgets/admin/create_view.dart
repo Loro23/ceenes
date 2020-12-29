@@ -137,7 +137,7 @@ class _Create_ViewState extends State<Create_View> {
         case ("Abenteuer"):
           genreIds.add("12");
           break;
-        case("Musik"):
+        case ("Musik"):
           genreIds.add("10402");
           break;
       }
@@ -165,7 +165,6 @@ class _Create_ViewState extends State<Create_View> {
   // not a GlobalKey<MyCustomFormState>.
   final formKey = GlobalKey<FormState>();
   List<String> formValue = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -267,21 +266,21 @@ class _Create_ViewState extends State<Create_View> {
                   ],
                 ),
                 bodyWidget: Form(
-                  key:formKey,
+                  key: formKey,
                   child: Column(
                     children: [
                       FormField<List<String>>(
                         autovalidate: true,
                         initialValue: formValue,
-                        onSaved: (val) => setState(()=> formValue = val),
-                        validator: (List value){
-                          if (value.length == 1 || value.length == 2){
+                        onSaved: (val) => setState(() => formValue = val),
+                        validator: (List value) {
+                          if (value.length == 1 || value.length == 2) {
                             print("mindestens 3 oder keins wählen");
                             return "Wähle entweder keins aus oder mindestens 3 Genres aus";
                           }
                           return null;
                         },
-                        builder: (state){
+                        builder: (state) {
                           return Column(
                             children: [
                               Container(
@@ -292,7 +291,8 @@ class _Create_ViewState extends State<Create_View> {
                                     print(val);
                                     state.didChange(val);
                                   },
-                                  choiceItems: C2Choice.listFrom<String, String>(
+                                  choiceItems:
+                                      C2Choice.listFrom<String, String>(
                                     source: optionsGenre2,
                                     value: (i, v) => v,
                                     label: (i, v) => v,
@@ -311,23 +311,20 @@ class _Create_ViewState extends State<Create_View> {
                                 ),
                               ),
                               Container(
-                                padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                                alignment: Alignment.centerLeft,
-
-                                child: Text(
-                                  state.errorText ?? "",
-                                  style: TextStyle(
-                                    color: state.hasError
-                                        ? Colors.redAccent
-                                        : Colors.green
-                                  ),
-                                )
-                              )
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    state.errorText ?? "",
+                                    style: TextStyle(
+                                        color: state.hasError
+                                            ? Colors.redAccent
+                                            : Colors.green),
+                                  ))
                             ],
                           );
                         },
                       ),
-
                     ],
                   ),
                 ),
