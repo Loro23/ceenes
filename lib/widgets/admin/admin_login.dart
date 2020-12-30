@@ -59,7 +59,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 30),
-                      child: Text(
+                      child: SelectableText(
                         _session.sessionId.toString(),
                         style: TextStyle(
                             letterSpacing: 10,

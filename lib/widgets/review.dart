@@ -78,7 +78,7 @@ class _ReviewState extends State<Review> {
       rating.add(0);
     }
 
-    //print(1);
+   // print(1);
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
@@ -96,7 +96,7 @@ class _ReviewState extends State<Review> {
         snapshotWithoutDummy.add(rate);
       }
 
-      //print('rating berechnen');
+      print('rating berechnen');
       for (List rate in snapshotWithoutDummy) {
         for (int j = 0; j < rate.length; j++) {
           rating[j] += rate[j]; //aufaddieren der votes
@@ -109,7 +109,7 @@ class _ReviewState extends State<Review> {
 
       for (int i = 0; i < _movies_dec.length; i++) {
         mapping.putIfAbsent(_movies_dec[i], () => rating[i]);
-        print(i);
+        //print(i);
         //print(_movies_dec[i]);
       }
       //print(mapping.entries);
@@ -128,6 +128,8 @@ class _ReviewState extends State<Review> {
       }
     });
 
+    print(sortedMap.keys.toList()[0]["title"]);
+
     Timer(Duration(milliseconds: 1000), () {
       setState(() {
         Navigator.pop(context);
@@ -135,7 +137,7 @@ class _ReviewState extends State<Review> {
     });
   }
 
-  Widget getReviewView() {
+  Widget _getReviewView() {
     if (sortedMap == null) {
       return Center(
           child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
@@ -193,6 +195,77 @@ class _ReviewState extends State<Review> {
     );
   }
 
+  bool _visible = false;
+  Widget getReviewView() {
+
+    Timer(Duration(milliseconds: 0), () {
+      setState(() {
+        _visible = true;
+      });
+    });
+
+    if (sortedMap == null) {
+      return Center(
+          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
+    }
+
+    return Material(
+        child: Container(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              Text(
+                "Euer Ergebnis:",
+                style: TextStyle(fontSize: 40),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AnimatedOpacity(
+                  child: Column(
+                    children: [
+
+                      Container(
+
+                        child: Image.network("http://image.tmdb.org/t/p/w500/" +
+                            sortedMap.keys.toList()[0]["poster_path"]),
+                        height: 300,
+                      ),
+
+
+                      Text(
+                          sortedMap.keys.toList()[0]["title"],                        style: TextStyle(fontSize: 40),
+                      ),
+                      Text(sortedMap.keys.toList()[0]["vote_average"].toString()),
+                      Text("Bewertung: 7 von 10"),
+                      Text("mit Musterperson 1, Musterperson 2"),
+                      Text("Regie: Musterperson 5"),
+                      Text("Streambar bei: Netflix, Amazon Prime Video"),
+                    ],
+                  ),
+                  opacity: _visible ? 1.0 : 0.0,
+                  duration: Duration(seconds: 1),
+                ),
+              ),
+            ],
+          ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: RaisedButton(
+                  onPressed: () {},
+                  color: Colors.grey[700],
+                  child: Text("Zeig mir alles"),
+                ),
+              ))
+        ],
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -217,13 +290,6 @@ class _ReviewState extends State<Review> {
                                   builder: (BuildContext context) =>
                                       StartView()),
                               (Route<dynamic> route) => false);
-                          /*
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (BuildContext context) {
-                          return StartView();
-                        }));
-
-                         */
                         },
                         label: Text(
                           "Zum Start",

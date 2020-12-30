@@ -41,7 +41,7 @@ class _StartViewState extends State<StartView> {
                   width: 250,
                   height: 80,
                   child: Hero(
-                    tag: "0",
+                    tag: "2",
                     child: RaisedButton(
                       child: Text(
                         "Erstellen",

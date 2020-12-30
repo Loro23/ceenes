@@ -1,10 +1,11 @@
 import 'package:ceenes_prototype/util/session.dart';
+import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'dart:math';
 import 'api.dart';
 import 'movie.dart';
 
 class MovieHandler {
-  static Future<List> getMovies(Session session) async {
+  static Future<List> getMovies(Session session, Create_ViewState state) async {
     List movies = [];
     List moviesWithProviders = [];
     int v = 1;
