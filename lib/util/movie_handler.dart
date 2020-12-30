@@ -29,9 +29,15 @@ class MovieHandler {
         page: getrandomnumbers(),
         language: 'de',
         withGenres: session.connectGenres(),
+        includeAdult: false,
       )
           .then((result) async {
-        movies = result.values.toList()[1];
+        List tempMovies = result.values.toList()[1];
+        for( Map x in tempMovies ){
+          await tmdb.v3.movies.getDetails(x["id"]).then((result){
+            movies.add(result);
+          });
+        }
         if (session.provider.isNotEmpty) {
           for (int i = 0; i < movies.length; i++) {
             if (moviesWithProviders.length == 15) {
@@ -41,6 +47,7 @@ class MovieHandler {
                 .getDetails(movies[i]["id"],
                     appendToResponse: "watch/providers", language: "de-DE")
                 .then((result) {
+
               try {
                 List _res =
                     result["watch/providers"]["results"]["DE"]["flatrate"];
@@ -52,7 +59,7 @@ class MovieHandler {
 
                   for (String provider in providersForThisMovie) {
                     if (session.provider.contains(provider)) {
-                      moviesWithProviders.add(movies[i]);
+                      moviesWithProviders.add(result);
                       break;
                     }
                   }

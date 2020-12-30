@@ -78,25 +78,25 @@ class _ReviewState extends State<Review> {
       rating.add(0);
     }
 
-    print(1);
+    //print(1);
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
-      print(2);
+      //print(2);
       for (int i = 0; i < snapshot.documents.length; i++) {
         if (snapshot.documents[i].id == "dummy_doc") {
           continue;
         }
         List rate =
             jsonDecode(snapshot.documents[i].data().values.elementAt(0));
-        print(rate);
+        //print(rate);
         snapshotWithoutDummy.add(rate);
       }
 
-      print('rating berechnen');
+      //print('rating berechnen');
       for (List rate in snapshotWithoutDummy) {
         for (int j = 0; j < rate.length; j++) {
           rating[j] += rate[j]; //aufaddieren der votes
@@ -110,7 +110,7 @@ class _ReviewState extends State<Review> {
       for (int i = 0; i < _movies_dec.length; i++) {
         mapping.putIfAbsent(_movies_dec[i], () => rating[i]);
         print(i);
-        print(_movies_dec[i]);
+        //print(_movies_dec[i]);
       }
       //print(mapping.entries);
 
@@ -124,7 +124,7 @@ class _ReviewState extends State<Review> {
       });
 
       for (MapEntry<Map<String, dynamic>, int> entry in sortedMap.entries) {
-        print(entry.key["title"] + ": " + entry.value.toString());
+        //print(entry.key["title"] + ": " + entry.value.toString());
       }
     });
 
@@ -154,7 +154,7 @@ class _ReviewState extends State<Review> {
                 title: Card(
                   child: InkWell(
                     onTap: () {
-                      print("tapped");
+                      //print("tapped");
                     },
                     child: Row(
                       children: [

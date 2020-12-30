@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
+import 'package:ceenes_prototype/widgets/details_view.dart';
 import 'package:ceenes_prototype/widgets/review.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +33,17 @@ class _Swipe_ViewState extends State<Swipe_View> {
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  
 
   int counter = 0;
   CardController controller;
 
   String getGenres(int index) {
     String genres = "";
-    for (int genre in movies_dec[index]["genre_ids"]) {
+    for (Map genre in movies_dec[index]["genres"]){
+      genres = genres + genre["name"] + ", ";
+    }
+    /*for (int genre in movies_dec[index]["genre_ids"]) {
       switch (genre) {
         case (28):
           genres = genres + "Action, ";
@@ -98,7 +103,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
           genres = genres + "Musik, ";
           break;
       }
-    }
+    }*/
     if (genres == "") {
       return "keine Genres";
     }
@@ -113,6 +118,15 @@ class _Swipe_ViewState extends State<Swipe_View> {
         .document(Random().nextInt(1000).toString())
         .setData({"rating": json.encode(movies_rating)});
   }
+
+  showDetails(context, Map moviedetails) async{
+   
+      showModalBottomSheet(context: context, builder: (BuildContext bc){
+      return Details_view(moviedetails);
+    });
+    
+  } 
+
 
   @override
   void initState() {
@@ -160,7 +174,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   child: Image.network(
                                     "http://image.tmdb.org/t/p/w500/" +
                                         movies_dec[index]["poster_path"],
-                                    height: 400,
+                                    height: 350,
                                   )),
                             ),
                             Row(
@@ -189,7 +203,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     iconSize: 30,
                                     icon: Icon(Icons.info),
                                     tooltip: 'mehr Details',
-                                    onPressed: () {print("hallo");},
+                                    onPressed: () {showDetails(context, movies_dec[index]);},
                                   ),
                                 ),
                               ],
@@ -328,20 +342,30 @@ class _Swipe_ViewState extends State<Swipe_View> {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  FloatingActionButton(
-                    heroTag: 8,
-                    onPressed: () {
-                      controller.triggerLeft();
-                    },
-                    child: Text("Dislike"),
+                  Container(
+                    margin: const EdgeInsets.all(5),
+                    child: FloatingActionButton(
+                      heroTag: 8,
+                      backgroundColor: Colors.red,
+                      onPressed: () {
+                        controller.triggerLeft();
+                      },
+                      child: Icon(Icons.clear, color: Colors.white,),
+                    ),
                   ),
-                  FloatingActionButton(
-                    heroTag: 9,
-                    onPressed: () {
-                      controller.triggerRight();
-                    },
-                    child: Text("like"),
+                  Container(
+                    margin: const EdgeInsets.all(5),
+                    child: FloatingActionButton(
+                      heroTag: 9,
+                      backgroundColor: Colors.green,
+                      onPressed: () {
+                        controller.triggerRight();
+                      },
+                      child: Icon(Icons.favorite, color: Colors.white),
+                    ),
                   ),
                 ],
               ),
