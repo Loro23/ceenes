@@ -29,7 +29,6 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Material(
-
       child: Stack(
         children: [
           Container(
@@ -95,7 +94,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) {
-                        print(_movies);
+                        //print(_movies);
                         return Swipe_View(_movies, _session.sessionId);
                       }));
                     },

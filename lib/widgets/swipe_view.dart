@@ -160,7 +160,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   child: Image.network(
                                     "http://image.tmdb.org/t/p/w500/" +
                                         movies_dec[index]["poster_path"],
-                                    height: 400,
+                                    //height: 400,
                                   )),
                             ),
                             Row(
@@ -184,12 +184,15 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           ))),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(right: 20, top: 5, bottom: 5),
+                                  margin: const EdgeInsets.only(
+                                      right: 20, top: 5, bottom: 5),
                                   child: IconButton(
                                     iconSize: 30,
                                     icon: Icon(Icons.info),
                                     tooltip: 'mehr Details',
-                                    onPressed: () {print("hallo");},
+                                    onPressed: () {
+                                      print("hallo");
+                                    },
                                   ),
                                 ),
                               ],
@@ -295,7 +298,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                     }
 
                     if (counter == movies_dec.length) {
-                      print("letzte karte" + index.toString());
+                      //print("letzte karte" + index.toString());
                       showDialog(
                         context: context,
                         barrierDismissible: false,

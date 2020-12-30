@@ -5,7 +5,6 @@ List<String> optionsGenre2 = [
   "Drama",
   "Familie",
   "Fantasy",
-
   "Historie",
   "Komödie",
   "Kriegsfilm",
@@ -19,8 +18,6 @@ List<String> optionsGenre2 = [
   "Thriller",
   "Western",
   "Abenteuer"
-
-
 ];
 
 List<String> optionsProvider2 = [
