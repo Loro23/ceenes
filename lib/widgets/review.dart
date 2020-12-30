@@ -6,6 +6,8 @@ import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:expandable/expandable.dart';
+
 import 'dart:collection';
 
 import 'package:tmdb_api/tmdb_api.dart';
@@ -78,7 +80,7 @@ class _ReviewState extends State<Review> {
       rating.add(0);
     }
 
-   // print(1);
+    // print(1);
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
@@ -96,7 +98,7 @@ class _ReviewState extends State<Review> {
         snapshotWithoutDummy.add(rate);
       }
 
-      print('rating berechnen');
+      //print('rating berechnen');
       for (List rate in snapshotWithoutDummy) {
         for (int j = 0; j < rate.length; j++) {
           rating[j] += rate[j]; //aufaddieren der votes
@@ -128,7 +130,7 @@ class _ReviewState extends State<Review> {
       }
     });
 
-    print(sortedMap.keys.toList()[0]["title"]);
+   // print(sortedMap.keys.toList()[0]["title"]);
 
     Timer(Duration(milliseconds: 1000), () {
       setState(() {
@@ -137,6 +139,7 @@ class _ReviewState extends State<Review> {
     });
   }
 
+  /*
   Widget _getReviewView() {
     if (sortedMap == null) {
       return Center(
@@ -194,78 +197,132 @@ class _ReviewState extends State<Review> {
       ],
     );
   }
-
+*/
   bool _visible = false;
-  Widget getReviewView() {
+  List<Widget> providerimg = [];
+  String genres = "";
 
+
+
+  Widget getReviewView() {
     Timer(Duration(milliseconds: 0), () {
       setState(() {
         _visible = true;
       });
     });
 
+    providerimg = [];
+    genres = "";
+
     if (sortedMap == null) {
       return Center(
           child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
     }
+    for (Map x in sortedMap.keys.toList()[0]["watch/providers"]["results"]["DE"]["flatrate"]) {
+      providerimg.add(Container(
+        child: Image.network(
+          "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+        ),
+        height: 50,
+      ));
+    }
+   // print(sortedMap.keys.toList()[0]);
+    for (Map x in sortedMap.keys.toList()[0]["genres"]) {
+      genres = genres + x["name"] + ", ";
+    }
+    genres = genres.substring(0, genres.length - 2);
 
     return Material(
         child: Container(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            children: [
-              Text(
-                "Euer Ergebnis:",
-                style: TextStyle(fontSize: 40),
+            Text(
+              "Euer Ergebnis:",
+              style: TextStyle(fontSize: 40),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: AnimatedOpacity(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Image.network("http://image.tmdb.org/t/p/w500/" +
+                          sortedMap.keys.toList()[0]["poster_path"]),
+                      height: 300,
+                    ),
+                    Text(
+                      sortedMap.keys.toList()[0]["title"],
+                      style: TextStyle(fontSize: 30),
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+
+
+                    ),
+                    ExpandablePanel(
+                      //header: Text("Überblick"),
+                      collapsed: Text(
+                        sortedMap.keys.toList()[0]["overview"],
+                        softWrap: true,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      expanded: Text(sortedMap.keys.toList()[0]["overview"], softWrap: true,                           textAlign: TextAlign.center,
+                      ),
+                      tapHeaderToExpand: true,
+                      hasIcon: true,
+                      tapBodyToCollapse: true,
+                      header: Text("Überblick"),
+                      headerAlignment: ExpandablePanelHeaderAlignment.center,
+
+                    ),
+                    Text(genres),
+                    Text( "Erschienen am "+
+                        sortedMap.keys.toList()[0]["release_date"],
+                      //style: TextStyle(fontSize: 40),
+                    ),
+                    Row(
+                      children: providerimg,
+                    )
+
+
+                  ],
+                ),
+                opacity: _visible ? 1.0 : 0.0,
+                duration: Duration(seconds: 1),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: AnimatedOpacity(
-                  child: Column(
-                    children: [
-
-                      Container(
-
-                        child: Image.network("http://image.tmdb.org/t/p/w500/" +
-                            sortedMap.keys.toList()[0]["poster_path"]),
-                        height: 300,
-                      ),
-
-
-                      Text(
-                          sortedMap.keys.toList()[0]["title"],                        style: TextStyle(fontSize: 40),
-                      ),
-                      Text(sortedMap.keys.toList()[0]["vote_average"].toString()),
-                      Text("Bewertung: 7 von 10"),
-                      Text("mit Musterperson 1, Musterperson 2"),
-                      Text("Regie: Musterperson 5"),
-                      Text("Streambar bei: Netflix, Amazon Prime Video"),
-                    ],
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: RaisedButton(
+                    onPressed: () {},
+                    color: Colors.grey[700],
+                    child: Text("Zeig mir alles"),
                   ),
-                  opacity: _visible ? 1.0 : 0.0,
-                  duration: Duration(seconds: 1),
-                ),
-              ),
-            ],
-          ),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: RaisedButton(
-                  onPressed: () {},
-                  color: Colors.grey[700],
-                  child: Text("Zeig mir alles"),
-                ),
-              ))
+                ))
         ],
-      ),
-    ));
+        ),
+          ),
+        ));
   }
 
+  @override
+  void initState() {
+    //print(_movies_dec[0]);
+    super.initState();
+    //print(sortedMap.keys.toList()[0]);
+
+/*
+
+
+ */
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

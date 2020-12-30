@@ -37,9 +37,9 @@ class MovieHandler {
           .then((result) async {
         List tempMovies = result.values.toList()[1];
 
-       // print(tempMovies);
-        for( Map x in tempMovies ){
-          await tmdb.v3.movies.getDetails(x["id"]).then((_result){
+        // print(tempMovies);
+        for (Map x in tempMovies) {
+          await tmdb.v3.movies.getDetails(x["id"]).then((_result) {
             movies.add(_result);
             //print(result["title"]);
           });
@@ -54,7 +54,6 @@ class MovieHandler {
                 .getDetails(movies[i]["id"],
                     appendToResponse: "watch/providers", language: "de-DE")
                 .then((result) {
-
               try {
                 List _res =
                     result["watch/providers"]["results"]["DE"]["flatrate"];
@@ -81,7 +80,7 @@ class MovieHandler {
       });
       if (session.provider.isEmpty) {
         noProvider = true;
-        for (Map x in movies){
+        for (Map x in movies) {
           //print(x["title"]);
         }
         break;
