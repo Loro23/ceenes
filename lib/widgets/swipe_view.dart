@@ -242,44 +242,40 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                               Color.fromRGBO(238, 238, 238, 1),
                                         )),
                                   ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color: Color.fromRGBO(68, 68, 68, 1),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5)),
+                                      color: Color.fromRGBO(68, 68, 68, 1),
+                                    ),
+                                    margin: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        top: 5,
+                                        bottom: 5),
+                                    padding: const EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                            movies_dec[index]
+                                                        ["vote_average"]
+                                                    .toString() +
+                                                "/10",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromRGBO(
+                                                  238, 238, 238, 1),
+                                            )),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.yellow[300],
+                                          size: 15.0,
+                                          semanticLabel:
+                                              'Text to announce in accessibility modes',
                                         ),
-                                        margin: const EdgeInsets.only(
-                                            left: 20,
-                                            right: 20,
-                                            top: 5,
-                                            bottom: 5),
-                                        padding: const EdgeInsets.all(10),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                                movies_dec[index]
-                                                            ["vote_average"]
-                                                        .toString() +
-                                                    "/10",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromRGBO(
-                                                      238, 238, 238, 1),
-                                                )),
-                                            Icon(
-                                              Icons.star,
-                                              color: Colors.yellow[300],
-                                              size: 15.0,
-                                              semanticLabel:
-                                                  'Text to announce in accessibility modes',
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
