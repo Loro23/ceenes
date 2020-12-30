@@ -45,7 +45,7 @@ class Session {
   }
 
   String connectGenres() {
-    print("connect");
+    //print("connect");
     String _finalGenres = "";
     for (int i = 0; i < this.genres.length; i++) {
       if (this.genres[i] == "0") {
@@ -57,8 +57,8 @@ class Session {
         _finalGenres = _finalGenres + this.genres[i] + "|";
       }
     }
-    print("connected");
-    print(_finalGenres);
+    //print("connected");
+    //print(_finalGenres);
 
     return _finalGenres;
   }

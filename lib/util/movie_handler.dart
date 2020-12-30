@@ -24,6 +24,8 @@ class MovieHandler {
     }
 
     while (moviesWithProviders.length < 15) {
+      movies = [];
+
       await tmdb.v3.discover
           .getMovies(
         page: getrandomnumbers(),
@@ -33,11 +35,15 @@ class MovieHandler {
       )
           .then((result) async {
         List tempMovies = result.values.toList()[1];
+
+       // print(tempMovies);
         for( Map x in tempMovies ){
-          await tmdb.v3.movies.getDetails(x["id"]).then((result){
-            movies.add(result);
+          await tmdb.v3.movies.getDetails(x["id"]).then((_result){
+            movies.add(_result);
+            //print(result["title"]);
           });
         }
+
         if (session.provider.isNotEmpty) {
           for (int i = 0; i < movies.length; i++) {
             if (moviesWithProviders.length == 15) {
@@ -59,6 +65,7 @@ class MovieHandler {
 
                   for (String provider in providersForThisMovie) {
                     if (session.provider.contains(provider)) {
+                      //print(result["title"]);
                       moviesWithProviders.add(result);
                       break;
                     }
@@ -73,6 +80,9 @@ class MovieHandler {
       });
       if (session.provider.isEmpty) {
         noProvider = true;
+        for (Map x in movies){
+          //print(x["title"]);
+        }
         break;
       }
     }
