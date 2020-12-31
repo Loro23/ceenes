@@ -40,7 +40,12 @@ class Create_ViewState extends State<Create_View>
   Animation<Color> animation;
 
   List<String> valueGenre = [];
-  List<String> valueProvider2 = [];
+  List<String> valueProvider2 = [
+    'Netflix',
+    "Amazon Prime Video",
+    "Joyn",
+    "Disney Plus",
+    "Sky Ticket",];
 
   final introKey = GlobalKey<IntroductionScreenState>();
   // Note: This is a GlobalKey<FormState>,
@@ -64,6 +69,12 @@ class Create_ViewState extends State<Create_View>
           .collection("sessions")
           .document(session.sessionId.toString())
           .updateData({"movies_json": this.movies});
+
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"numberPart": session.numPats});
+
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
@@ -89,6 +100,8 @@ class Create_ViewState extends State<Create_View>
       });
   }
 
+  String valuePart = "3";
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -97,6 +110,42 @@ class Create_ViewState extends State<Create_View>
           child: IntroductionScreen(
             key: introKey,
             pages: [
+              PageViewModel(
+                titleWidget: Padding(
+                  padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
+                  child: Text(
+                    "Wie viele Personen seid ihr?",
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                bodyWidget: ChipsChoice<String>.single(
+                  value: valuePart,
+                  onChanged: (val) => setState(() {
+                    valuePart = val;
+                    //print(valueProvider2);
+                  }),
+                  choiceItems: C2Choice.listFrom<String, String>(
+                    source: optionsPart,
+                    value: (i, v) => v,
+                    label: (i, v) => v,
+                    tooltip: (i, v) => v,
+                  ),
+                  choiceActiveStyle: C2ChoiceStyle(
+                      color: Colors.blueAccent,
+                      borderWidth: 2,
+                      labelStyle: TextStyle(fontSize: 25),
+                      borderOpacity: 0.5),
+                  choiceStyle: C2ChoiceStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      labelStyle: TextStyle(fontSize: 25)),
+                  wrapped: true,
+                  alignment: WrapAlignment.center,
+                ),
+              ),
               PageViewModel(
                 titleWidget: Padding(
                   padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
@@ -145,8 +194,7 @@ class Create_ViewState extends State<Create_View>
                     textAlign: TextAlign.center,
                   ),
                 ),
-                body: "hallo",
-                footer: Form(
+                bodyWidget: Form(
                   key: formKey,
                   child: Column(
                     children: [
@@ -270,8 +318,8 @@ class Create_ViewState extends State<Create_View>
                           );
                         },
                       );
-                      this.session =
-                          new Session(getGenreIds(valueGenre), valueProvider2);
+                      this.session = new Session(
+                          valuePart, getGenreIds(valueGenre), valueProvider2);
 
                       await MovieHandler.getMovies(this.session, this)
                           .then((movies) {

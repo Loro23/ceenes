@@ -3,7 +3,6 @@ import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
-import 'package:ceenes_prototype/widgets/test_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'util/api.dart';

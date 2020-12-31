@@ -45,30 +45,48 @@ class _ReviewState extends State<Review> {
     }
   }
 
-  Future getRating() async {
-    showDialog(
-      barrierDismissible: false,
-      child: Dialog(
-        child: SizedBox(
-          height: 100,
-          width: 150,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new CircularProgressIndicator(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: new Text("Lade Ergebnisse..."),
-              ),
-            ],
+
+
+  getNumberVotes() async {
+
+    await firestore
+        .collection("sessions")
+        .document(_sessionId.toString())
+        .collection("votes")
+        .getDocuments()
+        .then((snapshot) {
+      _numVotes = snapshot.documents.length - 1;
+    });
+
+  }
+
+  int _numVotes = 0;
+  int _sessionParts = 0;
+  getRating() async {
+      showDialog(
+        barrierDismissible: false,
+        child: Dialog(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height*0.2,
+            width: MediaQuery.of(context).size.width*0.9,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Text("Lade Ergebnisse...", style: TextStyle(fontSize: 25),),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      context: context,
-    );
+        context: context,
+      );
+
 
     setState(() {
       rating = [];
@@ -98,6 +116,9 @@ class _ReviewState extends State<Review> {
         snapshotWithoutDummy.add(rate);
       }
 
+
+
+
       //print('rating berechnen');
       for (List rate in snapshotWithoutDummy) {
         for (int j = 0; j < rate.length; j++) {
@@ -125,12 +146,7 @@ class _ReviewState extends State<Review> {
             key: (k) => k, value: (k) => mapping[k]);
       });
 
-      for (MapEntry<Map<String, dynamic>, int> entry in sortedMap.entries) {
-        //print(entry.key["title"] + ": " + entry.value.toString());
-      }
     });
-
-   // print(sortedMap.keys.toList()[0]["title"]);
 
     Timer(Duration(milliseconds: 1000), () {
       setState(() {
@@ -198,133 +214,254 @@ class _ReviewState extends State<Review> {
     );
   }
 */
-  bool _visible = false;
   List<Widget> providerimg = [];
   String genres = "";
 
-
-
   Widget getReviewView() {
-    Timer(Duration(milliseconds: 0), () {
-      setState(() {
-        _visible = true;
-      });
-    });
 
     providerimg = [];
     genres = "";
 
-    if (sortedMap == null) {
+    //getNumberParts();
+    if (sortedMap == null || _numVotes != _sessionParts) {
       return Center(
-          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Warte, bis deine Freunde fertig geswiped haben!"),
+              Text( _numVotes.toString() + " von " + _sessionParts.toString() + " sind fertig."),
+            ],
+          ));
     }
-    for (Map x in sortedMap.keys.toList()[0]["watch/providers"]["results"]["DE"]["flatrate"]) {
-      providerimg.add(Container(
-        child: Image.network(
-          "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+
+
+    for (Map x in sortedMap.keys.toList()[0]["watch/providers"]["results"]["DE"]
+        ["flatrate"]) {
+      providerimg.add(Padding(
+        padding: const EdgeInsets.only(right: 8,),
+        child: Container(
+          child: Image.network(
+            "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+          ),
+          height: 50,
         ),
-        height: 50,
       ));
     }
-   // print(sortedMap.keys.toList()[0]);
+    // print(sortedMap.keys.toList()[0]);
     for (Map x in sortedMap.keys.toList()[0]["genres"]) {
       genres = genres + x["name"] + ", ";
     }
     genres = genres.substring(0, genres.length - 2);
 
     return Material(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-            Text(
-              "Euer Ergebnis:",
-              style: TextStyle(fontSize: 40),
+        child: Stack(
+      children: [
+        Container(
+          child: ExpandableTheme(
+            data: const ExpandableThemeData(
+              iconColor: Colors.blue,
+              useInkWell: true,
             ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: AnimatedOpacity(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Image.network("http://image.tmdb.org/t/p/w500/" +
-                          sortedMap.keys.toList()[0]["poster_path"]),
-                      height: 300,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 400),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                              "http://image.tmdb.org/t/p/w500/" +
+                                  sortedMap.keys.toList()[0]["poster_path"]),
+                        ),
+                      ),
                     ),
-                    Text(
-                      sortedMap.keys.toList()[0]["title"],
-                      style: TextStyle(fontSize: 30),
-                      overflow: TextOverflow.clip,
-                      textAlign: TextAlign.center,
-
-
-                    ),
-                    ExpandablePanel(
-                      //header: Text("Überblick"),
-                      collapsed: Text(
-                        sortedMap.keys.toList()[0]["overview"],
-                        softWrap: true,
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        sortedMap.keys.toList()[0]["title"],
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w800),
+                        overflow: TextOverflow.clip,
                         textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
-                      expanded: Text(sortedMap.keys.toList()[0]["overview"], softWrap: true,                           textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 3, bottom: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: Text("In Flatrate enthalten bei"),
+                          ),
+                          Row(
+                            children: providerimg,
+                          ),
+                        ],
                       ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
-                      tapBodyToCollapse: true,
-                      header: Text("Überblick"),
-                      headerAlignment: ExpandablePanelHeaderAlignment.center,
-
                     ),
-                    Text(genres),
-                    Text( "Erschienen am "+
-                        sortedMap.keys.toList()[0]["release_date"],
-                      //style: TextStyle(fontSize: 40),
+                  ),
+                  ExpandableNotifier(
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      child: Column(
+                        children: [
+                          ScrollOnExpand(
+                            child: ExpandablePanel(
+                              theme: const ExpandableThemeData(
+                                headerAlignment:
+                                    ExpandablePanelHeaderAlignment.center,
+                                tapBodyToCollapse: true,
+                              ),
+                              collapsed: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  sortedMap.keys.toList()[0]["overview"],
+                                  softWrap: true,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              expanded: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  sortedMap.keys.toList()[0]["overview"],
+                                  softWrap: true,
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                              tapHeaderToExpand: true,
+                              hasIcon: true,
+                              tapBodyToCollapse: true,
+                              header: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Überblick",
+                                  style: TextStyle(fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            scrollOnExpand: true,
+                            scrollOnCollapse: false,
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: providerimg,
-                    )
+                  ),
+                  Card(
+                      child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(genres),
+                  )),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Erschienen am " +
+                            sortedMap.keys.toList()[0]["release_date"],
+                        //style: TextStyle(fontSize: 40),
+                      ),
+                    ),
+                  ),
 
-
-                  ],
-                ),
-                opacity: _visible ? 1.0 : 0.0,
-                duration: Duration(seconds: 1),
+                  SizedBox(height: 50,)
+                ],
               ),
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: RaisedButton(
-                    onPressed: () {},
-                    color: Colors.grey[700],
-                    child: Text("Zeig mir alles"),
-                  ),
-                ))
-        ],
-        ),
           ),
-        ));
+        ),
+        Align(
+          alignment: Alignment.topLeft,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                  Colors.black.withOpacity(0.8),
+                  Colors.transparent
+                ])),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Ergebnis",
+                    style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        shadows: [Shadow(color: Colors.black, blurRadius: 2)]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => StartView()),
+                          (Route<dynamic> route) => false);
+                    },
+                    child: Text(
+                      "Zum Start",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ));
   }
 
-  @override
-  void initState() {
-    //print(_movies_dec[0]);
-    super.initState();
-    //print(sortedMap.keys.toList()[0]);
+  getNumberParts()async{
+    await firestore
+        .collection("sessions")
+        .document(_sessionId.toString())
+        .get()
+        .then((snapshot) {
+          setState(() {
+            _sessionParts = snapshot.data()["numberPart"];
 
-/*
-
-
- */
+          });
+    });
+    print(_sessionParts);
   }
+
+@override
+   initState()  {
+  super.initState();
+  getRating();
+  getNumberVotes();
+  getNumberParts();
+  }
+
+
+  bool firstCall = true;
   @override
   Widget build(BuildContext context) {
+    if (firstCall){
+      Timer(Duration(milliseconds: 100), (){
+        getRating();
+      });
+      firstCall = false;
+    }
     return WillPopScope(
         onWillPop: () async => false,
         child: Material(
@@ -333,38 +470,37 @@ class _ReviewState extends State<Review> {
               getReviewView(),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FloatingActionButton.extended(
-                        heroTag: "4",
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      StartView()),
-                              (Route<dynamic> route) => false);
-                        },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: FloatingActionButton.extended(
+                        heroTag: "5",
+                        onPressed: () {},
                         label: Text(
-                          "Zum Start",
+                          "Alle Filme",
                           style: TextStyle(color: Colors.white),
                         ),
-                        backgroundColor: Colors.grey[700],
+                        backgroundColor: Colors.blueGrey,
                       ),
-                      FloatingActionButton.extended(
-                        heroTag: "5",
-                        onPressed: getRating,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: FloatingActionButton.extended(
+                        heroTag: "10",
+                        onPressed: () {
+                          getRating();
+                        },
                         label: Text(
                           "Neu laden",
                           style: TextStyle(color: Colors.white),
                         ),
-                        backgroundColor: Colors.lightBlueAccent,
+                        backgroundColor: Colors.pinkAccent,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )
             ],

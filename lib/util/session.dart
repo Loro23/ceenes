@@ -8,7 +8,8 @@ class Session {
   String finalGenres;
   List<String> provider;
 
-  Session(List<String> genres, List<String> provider) {
+  Session(String numPats, List<String> genres, List<String> provider) {
+    this.numPats = int.parse(numPats);
     this.genres = genres;
 
     this.provider = provider;
