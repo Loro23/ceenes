@@ -55,7 +55,11 @@ class _ReviewState extends State<Review> {
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
-      _numVotes = snapshot.documents.length - 1;
+          print(snapshot.documents);
+          setState(() {
+
+            this._numVotes = snapshot.documents.length - 1;
+          });
     });
 
   }
@@ -155,65 +159,6 @@ class _ReviewState extends State<Review> {
     });
   }
 
-  /*
-  Widget _getReviewView() {
-    if (sortedMap == null) {
-      return Center(
-          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
-    }
-    return Column(
-      children: [
-        Container(
-          child: Text("Hier ist euer Ergebnis"),
-          color: Colors.transparent,
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: sortedMap.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Card(
-                  child: InkWell(
-                    onTap: () {
-                      //print("tapped");
-                    },
-                    child: Row(
-                      children: [
-                        Image.network(
-                          "http://image.tmdb.org/t/p/w92/" +
-                              getCorrectPosterpath(
-                                  sortedMap.entries.elementAt(index).key["id"]),
-                          height: 120,
-                        ),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            sortedMap.entries.elementAt(index).key["title"],
-                            overflow: TextOverflow.clip,
-                          ),
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            sortedMap.entries
-                                .elementAt(index)
-                                .value
-                                .toString(), //voting
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-*/
   List<Widget> providerimg = [];
   String genres = "";
 
@@ -447,7 +392,7 @@ class _ReviewState extends State<Review> {
 @override
    initState()  {
   super.initState();
-  getRating();
+  //getRating();
   getNumberVotes();
   getNumberParts();
   }
@@ -456,12 +401,15 @@ class _ReviewState extends State<Review> {
   bool firstCall = true;
   @override
   Widget build(BuildContext context) {
+    /*
     if (firstCall){
       Timer(Duration(milliseconds: 100), (){
         getRating();
       });
       firstCall = false;
     }
+
+     */
     return WillPopScope(
         onWillPop: () async => false,
         child: Material(
@@ -490,7 +438,8 @@ class _ReviewState extends State<Review> {
                       padding: const EdgeInsets.all(15),
                       child: FloatingActionButton.extended(
                         heroTag: "10",
-                        onPressed: () {
+                        onPressed: () async {
+                          await getNumberVotes();
                           getRating();
                         },
                         label: Text(
@@ -508,3 +457,65 @@ class _ReviewState extends State<Review> {
         ));
   }
 }
+
+
+
+/*
+  Widget _getReviewView() {
+    if (sortedMap == null) {
+      return Center(
+          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
+    }
+    return Column(
+      children: [
+        Container(
+          child: Text("Hier ist euer Ergebnis"),
+          color: Colors.transparent,
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: sortedMap.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Card(
+                  child: InkWell(
+                    onTap: () {
+                      //print("tapped");
+                    },
+                    child: Row(
+                      children: [
+                        Image.network(
+                          "http://image.tmdb.org/t/p/w92/" +
+                              getCorrectPosterpath(
+                                  sortedMap.entries.elementAt(index).key["id"]),
+                          height: 120,
+                        ),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            sortedMap.entries.elementAt(index).key["title"],
+                            overflow: TextOverflow.clip,
+                          ),
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            sortedMap.entries
+                                .elementAt(index)
+                                .value
+                                .toString(), //voting
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+*/
