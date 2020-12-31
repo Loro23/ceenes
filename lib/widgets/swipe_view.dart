@@ -33,14 +33,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  
 
   int counter = 0;
   CardController controller;
 
   String getGenres(int index) {
     String genres = "";
-    for (Map genre in movies_dec[index]["genres"]){
+    for (Map genre in movies_dec[index]["genres"]) {
       genres = genres + genre["name"] + ", ";
     }
     /*for (int genre in movies_dec[index]["genre_ids"]) {
@@ -119,14 +118,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
         .setData({"rating": json.encode(movies_rating)});
   }
 
-  showDetails(context, Map moviedetails) async{
-   
-      showModalBottomSheet(context: context, builder: (BuildContext bc){
-      return Details_view(moviedetails);
-    });
-    
-  } 
-
+  showDetails(context, Map moviedetails) async {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Details_view(moviedetails);
+        });
+  }
 
   @override
   void initState() {
@@ -198,12 +196,15 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           ))),
                                 ),
                                 Container(
-                                  margin: const EdgeInsets.only(right: 20, top: 5, bottom: 5),
+                                  margin: const EdgeInsets.only(
+                                      right: 20, top: 5, bottom: 5),
                                   child: IconButton(
                                     iconSize: 30,
                                     icon: Icon(Icons.info),
                                     tooltip: 'mehr Details',
-                                    onPressed: () {showDetails(context, movies_dec[index]);},
+                                    onPressed: () {
+                                      showDetails(context, movies_dec[index]);
+                                    },
                                   ),
                                 ),
                               ],
@@ -244,22 +245,18 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(5)),
                                       color: Color.fromRGBO(68, 68, 68, 1),
                                     ),
                                     margin: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 5,
-                                        bottom: 5),
+                                        left: 20, right: 20, top: 5, bottom: 5),
                                     padding: const EdgeInsets.all(10),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                            movies_dec[index]
-                                                        ["vote_average"]
+                                            movies_dec[index]["vote_average"]
                                                     .toString() +
                                                 "/10",
                                             style: TextStyle(
@@ -349,7 +346,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
                       onPressed: () {
                         controller.triggerLeft();
                       },
-                      child: Icon(Icons.clear, color: Colors.white,),
+                      child: Icon(
+                        Icons.clear,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   Container(

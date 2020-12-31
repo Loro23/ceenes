@@ -78,7 +78,7 @@ class _ReviewState extends State<Review> {
       rating.add(0);
     }
 
-   // print(1);
+    // print(1);
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
@@ -197,7 +197,6 @@ class _ReviewState extends State<Review> {
 
   bool _visible = false;
   Widget getReviewView() {
-
     Timer(Duration(milliseconds: 0), () {
       setState(() {
         _visible = true;
@@ -226,19 +225,18 @@ class _ReviewState extends State<Review> {
                 child: AnimatedOpacity(
                   child: Column(
                     children: [
-
                       Container(
-
                         child: Image.network("http://image.tmdb.org/t/p/w500/" +
                             sortedMap.keys.toList()[0]["poster_path"]),
                         height: 300,
                       ),
-
-
                       Text(
-                          sortedMap.keys.toList()[0]["title"],                        style: TextStyle(fontSize: 40),
+                        sortedMap.keys.toList()[0]["title"],
+                        style: TextStyle(fontSize: 40),
                       ),
-                      Text(sortedMap.keys.toList()[0]["vote_average"].toString()),
+                      Text(sortedMap.keys
+                          .toList()[0]["vote_average"]
+                          .toString()),
                       Text("Bewertung: 7 von 10"),
                       Text("mit Musterperson 1, Musterperson 2"),
                       Text("Regie: Musterperson 5"),
