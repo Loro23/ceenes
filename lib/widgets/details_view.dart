@@ -20,8 +20,12 @@ class _Details_viewState extends State<Details_view> {
     super.initState();
     for (Map x in details["watch/providers"]["results"]["DE"]["flatrate"]) {
       providerimg.add(Container(
-        child: Image.network(
-          "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+        padding: const EdgeInsets.all(5),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(5.0),
+          child: Image.network(
+            "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+          ),
         ),
         height: 50,
       ));
@@ -38,40 +42,108 @@ class _Details_viewState extends State<Details_view> {
   ) {
     return Container(
       height: MediaQuery.of(context).size.height * .60,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(14),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        "http://image.tmdb.org/t/p/w500/" +
-                            details["poster_path"],
-                        height: 130,
-                      )),
+      child: Stack(children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          "http://image.tmdb.org/t/p/w500/" +
+                              details["poster_path"],
+                          height: 120,
+                        )),
+                  ),
+                  Flexible(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(details["title"],
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                    color: Color.fromRGBO(238, 238, 238, 1),
+                                  ))),
+                          Card(
+
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(details["vote_average"].toString() + "/10",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(238, 238, 238, 1),
+                                      )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.star,
+                                    color: Colors.yellow[300],
+                                    size: 15.0,
+                                    semanticLabel:
+                                        'Star with rating',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: providerimg,
+                          ),
+                        ]),
+                  )
+                ],
+              ),
+              Text(details["release_date"].toString()),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  color: Color.fromRGBO(68, 68, 68, 1),
                 ),
-                IconButton(
-                  icon: Icon(Icons.clear, color: Colors.white, size: 25),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
-            Text(details["title"]),
-            Text(details["overview"]),
-            Row(
-              children: providerimg,
-            ),
-            Text(details["release_date"].toString()),
-            Text(details["vote_average"].toString()),
-            Text(genres),
-          ],
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(
+                    left: 20, right: 20, top: 5, bottom: 5),
+                child: Text(genres,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(238, 238, 238, 1),
+                    )),
+              ),
+              Text(details["overview"]),
+            ],
+          ),
         ),
-      ),
+        Container(
+          alignment: Alignment.topRight,
+          padding: const EdgeInsets.all(10),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.black,
+            child: IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: Colors.white,
+                size: 25,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+      ]),
     );
   }
 }
