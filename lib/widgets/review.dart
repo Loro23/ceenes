@@ -401,7 +401,7 @@ class _ReviewState extends State<Review> {
   bool firstCall = true;
   @override
   Widget build(BuildContext context) {
-    /*
+
     if (firstCall){
       Timer(Duration(milliseconds: 100), (){
         getRating();
@@ -409,7 +409,7 @@ class _ReviewState extends State<Review> {
       firstCall = false;
     }
 
-     */
+
     return WillPopScope(
         onWillPop: () async => false,
         child: Material(
