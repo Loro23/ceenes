@@ -121,8 +121,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
   showDetails(context, Map moviedetails) async {
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Details_view(moviedetails);
+          return Wrap(children:[Details_view(moviedetails)]);
         });
   }
 
