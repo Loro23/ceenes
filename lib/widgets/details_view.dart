@@ -41,16 +41,16 @@ class _Details_viewState extends State<Details_view> {
     BuildContext context,
   ) {
     return Container(
-      height: MediaQuery.of(context).size.height * .60,
+      //height: MediaQuery.of(context).size.height * .60,
       child: Stack(children: [
         SingleChildScrollView(
           child: Column(
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.only(top:8, right:8, left:20, ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
@@ -66,15 +66,21 @@ class _Details_viewState extends State<Details_view> {
                         children: [
                           Container(
                               padding: const EdgeInsets.all(8),
-                              child: Text(details["title"],
-                                  overflow: TextOverflow.clip,
+                              child: RichText(
+                                overflow: TextOverflow.clip,
+                                text: TextSpan(
+                                  text: details["title"] + " ",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17,
                                     color: Color.fromRGBO(238, 238, 238, 1),
-                                  ))),
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(text: "("+details["release_date"].toString().substring(0,4)+ ")", style: TextStyle( color: Color.fromRGBO(202, 202, 202, 0.9) )),
+                                  ],
+                                ),
+                              )), 
                           Card(
-
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -103,25 +109,23 @@ class _Details_viewState extends State<Details_view> {
                             children: providerimg,
                           ),
                         ]),
-                  )
+                  ),
+                  SizedBox(
+                    width:30
+                  ),
                 ],
               ),
-              Text(details["release_date"].toString()),
               Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  color: Color.fromRGBO(68, 68, 68, 1),
-                ),
                 padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.only(
-                    left: 20, right: 20, top: 5, bottom: 5),
-                child: Text(genres,
+                    child: Text(genres,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(238, 238, 238, 1),
                     )),
               ),
-              Text(details["overview"]),
+              Container(
+                padding: const EdgeInsets.only(bottom: 15,left: 20, right: 20),
+                child:Text(details["overview"],style:TextStyle(fontSize: 16))),
             ],
           ),
         ),
