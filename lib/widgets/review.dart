@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ceenes_prototype/util/session.dart';
+import 'package:ceenes_prototype/widgets/review_overview.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,15 +36,6 @@ class _ReviewState extends State<Review> {
   LinkedHashMap<Map<String, dynamic>, int> sortedMap;
 
   bool isEnabled = true;
-
-  // ignore: missing_return
-  String getCorrectPosterpath(int id) {
-    for (int i = 0; i < _movies_dec.length; i++) {
-      if (_movies_dec[i]["id"] == id) {
-        return _movies_dec[i]["poster_path"];
-      }
-    }
-  }
 
 
 
@@ -199,9 +191,7 @@ class _ReviewState extends State<Review> {
     genres = genres.substring(0, genres.length - 2);
 
     return Material(
-        child: Stack(
-      children: [
-        Container(
+        child: Container(
           child: ExpandableTheme(
             data: const ExpandableThemeData(
               iconColor: Colors.blue,
@@ -318,61 +308,12 @@ class _ReviewState extends State<Review> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 50,)
                 ],
               ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                  Colors.black.withOpacity(0.8),
-                  Colors.transparent
-                ])),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Ergebnis",
-                    style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        shadows: [Shadow(color: Colors.black, blurRadius: 2)]),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => StartView()),
-                          (Route<dynamic> route) => false);
-                    },
-                    child: Text(
-                      "Zum Start",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    ));
+        ));
   }
 
   getNumberParts()async{
@@ -398,6 +339,29 @@ class _ReviewState extends State<Review> {
   }
 
 
+  Widget getShowAllButton(){
+    if (_numVotes != _sessionParts){
+      return SizedBox(height: 0, width: 0,);
+    }
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: FloatingActionButton.extended(
+        heroTag: "15",
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) {
+                return ReviewOverview(this.sortedMap, _movies_dec);
+              }));
+        },
+        label: Text(
+          "Alle Filme",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blueGrey,
+      ),
+    );
+  }
+
   bool firstCall = true;
   @override
   Widget build(BuildContext context) {
@@ -421,19 +385,7 @@ class _ReviewState extends State<Review> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: FloatingActionButton.extended(
-                        heroTag: "5",
-                        onPressed: () {},
-                        label: Text(
-                          "Alle Filme",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.blueGrey,
-                      ),
-                    ),
+                    getShowAllButton(),
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: FloatingActionButton.extended(
@@ -451,7 +403,65 @@ class _ReviewState extends State<Review> {
                     ),
                   ],
                 ),
-              )
+              ),
+
+              //Stack für header
+              Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.black.withOpacity(0.8),
+                            Colors.transparent
+                          ])),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => StartView()),
+                                    (Route<dynamic> route) => false);
+                          },
+                          child: Text(
+                            "Zum Start",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Ergebnis",
+                          style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              shadows: [Shadow(color: Colors.black, blurRadius: 2)]),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
+                              child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ));
@@ -461,61 +471,5 @@ class _ReviewState extends State<Review> {
 
 
 /*
-  Widget _getReviewView() {
-    if (sortedMap == null) {
-      return Center(
-          child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
-    }
-    return Column(
-      children: [
-        Container(
-          child: Text("Hier ist euer Ergebnis"),
-          color: Colors.transparent,
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: sortedMap.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Card(
-                  child: InkWell(
-                    onTap: () {
-                      //print("tapped");
-                    },
-                    child: Row(
-                      children: [
-                        Image.network(
-                          "http://image.tmdb.org/t/p/w92/" +
-                              getCorrectPosterpath(
-                                  sortedMap.entries.elementAt(index).key["id"]),
-                          height: 120,
-                        ),
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            sortedMap.entries.elementAt(index).key["title"],
-                            overflow: TextOverflow.clip,
-                          ),
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            sortedMap.entries
-                                .elementAt(index)
-                                .value
-                                .toString(), //voting
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
+
 */

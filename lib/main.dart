@@ -94,6 +94,7 @@ class _MyAppState extends State<MyApp> {
       );
     }
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       title: 'Flutter Demo',
       initialRoute: "/start",
@@ -118,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Material(
+
       child: Column(
         children: [
           Container(

@@ -31,9 +31,9 @@ class _AdminLoginState extends State<AdminLogin> {
     return Material(
       child: Stack(
         children: [
-          Container(
+          Center(
             child: Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
+              padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -108,7 +108,31 @@ class _AdminLoginState extends State<AdminLogin> {
                 ],
               ),
             ),
-          )
+          ),
+          //Stack für header
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.8),
+                        Colors.transparent
+                      ])),
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
+                      child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

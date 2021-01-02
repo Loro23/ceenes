@@ -23,61 +23,88 @@ class _StartViewState extends State<StartView> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 50, right: 50, top: 30),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: Text(
-                  "Wähle aus, ob du eine Gruppe erstellen oder an einer teilnehmen willst.",
-                  style: TextStyle(fontSize: 35),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 50, right: 50),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    "Wähle aus, ob du eine Gruppe erstellen oder an einer teilnehmen willst.",
+                    style: TextStyle(fontSize: 35),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: SizedBox(
-                  width: 250,
-                  height: 80,
-                  child: Hero(
-                    tag: "2",
-                    child: RaisedButton(
-                      child: Text(
-                        "Erstellen",
-                        style: TextStyle(fontSize: 30, color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: SizedBox(
+                    width: 250,
+                    height: 80,
+                    child: Hero(
+                      tag: "2",
+                      child: RaisedButton(
+                        child: Text(
+                          "Erstellen",
+                          style: TextStyle(fontSize: 30, color: Colors.white),
+                        ),
+                        color: Colors.blue,
+                        onPressed: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext context) {
+                            return Create_View();
+                          }));
+                        },
                       ),
-                      color: Colors.blue,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return Create_View();
-                        }));
-                      },
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 250,
-                height: 80,
-                child: RaisedButton(
-                  color: Colors.pinkAccent,
-                  child: Text(
-                    "Teilnehmen",
-                    style: TextStyle(fontSize: 30, color: Colors.white),
+                SizedBox(
+                  width: 250,
+                  height: 80,
+                  child: RaisedButton(
+                    color: Colors.pinkAccent,
+                    child: Text(
+                      "Teilnehmen",
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) {
+                            return Login_view();
+                          }));
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return Login_view();
-                    }));
-                  },
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
+          //Stack für header
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.8),
+                        Colors.transparent
+                      ])),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
+                    child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
