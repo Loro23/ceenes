@@ -63,18 +63,21 @@ class _StartViewState extends State<StartView> {
                 SizedBox(
                   width: 250,
                   height: 80,
-                  child: RaisedButton(
-                    color: Colors.pinkAccent,
-                    child: Text(
-                      "Teilnehmen",
-                      style: TextStyle(fontSize: 30, color: Colors.white),
+                  child: Hero(
+                    tag: "14",
+                    child: RaisedButton(
+                      color: Colors.pinkAccent,
+                      child: Text(
+                        "Teilnehmen",
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                              return Login_view();
+                            }));
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                            return Login_view();
-                          }));
-                    },
                   ),
                 )
               ],

@@ -23,12 +23,46 @@ List<String> optionsGenre2 = [
 List<String> optionsProvider2 = [
   'Netflix',
   "Amazon Prime Video",
-  "Joyn",
+  "Joyn Plus",
   "Disney Plus",
   "Sky Ticket",
+  "Sky Go"
 ];
 
+/*
+provider ids
+https://api.themoviedb.org/3/discover/movie?api_key=###&with_ott_providers=8&ott_region=CA
+*/
+
 List<String> optionsPart = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+List<String> getProviderIds(List<String> provider){
+  print("in : " + provider.toString());
+  List<String> providerIds = [];
+  for (String prov in provider){
+    switch(prov){
+      case ("Netflix"):
+        providerIds.add("8");
+        break;
+      case("Amazon Prime Video"):
+        providerIds.add("9");
+        break;
+      case("Sky Ticket"):
+        providerIds.add("30");
+        break;
+      case("Sky Go"):
+        providerIds.add("29");
+        break;
+      case("Joyn Plus"):
+        providerIds.add("421");
+        break;
+      case("Disney Plus"):
+        providerIds.add("337");
+    }
+
+  }
+  return providerIds;
+}
 
 List<String> getGenreIds(List<String> genres) {
   List<String> genreIds = [];

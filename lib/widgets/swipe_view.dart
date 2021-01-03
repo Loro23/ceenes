@@ -6,6 +6,7 @@ import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
 import 'package:ceenes_prototype/widgets/review.dart';
+import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -37,6 +38,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
   int counter = 0;
   CardController controller;
 
+  int currentIndex;
+
   String getGenres(int index) {
     String genres = "";
     for (Map genre in movies_dec[index]["genres"]) {
@@ -62,7 +65,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(children:[Details_view(moviedetails)]);
+          return Wrap(children:[Details_view(moviedetails, currentIndex)]);
         });
   }
 
@@ -99,7 +102,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
                     maxHeight: MediaQuery.of(context).size.height * 0.9,
                     minWidth: MediaQuery.of(context).size.width * 0.8,
                     minHeight: MediaQuery.of(context).size.height * 0.8,
-                    cardBuilder: (context, index) => Card(
+                    cardBuilder: (context, index) {
+                      currentIndex = index;
+                      return Card(
                         color: Color.fromRGBO(37, 37, 37, 1),
                         child: SingleChildScrollView(
                           child: Column(
@@ -107,12 +112,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
                               Container(
                                 padding: const EdgeInsets.all(14),
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
                                       "http://image.tmdb.org/t/p/w500/" +
                                           movies_dec[index]["poster_path"],
                                       height: 350,
-                                    )),
+                                    ),
+                                ),
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -218,7 +224,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                               ),
                             ],
                           ),
-                        )),
+                        ));
+                    },
                     cardController: controller,
                     swipeCompleteCallback:
                         (CardSwipeOrientation orientation, int index) async {
@@ -321,8 +328,48 @@ class _Swipe_ViewState extends State<Swipe_View> {
                           Colors.transparent
                         ])),
                 child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: Icon(Icons.cancel),
+                        onPressed: (){
+                          showDialog(context: context,
+                          builder: (c) => AlertDialog(
+                            //title: Text('Warning'),
+                            content: Text('Willst du wirklich abbrechen? Deine bisherigen Entscheidungen gehen verloren'),
+                            actions: [
+                              FlatButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Ja, abbrechen', style: TextStyle(
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w600
+                                  ),),
+                                ),
+                                onPressed: () => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) => StartView()),
+                                        (Route<dynamic> route) => false),
+                                color: Colors.amberAccent,
+                              ),
+                              FlatButton(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('Zurück',style: TextStyle(fontWeight: FontWeight.w600),),
+                                ),
+                                onPressed: () => Navigator.pop(c, false),
+                                color: Colors.black54,
+                              ),
+                            ],
+                          ));
+                        },
+                        splashRadius: 20,
+                      ),
+
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
                         child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)

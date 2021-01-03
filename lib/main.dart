@@ -97,10 +97,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       title: 'Flutter Demo',
-      initialRoute: "/start",
-      routes: {
-        "/start": (context) => StartView(),
-      },
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -118,16 +114,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-
-      child: Column(
-        children: [
-          Container(
-            child: Text("Ceenes"),
-          ),
-          StartView(),
-        ],
-      ),
-    );
+    return StartView();
   }
 }

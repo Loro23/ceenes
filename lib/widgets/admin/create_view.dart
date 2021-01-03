@@ -53,6 +53,9 @@ class Create_ViewState extends State<Create_View>
   final formKey = GlobalKey<FormState>();
   List<String> formValue = [];
 
+  final formKey2 = GlobalKey<FormState>();
+  List<String> formValue2 = [];
+
   bool _isDisabled = false;
 
   void createRecord() async {
@@ -138,7 +141,7 @@ class Create_ViewState extends State<Create_View>
                         tooltip: (i, v) => v,
                       ),
                       choiceActiveStyle: C2ChoiceStyle(
-                          color: Colors.blueAccent,
+                          color: Colors.yellow[400],
                           borderWidth: 2,
                           labelStyle: TextStyle(fontSize: 25),
                           borderOpacity: 0.5),
@@ -151,7 +154,7 @@ class Create_ViewState extends State<Create_View>
                   ),
                   PageViewModel(
                     titleWidget: Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
+                      padding: const EdgeInsets.only(left: 25, right: 25, top: 15),
                       child: Text(
                         "Streaming-Anbieter",
                         style: TextStyle(
@@ -161,28 +164,81 @@ class Create_ViewState extends State<Create_View>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    bodyWidget: ChipsChoice<String>.multiple(
-                      value: valueProvider2,
-                      onChanged: (val) => setState(() {
-                        valueProvider2 = val;
-                        //print(valueProvider2);
-                      }),
-                      choiceItems: C2Choice.listFrom<String, String>(
-                        source: optionsProvider2,
-                        value: (i, v) => v,
-                        label: (i, v) => v,
-                        tooltip: (i, v) => v,
+                    bodyWidget: Form(
+                      key: formKey2,
+                      child: Column(
+                        children: [
+                          FormField<List<String>>(
+                            autovalidate: true,
+                            initialValue: formValue2,
+                            onSaved: (val) => setState(() => formValue2 = val),
+                            validator: (List value) {
+                              if (value.isEmpty) {
+                                //print("mindestens 3 oder keins wählen");
+                                return "Wähle mindestens einen Anbieter aus.";
+                              }
+                              return null;
+                            },
+                            builder: (state) {
+                              return Column(
+                                children: [
+                                  ChipsChoice<String>.multiple(
+                                    value: state.value,
+                                    onChanged: (val) {
+                                      state.didChange(val);
+                                      if (formKey2.currentState.validate()) {
+                                        // If the form is valid, save the value.
+                                        formKey2.currentState.save();
+                                        valueProvider2 = val;
+                                        print(valueProvider2);
+                                        setState(() {
+                                          _isDisabled = false;
+                                        });
+                                        _controller.reverse();
+                                      } else {
+                                        _controller.forward();
+                                        setState(() {
+                                          _isDisabled = true;
+                                        });
+                                      }
+                                    },
+                                    choiceItems: C2Choice.listFrom<String, String>(
+                                      source: optionsProvider2,
+                                      value: (i, v) => v,
+                                      label: (i, v) => v,
+                                      tooltip: (i, v) => v,
+                                    ),
+                                    choiceActiveStyle: C2ChoiceStyle(
+                                        color: Colors.lightBlueAccent,
+                                        borderWidth: 2,
+                                        labelStyle: TextStyle(fontSize: 18),
+                                        borderOpacity: 0.5),
+                                    choiceStyle: C2ChoiceStyle(
+                                        color: Colors.white.withOpacity(0.8),
+                                        labelStyle: TextStyle(fontSize: 18)),
+                                    wrapped: true,
+                                    alignment: WrapAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                  ),
+                                  // Divider(color: Colors.white.withOpacity(0.5),thickness: 1,),
+                                  Container(
+                                      padding:
+                                      const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        state.errorText ?? "",
+                                        style: TextStyle(
+                                            color: state.hasError
+                                                ? Color.fromRGBO(207, 102, 121, 1)
+                                                : null,
+                                            fontSize: 18),
+                                      )),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                      choiceActiveStyle: C2ChoiceStyle(
-                          color: Colors.blueAccent,
-                          borderWidth: 2,
-                          labelStyle: TextStyle(fontSize: 25),
-                          borderOpacity: 0.5),
-                      choiceStyle: C2ChoiceStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          labelStyle: TextStyle(fontSize: 25)),
-                      wrapped: true,
-                      alignment: WrapAlignment.center,
                     ),
                   ),
                   PageViewModel(
@@ -206,7 +262,7 @@ class Create_ViewState extends State<Create_View>
                             initialValue: formValue,
                             onSaved: (val) => setState(() => formValue = val),
                             validator: (List value) {
-                              if (value.length == 1 || value.length == 2) {
+                              if (false) {
                                 //print("mindestens 3 oder keins wählen");
                                 return "Du kannst entweder keins oder mindestens 3 Genres auswählen";
                               }
@@ -321,10 +377,11 @@ class Create_ViewState extends State<Create_View>
                               );
                             },
                           );
+                          print("in create: " + valueProvider2.toString());
                           this.session = new Session(
                               valuePart, getGenreIds(valueGenre), valueProvider2);
 
-                          await MovieHandler.getMovies(this.session, this)
+                          await MovieHandler.getMoviesNew(this.session)
                               .then((movies) {
                                 this.movies = json.encode(
                                     movies); //movie result als json string erstellen
@@ -363,8 +420,19 @@ class Create_ViewState extends State<Create_View>
                         Colors.transparent
                       ])),
               child:  Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      splashRadius: 20,
+                    ),
+
+                  ),
                   Padding(
                       padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
                       child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)

@@ -77,19 +77,8 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FloatingActionButton.extended(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    label: Text(
-                      "Zurück",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    backgroundColor: Colors.grey[700],
-                    heroTag: "1",
-                  ),
                   FloatingActionButton.extended(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -123,8 +112,19 @@ class _AdminLoginState extends State<AdminLogin> {
                         Colors.transparent
                       ])),
               child:  Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      splashRadius: 20,
+                    ),
+
+                  ),
                   Padding(
                       padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
                       child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)

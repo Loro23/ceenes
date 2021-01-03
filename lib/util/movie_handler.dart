@@ -1,95 +1,53 @@
+import 'dart:convert';
+
+import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'dart:math';
 import 'api.dart';
 import 'movie.dart';
+import 'package:http/http.dart' as http;
 
 class MovieHandler {
-  static Future<List> getMovies(Session session, Create_ViewState state) async {
-    List movies = [];
-    List moviesWithProviders = [];
-    int v = 1;
-    //print(session.provider);
-    bool noProvider = false;
 
-    List<int> pagesused = [];
+  static String _createRequestMoviesByProvider(Session session, String providerId){
+    print(session.connectGenres());
+    String request = "https://api.themoviedb.org/3/discover/movie?api_key=" + apiKey
+        + "&with_ott_providers=" + providerId
+        + "&with_genres=" + session.connectGenres()
+        + "&ott_region=DE"
+    ;
+    return request;
+  }
 
-    int getrandomnumbers() {
-      while (true) {
-        int x = Random().nextInt(150);
-        if (!pagesused.contains(x)) {
-          pagesused.add(x);
-          return x;
-        }
-      }
+  static Future<List> getMoviesNew(Session session) async{
+    List moviesNeu = [];
+
+    List moviesDetails = [];
+
+    List<String> provider = getProviderIds(session.provider);
+    print(provider);
+
+    for (String prov in provider){ //converts the providers names into their ids
+      final response = await http.get(_createRequestMoviesByProvider(session, prov));
+      moviesNeu.addAll(jsonDecode(response.body)["results"]); //füge die filme der egsamtasuwahl für diese Session
     }
 
-    while (moviesWithProviders.length < 15) {
-      movies = [];
+    List<int> usedIndex = [];
+    while (moviesDetails.length < 15) {
 
-      await tmdb.v3.discover
-          .getMovies(
-        page: getrandomnumbers(),
-        language: 'de',
-        withGenres: session.connectGenres(),
-        includeAdult: false,
-      )
-          .then((result) async {
-        List tempMovies = result.values.toList()[1];
+      int index = Random().nextInt(moviesNeu.length);
 
-        // print(tempMovies);
-        for (Map x in tempMovies) {
-          await tmdb.v3.movies.getDetails(x["id"]).then((_result) {
-            movies.add(_result);
-            //print(result["title"]);
-          });
+      await tmdb.v3.movies.getDetails(moviesNeu[index]["id"],appendToResponse: "watch/providers", language: "de-DE").then((_result) {
+        if (!usedIndex.contains(index)) {
+          usedIndex.add(index);
+          moviesDetails.add(_result);
+          print(_result["title"]);
         }
-
-        if (session.provider.isNotEmpty) {
-          for (int i = 0; i < movies.length; i++) {
-            if (moviesWithProviders.length == 15) {
-              return moviesWithProviders;
-            }
-            await tmdb.v3.movies
-                .getDetails(movies[i]["id"],
-                    appendToResponse: "watch/providers", language: "de-DE")
-                .then((result) {
-              try {
-                List _res =
-                    result["watch/providers"]["results"]["DE"]["flatrate"];
-                if (_res != null) {
-                  List<String> providersForThisMovie = [];
-                  for (int j = 0; j < _res.length; j++) {
-                    providersForThisMovie.add(_res[j]["provider_name"]);
-                  }
-
-                  for (String provider in providersForThisMovie) {
-                    if (session.provider.contains(provider)) {
-                      //print(result["title"]);
-                      moviesWithProviders.add(result);
-                      break;
-                    }
-                  }
-                }
-              } catch (e) {}
-            });
-          }
-        }
-      }).whenComplete(() {
-        v += 1;
       });
-      if (session.provider.isEmpty) {
-        noProvider = true;
-        for (Map x in movies) {
-          //print(x["title"]);
-        }
-        break;
-      }
     }
 
-    if (noProvider) {
-      return movies;
-    }
-    return moviesWithProviders;
+    print(moviesDetails.length);
+    return moviesDetails;
   }
 }

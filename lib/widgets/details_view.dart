@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 Map details;
+int _counter;
 
 class Details_view extends StatefulWidget {
-  Details_view(Map _details) {
+  Details_view(Map _details, int counter) {
     details = _details;
+    _counter = counter;
   }
 
   @override
@@ -16,7 +18,6 @@ class _Details_viewState extends State<Details_view> {
   String genres = "";
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     for (Map x in details["watch/providers"]["results"]["DE"]["flatrate"]) {
       providerimg.add(Container(

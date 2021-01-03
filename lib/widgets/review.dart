@@ -424,7 +424,7 @@ class _ReviewState extends State<Review> {
 
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextButton(
+                        child: IconButton(
                           onPressed: () {
                             Navigator.pushAndRemoveUntil(
                                 context,
@@ -432,21 +432,8 @@ class _ReviewState extends State<Review> {
                                     builder: (BuildContext context) => StartView()),
                                     (Route<dynamic> route) => false);
                           },
-                          child: Text(
-                            "Zum Start",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Ergebnis",
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                              shadows: [Shadow(color: Colors.black, blurRadius: 2)]),
+                          icon: Icon(Icons.home),
+                          splashRadius: 20,
                         ),
                       ),
                       Row(
