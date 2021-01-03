@@ -36,7 +36,7 @@ class _Login_viewState extends State<Login_view> {
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
-      border: Border.all(color: Colors.pinkAccent),
+      border: Border.all(color: Colors.yellow),
       borderRadius: BorderRadius.circular(5.0),
     );
   }
@@ -78,7 +78,7 @@ class _Login_viewState extends State<Login_view> {
                           //color: Colors.black12,
                           borderRadius: BorderRadius.circular(5.0),
                           border: Border.all(
-                            color: Colors.blue[900],
+                            color: Colors.white70,
                           ),
                         ),
                       ),
@@ -127,18 +127,18 @@ class _Login_viewState extends State<Login_view> {
                           showDialog(
                             child: Dialog(
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(Icons.error_outline,
-                                        color: Colors.red),
+                                        color: Colors.red, size: 40,),
                                   ),
                                   Expanded(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: new Text(
-                                          "Die Session existiert nicht. Überprüfe deine Eingabe",
+                                          "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
+                                          style: TextStyle(fontSize: 18,),
                                           overflow: TextOverflow.clip),
                                     ),
                                   ),
@@ -159,7 +159,7 @@ class _Login_viewState extends State<Login_view> {
                       });
                     },
                     child: Text("Start"),
-                    backgroundColor: Colors.pinkAccent,
+                    backgroundColor: Colors.yellow.withOpacity(0.95),
                     //label: Text("Start"),
                   ),
                 ),
@@ -206,6 +206,9 @@ class _Login_viewState extends State<Login_view> {
   }
 
   Future<bool> checkCorrect(String sessionId) async {
+    if (sessionId == null || sessionId == ""){
+      return false;
+    }
     final snapshot =
         await firestore.collection("sessions").document(sessionId).get();
     if (!snapshot.exists) {

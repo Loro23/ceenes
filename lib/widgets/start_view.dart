@@ -30,11 +30,12 @@ class _StartViewState extends State<StartView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset("assets/ceenes_logo_yellow4x.png", height: 150,),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: Text(
                     "Wähle aus, ob du eine Gruppe erstellen oder an einer teilnehmen willst.",
-                    style: TextStyle(fontSize: 35),
+                    style: TextStyle(fontSize: 28),
                   ),
                 ),
                 Padding(
@@ -47,9 +48,9 @@ class _StartViewState extends State<StartView> {
                       child: RaisedButton(
                         child: Text(
                           "Erstellen",
-                          style: TextStyle(fontSize: 30, color: Colors.white),
+                          style: TextStyle(fontSize: 30, color: Colors.black54, fontWeight: FontWeight.w600),
                         ),
-                        color: Colors.blue,
+                        color: Colors.yellow.withOpacity(0.95),
                         onPressed: () {
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext context) {
@@ -66,7 +67,7 @@ class _StartViewState extends State<StartView> {
                   child: Hero(
                     tag: "14",
                     child: RaisedButton(
-                      color: Colors.pinkAccent,
+                      color: Colors.grey[700],
                       child: Text(
                         "Teilnehmen",
                         style: TextStyle(fontSize: 30, color: Colors.white),
@@ -107,6 +108,7 @@ class _StartViewState extends State<StartView> {
               ),
             ),
           ),
+
         ],
       ),
     );

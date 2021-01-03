@@ -298,16 +298,6 @@ class _ReviewState extends State<Review> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(genres),
                   )),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Erschienen am " +
-                            sortedMap.keys.toList()[0]["release_date"],
-                        //style: TextStyle(fontSize: 40),
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 50,)
                 ],
               ),

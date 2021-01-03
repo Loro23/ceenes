@@ -209,7 +209,7 @@ class Create_ViewState extends State<Create_View>
                                       tooltip: (i, v) => v,
                                     ),
                                     choiceActiveStyle: C2ChoiceStyle(
-                                        color: Colors.lightBlueAccent,
+                                        color: Colors.yellow[400],
                                         borderWidth: 2,
                                         labelStyle: TextStyle(fontSize: 18),
                                         borderOpacity: 0.5),
@@ -224,7 +224,7 @@ class Create_ViewState extends State<Create_View>
                                   Container(
                                       padding:
                                       const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                                      alignment: Alignment.centerLeft,
+                                      alignment: Alignment.center,
                                       child: Text(
                                         state.errorText ?? "",
                                         style: TextStyle(
@@ -297,7 +297,7 @@ class Create_ViewState extends State<Create_View>
                                       tooltip: (i, v) => v,
                                     ),
                                     choiceActiveStyle: C2ChoiceStyle(
-                                        color: Colors.lightBlueAccent,
+                                        color: Colors.yellow[400],
                                         borderWidth: 2,
                                         labelStyle: TextStyle(fontSize: 18),
                                         borderOpacity: 0.5),
@@ -340,13 +340,16 @@ class Create_ViewState extends State<Create_View>
                 skip: const Text('Skip'),
                 next: FloatingActionButton.extended(
                   heroTag: "2",
-                  label: Icon(Icons.arrow_forward),
+                  label: Icon(Icons.arrow_forward, color: Colors.yellow)
+                  ,
+                  backgroundColor: Colors.grey,
                 ),
                 done: FloatingActionButton.extended(
+                  backgroundColor: Colors.yellow.withOpacity(0.95),
                   heroTag: "2",
                   label: Text(
                     "Weiter",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black54),
                   ),
                   onPressed: _isDisabled
                       ? null
@@ -395,11 +398,11 @@ class Create_ViewState extends State<Create_View>
                                 }));
                               });
                         },
-                  backgroundColor: animation.value,
                 ),
                 dotsDecorator: const DotsDecorator(
+                  activeColor: Colors.yellow,
                   size: Size(10.0, 10.0),
-                  color: Color(0xFFBDBDBD),
+                  color: Colors.grey,
                   activeSize: Size(22.0, 10.0),
                   activeShape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -435,7 +438,7 @@ class Create_ViewState extends State<Create_View>
                   ),
                   Padding(
                       padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                      child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
+                      child: Hero(child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,), tag: 44,)
                   ),
                 ],
               ),
