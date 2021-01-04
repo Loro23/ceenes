@@ -65,7 +65,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(children: [Details_view(moviedetails, currentIndex)]);
+          return Wrap(children: [Details_view(moviedetails)]);
         });
   }
 

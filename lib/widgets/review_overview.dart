@@ -69,6 +69,7 @@ class _ReviewOverviewState extends State<ReviewOverview> {
           child: Text("Warte, bis deine Freunde fertig geswiped haben!"));
     }
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           child: Text("Hier ist euer Ergebnis"),

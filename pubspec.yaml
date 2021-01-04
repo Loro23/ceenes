@@ -25,6 +25,9 @@ dependencies:
   circular_reveal_animation: ^1.1.5
   expandable: ^4.1.4
   http:
+  clipboard: ^0.1.2+8
+  share: ^0.6.5+4
+
 
 
 

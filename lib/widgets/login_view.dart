@@ -55,6 +55,7 @@ class _Login_viewState extends State<Login_view> {
                   //color: Colors.blue,
                   child: Column(
                     children: [
+                      Image.asset("assets/giphy_tired.gif", height: 200,),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30),
                         child: Text(
