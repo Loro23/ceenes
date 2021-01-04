@@ -65,7 +65,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(children:[Details_view(moviedetails, currentIndex)]);
+          return Wrap(children: [Details_view(moviedetails, currentIndex)]);
         });
   }
 
@@ -105,126 +105,136 @@ class _Swipe_ViewState extends State<Swipe_View> {
                     cardBuilder: (context, index) {
                       currentIndex = index;
                       return Card(
-                        color: Color.fromRGBO(37, 37, 37, 1),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(14),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
+                          color: Color.fromRGBO(37, 37, 37, 1),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(14),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.network(
                                       "http://image.tmdb.org/t/p/w500/" +
                                           movies_dec[index]["poster_path"],
                                       height: 350,
                                     ),
+                                  ),
                                 ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                        padding: const EdgeInsets.only(
-                                            top: 5,
-                                            left: 20,
-                                            right: 20,
-                                            bottom: 5),
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(movies_dec[index]["title"],
-                                            overflow: TextOverflow.clip,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18,
-                                              color: Color.fromRGBO(
-                                                  238, 238, 238, 1),
-                                            ))),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 20, top: 5, bottom: 5),
-                                    child: IconButton(
-                                      iconSize: 30,
-                                      icon: Icon(Icons.info),
-                                      tooltip: 'mehr Details',
-                                      onPressed: () {
-                                        showDetails(context, movies_dec[index]);
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                  alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.only(
-                                      left: 20, top: 5, bottom: 5, right: 20),
-                                  child: Text(
-                                    movies_dec[index]["overview"],
-                                    overflow: TextOverflow.visible,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(238, 238, 238, 1),
-                                    ),
-                                  )),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Column(
+                                Row(
                                   mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(5)),
-                                        color: Color.fromRGBO(68, 68, 68, 1),
-                                      ),
-                                      padding: const EdgeInsets.all(10),
-                                      margin: const EdgeInsets.only(
-                                          left: 20, right: 20, top: 5, bottom: 5),
-                                      child: Text(getGenres(index),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color:
-                                                Color.fromRGBO(238, 238, 238, 1),
-                                          )),
+                                    Expanded(
+                                      child: Container(
+                                          padding: const EdgeInsets.only(
+                                              top: 5,
+                                              left: 20,
+                                              right: 20,
+                                              bottom: 5),
+                                          alignment: Alignment.centerLeft,
+                                          child:
+                                              Text(movies_dec[index]["title"],
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Color.fromRGBO(
+                                                        238, 238, 238, 1),
+                                                  ))),
                                     ),
                                     Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(5)),
-                                        color: Color.fromRGBO(68, 68, 68, 1),
-                                      ),
                                       margin: const EdgeInsets.only(
-                                          left: 20, right: 20, top: 5, bottom: 5),
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                              movies_dec[index]["vote_average"]
-                                                      .toString() +
-                                                  "/10",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromRGBO(
-                                                    238, 238, 238, 1),
-                                              )),
-                                          Icon(
-                                            Icons.star,
-                                            color: Colors.yellow[300],
-                                            size: 15.0,
-                                            semanticLabel:
-                                                'Text to announce in accessibility modes',
-                                          ),
-                                        ],
+                                          right: 20, top: 5, bottom: 5),
+                                      child: IconButton(
+                                        iconSize: 30,
+                                        icon: Icon(Icons.info),
+                                        tooltip: 'mehr Details',
+                                        onPressed: () {
+                                          showDetails(
+                                              context, movies_dec[index]);
+                                        },
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ));
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    padding: const EdgeInsets.only(
+                                        left: 20, top: 5, bottom: 5, right: 20),
+                                    child: Text(
+                                      movies_dec[index]["overview"],
+                                      overflow: TextOverflow.visible,
+                                      maxLines: 3,
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(238, 238, 238, 1),
+                                      ),
+                                    )),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Color.fromRGBO(68, 68, 68, 1),
+                                        ),
+                                        padding: const EdgeInsets.all(10),
+                                        margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 5,
+                                            bottom: 5),
+                                        child: Text(getGenres(index),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromRGBO(
+                                                  238, 238, 238, 1),
+                                            )),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Color.fromRGBO(68, 68, 68, 1),
+                                        ),
+                                        margin: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 5,
+                                            bottom: 5),
+                                        padding: const EdgeInsets.all(10),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                                movies_dec[index]
+                                                            ["vote_average"]
+                                                        .toString() +
+                                                    "/10",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromRGBO(
+                                                      238, 238, 238, 1),
+                                                )),
+                                            Icon(
+                                              Icons.star,
+                                              color: Colors.yellow[300],
+                                              size: 15.0,
+                                              semanticLabel:
+                                                  'Text to announce in accessibility modes',
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
                     },
                     cardController: controller,
                     swipeCompleteCallback:
@@ -271,8 +281,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                           },
                         );
                         await uploadRanking(movies_rating).whenComplete(() {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
                             return Review(_sessionId, movies_dec);
                           }));
                         });
@@ -324,56 +334,71 @@ class _Swipe_ViewState extends State<Swipe_View> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.8),
-                          Colors.transparent
-                        ])),
-                child:  Row(
+                      Colors.black.withOpacity(0.8),
+                      Colors.transparent
+                    ])),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: IconButton(
                         icon: Icon(Icons.cancel),
-                        onPressed: (){
-                          showDialog(context: context,
-                          builder: (c) => AlertDialog(
-                            //title: Text('Warning'),
-                            content: Text('Willst du wirklich abbrechen? Deine bisherigen Entscheidungen gehen verloren'),
-                            actions: [
-                              FlatButton(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Ja, abbrechen', style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w600
-                                  ),),
-                                ),
-                                onPressed: () => Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) => StartView()),
-                                        (Route<dynamic> route) => false),
-                                color: Colors.amberAccent,
-                              ),
-                              FlatButton(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text('Zurück',style: TextStyle(fontWeight: FontWeight.w600),),
-                                ),
-                                onPressed: () => Navigator.pop(c, false),
-                                color: Colors.black54,
-                              ),
-                            ],
-                          ));
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (c) => AlertDialog(
+                                    //title: Text('Warning'),
+                                    content: Text(
+                                        'Willst du wirklich abbrechen? Deine bisherigen Entscheidungen gehen verloren'),
+                                    actions: [
+                                      FlatButton(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Ja, abbrechen',
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        StartView()),
+                                                (Route<dynamic> route) =>
+                                                    false),
+                                        color: Colors.amberAccent,
+                                      ),
+                                      FlatButton(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Zurück',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.pop(c, false),
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                  ));
                         },
                         splashRadius: 20,
                       ),
-
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                        child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
-                    ),
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 8, bottom: 8, right: 12),
+                        child: Image.asset(
+                          "assets/ceenes_logo_yellow4x.png",
+                          height: 40,
+                        )),
                   ],
                 ),
               ),

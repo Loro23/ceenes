@@ -9,7 +9,7 @@ class Session {
   List<String> provider;
 
   Session(String numPats, List<String> genres, List<String> provider) {
-    print("ins session:" +provider.toString());
+    print("ins session:" + provider.toString());
     this.numPats = int.parse(numPats);
     this.genres = genres;
 

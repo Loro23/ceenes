@@ -30,7 +30,10 @@ class _StartViewState extends State<StartView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("assets/ceenes_logo_yellow4x.png", height: 150,),
+                Image.asset(
+                  "assets/ceenes_logo_yellow4x.png",
+                  height: 150,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
                   child: Text(
@@ -48,12 +51,15 @@ class _StartViewState extends State<StartView> {
                       child: RaisedButton(
                         child: Text(
                           "Erstellen",
-                          style: TextStyle(fontSize: 30, color: Colors.black54, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600),
                         ),
                         color: Colors.yellow.withOpacity(0.95),
                         onPressed: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(builder: (BuildContext context) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (BuildContext context) {
                             return Create_View();
                           }));
                         },
@@ -75,8 +81,8 @@ class _StartViewState extends State<StartView> {
                       onPressed: () {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
-                              return Login_view();
-                            }));
+                          return Login_view();
+                        }));
                       },
                     ),
                   ),
@@ -86,7 +92,7 @@ class _StartViewState extends State<StartView> {
           ),
           //Stack für header
           Align(
-            alignment: Alignment.topLeft,
+            alignment: Alignment.topCenter,
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
@@ -94,21 +100,23 @@ class _StartViewState extends State<StartView> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.8),
-                        Colors.transparent
-                      ])),
+                    Colors.black.withOpacity(0.8),
+                    Colors.transparent
+                  ])),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                    child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
-                  ),
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 8, bottom: 8, right: 12),
+                      child: Image.asset(
+                        "assets/ceenes_logo_yellow4x.png",
+                        height: 40,
+                      )),
                 ],
               ),
             ),
           ),
-
         ],
       ),
     );

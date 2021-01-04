@@ -51,7 +51,11 @@ class _Details_viewState extends State<Details_view> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.only(top:8, right:8, left:20, ),
+                    padding: const EdgeInsets.only(
+                      top: 8,
+                      right: 8,
+                      left: 20,
+                    ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.network(
@@ -77,17 +81,27 @@ class _Details_viewState extends State<Details_view> {
                                     color: Color.fromRGBO(238, 238, 238, 1),
                                   ),
                                   children: <TextSpan>[
-                                    TextSpan(text: "("+details["release_date"].toString().substring(0,4)+ ")", style: TextStyle( color: Color.fromRGBO(202, 202, 202, 0.9) )),
+                                    TextSpan(
+                                        text: "(" +
+                                            details["release_date"]
+                                                .toString()
+                                                .substring(0, 4) +
+                                            ")",
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                202, 202, 202, 0.9))),
                                   ],
                                 ),
-                              )), 
+                              )),
                           Card(
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(details["vote_average"].toString() + "/10",
+                                  child: Text(
+                                      details["vote_average"].toString() +
+                                          "/10",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Color.fromRGBO(238, 238, 238, 1),
@@ -99,8 +113,7 @@ class _Details_viewState extends State<Details_view> {
                                     Icons.star,
                                     color: Colors.yellow[300],
                                     size: 15.0,
-                                    semanticLabel:
-                                        'Star with rating',
+                                    semanticLabel: 'Star with rating',
                                   ),
                                 ),
                               ],
@@ -111,22 +124,22 @@ class _Details_viewState extends State<Details_view> {
                           ),
                         ]),
                   ),
-                  SizedBox(
-                    width:30
-                  ),
+                  SizedBox(width: 30),
                 ],
               ),
               Container(
                 padding: const EdgeInsets.all(10),
-                    child: Text(genres,
+                child: Text(genres,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(238, 238, 238, 1),
                     )),
               ),
               Container(
-                padding: const EdgeInsets.only(bottom: 15,left: 20, right: 20),
-                child:Text(details["overview"],style:TextStyle(fontSize: 16))),
+                  padding:
+                      const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+                  child: Text(details["overview"],
+                      style: TextStyle(fontSize: 16))),
             ],
           ),
         ),

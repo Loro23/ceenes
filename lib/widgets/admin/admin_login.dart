@@ -108,27 +108,29 @@ class _AdminLoginState extends State<AdminLogin> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.8),
-                        Colors.transparent
-                      ])),
-              child:  Row(
+                    Colors.black.withOpacity(0.8),
+                    Colors.transparent
+                  ])),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(Icons.arrow_back),
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
                       },
                       splashRadius: 20,
                     ),
-
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                      child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
-                  ),
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 8, bottom: 8, right: 12),
+                      child: Image.asset(
+                        "assets/ceenes_logo_yellow4x.png",
+                        height: 40,
+                      )),
                 ],
               ),
             ),

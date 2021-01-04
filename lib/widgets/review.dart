@@ -37,52 +37,49 @@ class _ReviewState extends State<Review> {
 
   bool isEnabled = true;
 
-
-
   getNumberVotes() async {
-
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
-          print(snapshot.documents);
-          setState(() {
-
-            this._numVotes = snapshot.documents.length - 1;
-          });
+      print(snapshot.documents);
+      setState(() {
+        this._numVotes = snapshot.documents.length - 1;
+      });
     });
-
   }
 
   int _numVotes = 0;
   int _sessionParts = 0;
   getRating() async {
-      showDialog(
-        barrierDismissible: false,
-        child: Dialog(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height*0.2,
-            width: MediaQuery.of(context).size.width*0.9,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new CircularProgressIndicator(),
+    showDialog(
+      barrierDismissible: false,
+      child: Dialog(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.2,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new CircularProgressIndicator(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new Text(
+                  "Lade Ergebnisse...",
+                  style: TextStyle(fontSize: 25),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new Text("Lade Ergebnisse...", style: TextStyle(fontSize: 25),),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        context: context,
-      );
-
+      ),
+      context: context,
+    );
 
     setState(() {
       rating = [];
@@ -112,9 +109,6 @@ class _ReviewState extends State<Review> {
         snapshotWithoutDummy.add(rate);
       }
 
-
-
-
       //print('rating berechnen');
       for (List rate in snapshotWithoutDummy) {
         for (int j = 0; j < rate.length; j++) {
@@ -141,7 +135,6 @@ class _ReviewState extends State<Review> {
         sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
             key: (k) => k, value: (k) => mapping[k]);
       });
-
     });
 
     Timer(Duration(milliseconds: 1000), () {
@@ -155,7 +148,6 @@ class _ReviewState extends State<Review> {
   String genres = "";
 
   Widget getReviewView() {
-
     providerimg = [];
     genres = "";
 
@@ -163,19 +155,23 @@ class _ReviewState extends State<Review> {
     if (sortedMap == null || _numVotes != _sessionParts) {
       return Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Warte, bis deine Freunde fertig geswiped haben!"),
-              Text( _numVotes.toString() + " von " + _sessionParts.toString() + " sind fertig."),
-            ],
-          ));
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Warte, bis deine Freunde fertig geswiped haben!"),
+          Text(_numVotes.toString() +
+              " von " +
+              _sessionParts.toString() +
+              " sind fertig."),
+        ],
+      ));
     }
-
 
     for (Map x in sortedMap.keys.toList()[0]["watch/providers"]["results"]["DE"]
         ["flatrate"]) {
       providerimg.add(Padding(
-        padding: const EdgeInsets.only(right: 8,),
+        padding: const EdgeInsets.only(
+          right: 8,
+        ),
         child: Container(
           child: Image.network(
             "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
@@ -192,156 +188,157 @@ class _ReviewState extends State<Review> {
 
     return Material(
         child: Container(
-          child: ExpandableTheme(
-            data: const ExpandableThemeData(
-              iconColor: Colors.blue,
-              useInkWell: true,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxHeight: 400),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                              "http://image.tmdb.org/t/p/w500/" +
-                                  sortedMap.keys.toList()[0]["poster_path"]),
-                        ),
-                      ),
+      child: ExpandableTheme(
+        data: const ExpandableThemeData(
+          iconColor: Colors.blue,
+          useInkWell: true,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 400),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network("http://image.tmdb.org/t/p/w500/" +
+                          sortedMap.keys.toList()[0]["poster_path"]),
                     ),
                   ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        sortedMap.keys.toList()[0]["title"],
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w800),
-                        overflow: TextOverflow.clip,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 3, bottom: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 3),
-                            child: Text("In Flatrate enthalten bei"),
-                          ),
-                          Row(
-                            children: providerimg,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ExpandableNotifier(
-                    child: Card(
-                      clipBehavior: Clip.antiAlias,
-                      child: Column(
-                        children: [
-                          ScrollOnExpand(
-                            child: ExpandablePanel(
-                              theme: const ExpandableThemeData(
-                                headerAlignment:
-                                    ExpandablePanelHeaderAlignment.center,
-                                tapBodyToCollapse: true,
-                              ),
-                              collapsed: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  sortedMap.keys.toList()[0]["overview"],
-                                  softWrap: true,
-                                  textAlign: TextAlign.left,
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              expanded: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  sortedMap.keys.toList()[0]["overview"],
-                                  softWrap: true,
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                              tapHeaderToExpand: true,
-                              hasIcon: true,
-                              tapBodyToCollapse: true,
-                              header: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Überblick",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                            scrollOnExpand: true,
-                            scrollOnCollapse: false,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Card(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(genres),
-                  )),
-                  SizedBox(height: 50,)
-                ],
+                ),
               ),
-            ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    sortedMap.keys.toList()[0]["title"],
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 3, bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 3),
+                        child: Text("In Flatrate enthalten bei"),
+                      ),
+                      Row(
+                        children: providerimg,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              ExpandableNotifier(
+                child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      ScrollOnExpand(
+                        child: ExpandablePanel(
+                          theme: const ExpandableThemeData(
+                            headerAlignment:
+                                ExpandablePanelHeaderAlignment.center,
+                            tapBodyToCollapse: true,
+                          ),
+                          collapsed: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              sortedMap.keys.toList()[0]["overview"],
+                              softWrap: true,
+                              textAlign: TextAlign.left,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          expanded: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              sortedMap.keys.toList()[0]["overview"],
+                              softWrap: true,
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          tapHeaderToExpand: true,
+                          hasIcon: true,
+                          tapBodyToCollapse: true,
+                          header: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Überblick",
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        scrollOnExpand: true,
+                        scrollOnCollapse: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(genres),
+              )),
+              SizedBox(
+                height: 50,
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 
-  getNumberParts()async{
+  getNumberParts() async {
     await firestore
         .collection("sessions")
         .document(_sessionId.toString())
         .get()
         .then((snapshot) {
-          setState(() {
-            _sessionParts = snapshot.data()["numberPart"];
-
-          });
+      setState(() {
+        _sessionParts = snapshot.data()["numberPart"];
+      });
     });
     print(_sessionParts);
   }
 
-@override
-   initState()  {
-  super.initState();
-  //getRating();
-  getNumberVotes();
-  getNumberParts();
+  @override
+  initState() {
+    super.initState();
+    //getRating();
+    getNumberVotes();
+    getNumberParts();
   }
 
-
-  Widget getShowAllButton(){
-    if (_numVotes != _sessionParts){
-      return SizedBox(height: 0, width: 0,);
+  Widget getShowAllButton() {
+    if (_numVotes != _sessionParts) {
+      return SizedBox(
+        height: 0,
+        width: 0,
+      );
     }
     return Padding(
       padding: const EdgeInsets.all(15),
       child: FloatingActionButton.extended(
         heroTag: "15",
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (BuildContext context) {
-                return ReviewOverview(this.sortedMap, _movies_dec);
-              }));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return ReviewOverview(this.sortedMap, _movies_dec);
+          }));
         },
         label: Text(
           "Alle Filme",
@@ -355,14 +352,12 @@ class _ReviewState extends State<Review> {
   bool firstCall = true;
   @override
   Widget build(BuildContext context) {
-
-    if (firstCall){
-      Timer(Duration(milliseconds: 100), (){
+    if (firstCall) {
+      Timer(Duration(milliseconds: 100), () {
         getRating();
       });
       firstCall = false;
     }
-
 
     return WillPopScope(
         onWillPop: () async => false,
@@ -405,13 +400,12 @@ class _ReviewState extends State<Review> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withOpacity(0.8),
-                            Colors.transparent
-                          ])),
+                        Colors.black.withOpacity(0.8),
+                        Colors.transparent
+                      ])),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: IconButton(
@@ -419,8 +413,9 @@ class _ReviewState extends State<Review> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (BuildContext context) => StartView()),
-                                    (Route<dynamic> route) => false);
+                                    builder: (BuildContext context) =>
+                                        StartView()),
+                                (Route<dynamic> route) => false);
                           },
                           icon: Icon(Icons.home),
                           splashRadius: 20,
@@ -430,9 +425,12 @@ class _ReviewState extends State<Review> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                              padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                              child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
-                          ),
+                              padding: const EdgeInsets.only(
+                                  top: 8, left: 8, bottom: 8, right: 12),
+                              child: Image.asset(
+                                "assets/ceenes_logo_yellow4x.png",
+                                height: 40,
+                              )),
                         ],
                       ),
                     ],
@@ -444,8 +442,6 @@ class _ReviewState extends State<Review> {
         ));
   }
 }
-
-
 
 /*
 

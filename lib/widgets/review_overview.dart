@@ -6,19 +6,17 @@ import 'package:flutter/material.dart';
 LinkedHashMap<Map<String, dynamic>, int> _sortedMap;
 List _movies_dec;
 
-
 class ReviewOverview extends StatefulWidget {
   @override
   _ReviewOverviewState createState() => _ReviewOverviewState();
 
-  ReviewOverview(LinkedHashMap sortedMap, List movies_dec){
+  ReviewOverview(LinkedHashMap sortedMap, List movies_dec) {
     _sortedMap = sortedMap;
     _movies_dec = movies_dec;
   }
 }
 
 class _ReviewOverviewState extends State<ReviewOverview> {
-
   // ignore: missing_return
   String getCorrectPosterpath(int id) {
     for (int i = 0; i < _movies_dec.length; i++) {
@@ -28,10 +26,10 @@ class _ReviewOverviewState extends State<ReviewOverview> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Material(child: Stack(
+    return Material(
+        child: Stack(
       children: [
         _getReviewView(),
         //Stack für header
@@ -44,16 +42,19 @@ class _ReviewOverviewState extends State<ReviewOverview> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.transparent
-                    ])),
-            child:  Row(
+                  Colors.black.withOpacity(0.8),
+                  Colors.transparent
+                ])),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                    child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,)
-                ),
+                    padding: const EdgeInsets.only(
+                        top: 8, left: 8, bottom: 8, right: 12),
+                    child: Image.asset(
+                      "assets/ceenes_logo_yellow4x.png",
+                      height: 40,
+                    )),
               ],
             ),
           ),
@@ -87,18 +88,19 @@ class _ReviewOverviewState extends State<ReviewOverview> {
                       children: [
                         Image.network(
                           "http://image.tmdb.org/t/p/w92/" +
-                              getCorrectPosterpath(
-                                  _sortedMap.entries.elementAt(index).key["id"]),
+                              getCorrectPosterpath(_sortedMap.entries
+                                  .elementAt(index)
+                                  .key["id"]),
                           height: 120,
                         ),
                         Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                _sortedMap.entries.elementAt(index).key["title"],
-                                overflow: TextOverflow.clip,
-                              ),
-                            )),
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            _sortedMap.entries.elementAt(index).key["title"],
+                            overflow: TextOverflow.clip,
+                          ),
+                        )),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -119,5 +121,4 @@ class _ReviewOverviewState extends State<ReviewOverview> {
       ],
     );
   }
-
 }

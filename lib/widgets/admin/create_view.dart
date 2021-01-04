@@ -45,7 +45,8 @@ class Create_ViewState extends State<Create_View>
     "Amazon Prime Video",
     "Joyn",
     "Disney Plus",
-    "Sky Ticket",];
+    "Sky Ticket",
+  ];
 
   final introKey = GlobalKey<IntroductionScreenState>();
   // Note: This is a GlobalKey<FormState>,
@@ -56,7 +57,7 @@ class Create_ViewState extends State<Create_View>
   final formKey2 = GlobalKey<FormState>();
   List<String> formValue2 = [];
 
-  bool _isDisabled = false;
+  bool _isDisabled = true;
 
   void createRecord() async {
     await firestore
@@ -87,6 +88,16 @@ class Create_ViewState extends State<Create_View>
     });
   }
 
+  Color getColorContinue() {
+    if (!_isDisabled) return Colors.yellow.withOpacity(0.95);
+    return Colors.grey[700];
+  }
+
+  getColorTextContinue() {
+    if (!_isDisabled) return Colors.grey[800];
+    return Colors.grey[400];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -111,14 +122,15 @@ class Create_ViewState extends State<Create_View>
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(top:50),
+              padding: EdgeInsets.only(top: 50),
               height: MediaQuery.of(context).size.height,
               child: IntroductionScreen(
                 key: introKey,
                 pages: [
                   PageViewModel(
                     titleWidget: Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 25),
                       child: Text(
                         "Wie viele Personen seid ihr?",
                         style: TextStyle(
@@ -154,9 +166,10 @@ class Create_ViewState extends State<Create_View>
                   ),
                   PageViewModel(
                     titleWidget: Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 15),
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 15),
                       child: Text(
-                        "Streaming-Anbieter",
+                        "Welche Streaming-Anbieter habt ihr?",
                         style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.w600,
@@ -174,9 +187,11 @@ class Create_ViewState extends State<Create_View>
                             onSaved: (val) => setState(() => formValue2 = val),
                             validator: (List value) {
                               if (value.isEmpty) {
-                                //print("mindestens 3 oder keins wählen");
                                 return "Wähle mindestens einen Anbieter aus.";
                               }
+
+                              _isDisabled = false;
+
                               return null;
                             },
                             builder: (state) {
@@ -186,6 +201,7 @@ class Create_ViewState extends State<Create_View>
                                     value: state.value,
                                     onChanged: (val) {
                                       state.didChange(val);
+                                      print(formKey2.currentState.validate());
                                       if (formKey2.currentState.validate()) {
                                         // If the form is valid, save the value.
                                         formKey2.currentState.save();
@@ -202,7 +218,8 @@ class Create_ViewState extends State<Create_View>
                                         });
                                       }
                                     },
-                                    choiceItems: C2Choice.listFrom<String, String>(
+                                    choiceItems:
+                                        C2Choice.listFrom<String, String>(
                                       source: optionsProvider2,
                                       value: (i, v) => v,
                                       label: (i, v) => v,
@@ -222,14 +239,15 @@ class Create_ViewState extends State<Create_View>
                                   ),
                                   // Divider(color: Colors.white.withOpacity(0.5),thickness: 1,),
                                   Container(
-                                      padding:
-                                      const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 0, 15, 10),
                                       alignment: Alignment.center,
                                       child: Text(
                                         state.errorText ?? "",
                                         style: TextStyle(
                                             color: state.hasError
-                                                ? Color.fromRGBO(207, 102, 121, 1)
+                                                ? Color.fromRGBO(
+                                                    207, 102, 121, 1)
                                                 : null,
                                             fontSize: 18),
                                       )),
@@ -243,7 +261,8 @@ class Create_ViewState extends State<Create_View>
                   ),
                   PageViewModel(
                     titleWidget: Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 15),
+                      padding:
+                          const EdgeInsets.only(left: 25, right: 25, top: 15),
                       child: Text(
                         "Genres",
                         style: TextStyle(
@@ -275,28 +294,16 @@ class Create_ViewState extends State<Create_View>
                                     value: state.value,
                                     onChanged: (val) {
                                       state.didChange(val);
-                                      if (formKey.currentState.validate()) {
-                                        // If the form is valid, save the value.
-                                        formKey.currentState.save();
-                                        valueGenre = val;
-                                        setState(() {
-                                          _isDisabled = false;
-                                        });
-                                        _controller.reverse();
-                                      } else {
-                                        _controller.forward();
-                                        setState(() {
-                                          _isDisabled = true;
-                                        });
-                                      }
                                     },
-                                    choiceItems: C2Choice.listFrom<String, String>(
+                                    choiceItems:
+                                        C2Choice.listFrom<String, String>(
                                       source: optionsGenre2,
                                       value: (i, v) => v,
                                       label: (i, v) => v,
                                       tooltip: (i, v) => v,
                                     ),
                                     choiceActiveStyle: C2ChoiceStyle(
+                                        //showCheckmark: false,
                                         color: Colors.yellow[400],
                                         borderWidth: 2,
                                         labelStyle: TextStyle(fontSize: 18),
@@ -307,17 +314,19 @@ class Create_ViewState extends State<Create_View>
                                     wrapped: true,
                                     alignment: WrapAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.end,
+                                    scrollPhysics: ClampingScrollPhysics(),
                                   ),
                                   // Divider(color: Colors.white.withOpacity(0.5),thickness: 1,),
                                   Container(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          15, 0, 15, 10),
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         state.errorText ?? "",
                                         style: TextStyle(
                                             color: state.hasError
-                                                ? Color.fromRGBO(207, 102, 121, 1)
+                                                ? Color.fromRGBO(
+                                                    207, 102, 121, 1)
                                                 : null,
                                             fontSize: 18),
                                       )),
@@ -331,28 +340,56 @@ class Create_ViewState extends State<Create_View>
                   ),
                 ],
                 onDone: () {},
-                //showSkipButton: true,
                 showNextButton: true,
                 skipFlex: 0,
                 nextFlex: 0,
-                animationDuration: 300,
+                animationDuration: 1,
                 curve: Curves.easeOutCirc,
                 skip: const Text('Skip'),
-                next: FloatingActionButton.extended(
-                  heroTag: "2",
-                  label: Icon(Icons.arrow_forward, color: Colors.yellow)
-                  ,
-                  backgroundColor: Colors.grey,
+                next: Icon(
+                  Icons.arrow_forward,
+                  size: 40,
+                  color: Colors.white,
                 ),
                 done: FloatingActionButton.extended(
-                  backgroundColor: Colors.yellow.withOpacity(0.95),
+                  backgroundColor: getColorContinue(),
                   heroTag: "2",
                   label: Text(
-                    "Weiter",
-                    style: TextStyle(color: Colors.black54),
+                    "Erstellen",
+                    style: TextStyle(color: getColorTextContinue()),
                   ),
                   onPressed: _isDisabled
-                      ? null
+                      ? () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                child: new Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.error,
+                                        color: Color.fromRGBO(207, 102, 121, 1),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: new Text(
+                                          "Bitte wähle mindestens einen Streaming Anbieter aus um zu starten!",
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
                       : () async {
                           showDialog(
                             context: context,
@@ -381,8 +418,8 @@ class Create_ViewState extends State<Create_View>
                             },
                           );
                           print("in create: " + valueProvider2.toString());
-                          this.session = new Session(
-                              valuePart, getGenreIds(valueGenre), valueProvider2);
+                          this.session = new Session(valuePart,
+                              getGenreIds(valueGenre), valueProvider2);
 
                           await MovieHandler.getMoviesNew(this.session)
                               .then((movies) {
@@ -419,27 +456,32 @@ class Create_ViewState extends State<Create_View>
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.8),
-                        Colors.transparent
-                      ])),
-              child:  Row(
+                    Colors.black.withOpacity(0.8),
+                    Colors.transparent
+                  ])),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: IconButton(
                       icon: Icon(Icons.arrow_back),
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
                       },
                       splashRadius: 20,
                     ),
-
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top:8, left: 8, bottom: 8, right: 12),
-                      child: Hero(child: Image.asset("assets/ceenes_logo_yellow4x.png", height: 40,), tag: 44,)
-                  ),
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 8, bottom: 8, right: 12),
+                      child: Hero(
+                        child: Image.asset(
+                          "assets/ceenes_logo_yellow4x.png",
+                          height: 40,
+                        ),
+                        tag: 44,
+                      )),
                 ],
               ),
             ),
