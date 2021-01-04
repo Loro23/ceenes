@@ -18,6 +18,9 @@ import 'package:ceenes_prototype/util/movie.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
 
+//TODO Wenn man vom Admin Login hier her kommt, ist ein ändern der Genres nicht mehr möglich
+
+
 class Create_View extends StatefulWidget {
   @override
   Create_ViewState createState() => Create_ViewState();
@@ -189,9 +192,7 @@ class Create_ViewState extends State<Create_View>
                               if (value.isEmpty) {
                                 return "Wähle mindestens einen Anbieter aus.";
                               }
-
                               _isDisabled = false;
-
                               return null;
                             },
                             builder: (state) {
@@ -272,70 +273,28 @@ class Create_ViewState extends State<Create_View>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    bodyWidget: Form(
-                      key: formKey,
-                      child: Column(
-                        children: [
-                          FormField<List<String>>(
-                            autovalidate: true,
-                            initialValue: formValue,
-                            onSaved: (val) => setState(() => formValue = val),
-                            validator: (List value) {
-                              if (false) {
-                                //print("mindestens 3 oder keins wählen");
-                                return "Du kannst entweder keins oder mindestens 3 Genres auswählen";
-                              }
-                              return null;
-                            },
-                            builder: (state) {
-                              return Column(
-                                children: [
-                                  ChipsChoice<String>.multiple(
-                                    value: state.value,
-                                    onChanged: (val) {
-                                      state.didChange(val);
-                                    },
-                                    choiceItems:
-                                        C2Choice.listFrom<String, String>(
-                                      source: optionsGenre2,
-                                      value: (i, v) => v,
-                                      label: (i, v) => v,
-                                      tooltip: (i, v) => v,
-                                    ),
-                                    choiceActiveStyle: C2ChoiceStyle(
-                                        //showCheckmark: false,
-                                        color: Colors.yellow[400],
-                                        borderWidth: 2,
-                                        labelStyle: TextStyle(fontSize: 18),
-                                        borderOpacity: 0.5),
-                                    choiceStyle: C2ChoiceStyle(
-                                        color: Colors.white.withOpacity(0.8),
-                                        labelStyle: TextStyle(fontSize: 18)),
-                                    wrapped: true,
-                                    alignment: WrapAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    scrollPhysics: ClampingScrollPhysics(),
-                                  ),
-                                  // Divider(color: Colors.white.withOpacity(0.5),thickness: 1,),
-                                  Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          15, 0, 15, 10),
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        state.errorText ?? "",
-                                        style: TextStyle(
-                                            color: state.hasError
-                                                ? Color.fromRGBO(
-                                                    207, 102, 121, 1)
-                                                : null,
-                                            fontSize: 18),
-                                      )),
-                                ],
-                              );
-                            },
-                          ),
-                        ],
+                    bodyWidget: ChipsChoice<String>.multiple(
+                      value: valueGenre,
+                      wrapped: true,
+                      onChanged: (val) => setState(() {
+                        valueGenre = val;
+                        print(valueGenre);
+
+                      } ),
+                      choiceItems: C2Choice.listFrom<String, String>(
+                        source: optionsGenre2,
+                        value: (i, v) => v,
+                        label: (i, v) => v,
                       ),
+                      choiceActiveStyle: C2ChoiceStyle(
+                          color: Colors.yellow[400],
+                          borderWidth: 2,
+                          labelStyle: TextStyle(fontSize: 18),
+                          borderOpacity: 0.5),
+                      choiceStyle: C2ChoiceStyle(
+                          color: Colors.white.withOpacity(0.8),
+                          labelStyle: TextStyle(fontSize: 18)),
+                      alignment: WrapAlignment.center,
                     ),
                   ),
                 ],
@@ -360,6 +319,7 @@ class Create_ViewState extends State<Create_View>
                   ),
                   onPressed: _isDisabled
                       ? () {
+                    print(_isDisabled);
                           showDialog(
                             context: context,
                             barrierDismissible: true,
@@ -395,6 +355,7 @@ class Create_ViewState extends State<Create_View>
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
+
                               return Dialog(
                                 child: new Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -417,7 +378,7 @@ class Create_ViewState extends State<Create_View>
                               );
                             },
                           );
-                          print("in create: " + valueProvider2.toString());
+                          print("in create: " + valueGenre.toString());
                           this.session = new Session(valuePart,
                               getGenreIds(valueGenre), valueProvider2);
 
