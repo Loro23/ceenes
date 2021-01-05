@@ -236,11 +236,19 @@ class _ReviewState extends State<Review> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    sortedMap.keys.toList()[0]["title"],
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
-                    overflow: TextOverflow.clip,
-                    textAlign: TextAlign.center,
+                  child:Row(
+                    children: [
+                      Expanded(child: 
+                        Text(sortedMap.keys.toList()[0]["title"], 
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(238, 238, 238, 1)
+                          ),
+                        )
+                      ),
+                      _getPercentage(0),
+                    ],
                   ),
                 ),
               ),
@@ -355,13 +363,9 @@ class _ReviewState extends State<Review> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              sortedMap.entries
-                                                  .elementAt(index)
-                                                  .value
-                                                  .toString(), //voting
+                                            child: _getPercentage(index) //voting
                                             ),
-                                          )
+
                                         ],
                                       ),
                                     ),
@@ -409,6 +413,20 @@ class _ReviewState extends State<Review> {
       });
     });
     print(_sessionParts);
+  }
+
+  Widget _getPercentage(int _index){
+    double percent;
+    percent = sortedMap.entries.elementAt(_index).value.toDouble();
+    percent = percent/ _sessionParts;
+    percent = percent* 100;
+    if( percent >= 80){
+      return Text(percent.toString()+"%",style: TextStyle(color: Colors.green),);
+    }
+    else if ( percent >= 50){
+      return Text(percent.toString()+"%",style: TextStyle(color: Colors.yellow),);
+    }
+    else return Text(percent.toString()+"%",style: TextStyle(color: Colors.red),);
   }
 
   @override

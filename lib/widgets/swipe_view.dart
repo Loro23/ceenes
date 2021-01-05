@@ -75,6 +75,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
     movies_dec = jsonDecode(_movies);
     //print(movies_dec);
     controller = CardController();
+    for (Map x in movies_dec){
+      if(x["overview"]== ""){
+        tmdb.v3.movies.getDetails(x["id"],language: "en-US").then((_result){
+          x["overview"] = _result["overview"];
+        });
+      }
+    }
   }
 
   @override
