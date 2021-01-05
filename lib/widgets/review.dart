@@ -420,7 +420,7 @@ class _ReviewState extends State<Review> {
     percent = sortedMap.entries.elementAt(_index).value.toDouble();
     percent = percent/ _sessionParts;
     percent = percent* 100;
-    if( percent >= 80){
+    if( percent >= 75){
       return Text(percent.toString()+"%",style: TextStyle(color: Colors.green),);
     }
     else if ( percent >= 50){
