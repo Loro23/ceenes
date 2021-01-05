@@ -91,12 +91,15 @@ class _Login_viewState extends State<Login_view> {
                             onSubmit: (String pin) => print(pin),
                             focusNode: _pinPutFocusNode,
                             controller: _controller,
-                            submittedFieldDecoration: _pinPutDecoration.copyWith(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: Colors.yellow.withOpacity(0.95))),
+                            submittedFieldDecoration:
+                                _pinPutDecoration.copyWith(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                        color:
+                                            Colors.yellow.withOpacity(0.95))),
                             selectedFieldDecoration: _pinPutDecoration,
-                            followingFieldDecoration: _pinPutDecoration.copyWith(
+                            followingFieldDecoration:
+                                _pinPutDecoration.copyWith(
                               //color: Colors.black12,
                               borderRadius: BorderRadius.circular(5.0),
                               border: Border.all(
@@ -145,7 +148,8 @@ class _Login_viewState extends State<Login_view> {
                                         child: Row(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.error_outline,
                                                 color: Colors.red,
@@ -161,7 +165,8 @@ class _Login_viewState extends State<Login_view> {
                                                     style: TextStyle(
                                                       fontSize: 18,
                                                     ),
-                                                    overflow: TextOverflow.clip),
+                                                    overflow:
+                                                        TextOverflow.clip),
                                               ),
                                             ),
                                           ],

@@ -9,16 +9,43 @@ import 'package:http/http.dart' as http;
 
 class MovieHandler {
   static String _createRequestMoviesByProvider(
-      Session session, String providerId) {
-    print(session.connectGenres());
+      Session session, String providerId, String page) {
+    // print(session.connectGenres());
     String request = "https://api.themoviedb.org/3/discover/movie?api_key=" +
         apiKey +
         "&with_ott_providers=" +
         providerId +
         "&with_genres=" +
         session.connectGenres() +
-        "&ott_region=DE";
+        "&ott_region=DE" +
+        "&page=" +
+        page +
+        "&vote_average.gte=5";
+
     return request;
+  }
+
+  static Future<String> _getRandomPage(
+      Session session, String providerId) async {
+    String request = "https://api.themoviedb.org/3/discover/movie?api_key=" +
+        apiKey +
+        "&with_ott_providers=" +
+        providerId +
+        "&with_genres=" +
+        session.connectGenres() +
+        "&ott_region=DE" +
+        "&vote_average.gte=5";
+
+    final response = await http.get(request);
+    int total_pages = jsonDecode(response.body)["total_pages"];
+    print("total: " + jsonDecode(response.body)["total_pages"].toString());
+    if (total_pages == 1) return "0";
+    int random_page = 0;
+    while (random_page == 0) {
+      random_page = Random().nextInt(total_pages - 1);
+    }
+    print("random: " + random_page.toString());
+    return random_page.toString();
   }
 
   static Future<List> getMoviesNew(Session session) async {
@@ -27,17 +54,28 @@ class MovieHandler {
     List moviesDetails = [];
 
     List<String> provider = getProviderIds(session.provider);
-    print(provider);
+    // print(provider);
 
     for (String prov in provider) {
-      //converts the providers names into their ids
-      final response =
-          await http.get(_createRequestMoviesByProvider(session, prov));
-      moviesNeu.addAll(jsonDecode(response.body)[
-          "results"]); //füge die filme der egsamtasuwahl für diese Session
+      String random_page = await _getRandomPage(session, prov);
+      if (random_page == "0") {
+        print("mache garnichts");
+        //mache garnichts
+      } else {
+        //converts the providers names into their ids
+        final response = await http
+            .get(_createRequestMoviesByProvider(session, prov, random_page));
+        moviesNeu.addAll(jsonDecode(response.body)[
+            "results"]); //füge die filme der egsamtasuwahl für diese Session
+
+      }
     }
 
+    if (moviesNeu.length == 0) {
+      return [];
+    }
     List<int> usedIndex = [];
+    //details rausholen
     while (moviesDetails.length < 15) {
       int index = Random().nextInt(moviesNeu.length);
 
@@ -48,12 +86,10 @@ class MovieHandler {
         if (!usedIndex.contains(index)) {
           usedIndex.add(index);
           moviesDetails.add(_result);
-          print(_result["title"]);
         }
       });
     }
 
-    print(moviesDetails.length);
     return moviesDetails;
   }
 }

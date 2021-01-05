@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
-import 'package:ceenes_prototype/widgets/review_overview.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';

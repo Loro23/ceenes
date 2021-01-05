@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white,
-        scaffoldBackgroundColor:  Color.fromRGBO(25, 25, 25, 1),
+        scaffoldBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
         secondaryHeaderColor: Color.fromRGBO(25, 25, 25, 1),
         backgroundColor: Color.fromRGBO(25, 25, 25, 1),
         primaryColorDark: Color.fromRGBO(25, 25, 25, 1),

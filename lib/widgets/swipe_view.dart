@@ -141,15 +141,15 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                 right: 20,
                                                 bottom: 5),
                                             alignment: Alignment.centerLeft,
-                                            child:
-                                                Text(movies_dec[index]["title"],
-                                                    overflow: TextOverflow.clip,
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 18,
-                                                      color: Color.fromRGBO(
-                                                          238, 238, 238, 1),
-                                                    ))),
+                                            child: Text(
+                                                movies_dec[index]["title"],
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: Color.fromRGBO(
+                                                      238, 238, 238, 1),
+                                                ))),
                                       ),
                                       Container(
                                         margin: const EdgeInsets.only(
@@ -169,13 +169,17 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   Container(
                                       alignment: Alignment.topLeft,
                                       padding: const EdgeInsets.only(
-                                          left: 20, top: 5, bottom: 5, right: 20),
+                                          left: 20,
+                                          top: 5,
+                                          bottom: 5,
+                                          right: 20),
                                       child: Text(
                                         movies_dec[index]["overview"],
                                         overflow: TextOverflow.visible,
                                         maxLines: 3,
                                         style: TextStyle(
-                                          color: Color.fromRGBO(238, 238, 238, 1),
+                                          color:
+                                              Color.fromRGBO(238, 238, 238, 1),
                                         ),
                                       )),
                                   Align(
@@ -189,7 +193,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
-                                            color: Color.fromRGBO(68, 68, 68, 1),
+                                            color:
+                                                Color.fromRGBO(68, 68, 68, 1),
                                           ),
                                           padding: const EdgeInsets.all(10),
                                           margin: const EdgeInsets.only(
@@ -208,7 +213,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(5)),
-                                            color: Color.fromRGBO(68, 68, 68, 1),
+                                            color:
+                                                Color.fromRGBO(68, 68, 68, 1),
                                           ),
                                           margin: const EdgeInsets.only(
                                               left: 20,
@@ -305,7 +311,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(top:5, bottom: 20, left: 10, right: 10),
+                        margin: const EdgeInsets.only(
+                            top: 5, bottom: 20, left: 10, right: 10),
                         child: FloatingActionButton(
                           heroTag: 8,
                           backgroundColor: Color.fromRGBO(92, 92, 92, 1),
@@ -319,7 +326,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top:5, bottom: 20, left: 10, right: 10),
+                        margin: const EdgeInsets.only(
+                            top: 5, bottom: 20, left: 10, right: 10),
                         child: FloatingActionButton(
                           heroTag: 9,
                           backgroundColor: Color.fromRGBO(92, 92, 92, 1),
@@ -349,12 +357,12 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: IconButton(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
                               icon: Icon(Icons.cancel),
                               onPressed: () {
                                 showDialog(
@@ -366,12 +374,14 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           actions: [
                                             FlatButton(
                                               child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   'Ja, abbrechen',
                                                   style: TextStyle(
                                                       color: Colors.black54,
-                                                      fontWeight: FontWeight.w600),
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                               ),
                                               onPressed: () =>
@@ -387,11 +397,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                             ),
                                             FlatButton(
                                               child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   'Zurück',
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w600),
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                               ),
                                               onPressed: () =>
@@ -403,22 +415,25 @@ class _Swipe_ViewState extends State<Swipe_View> {
                               },
                               splashRadius: 20,
                             ),
-                          ),
-                          ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Container(
-                          color: Color.fromRGBO(68, 68, 68, 1),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(_sessionId.toString(),
-                            style: TextStyle(fontSize: 16,),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                color: Color.fromRGBO(68, 68, 68, 1)
+                                    .withOpacity(0.5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    _sessionId.toString(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                        ],
-                      ),
-                      
                       Padding(
                           padding: const EdgeInsets.only(
                               top: 8, left: 8, bottom: 8, right: 12),
