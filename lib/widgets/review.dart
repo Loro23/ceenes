@@ -13,6 +13,8 @@ import 'dart:collection';
 
 import 'package:tmdb_api/tmdb_api.dart';
 
+import 'details_view.dart';
+
 int _sessionId;
 List _movies_dec;
 
@@ -36,6 +38,15 @@ class _ReviewState extends State<Review> {
   LinkedHashMap<Map<String, dynamic>, int> sortedMap;
 
   bool isEnabled = true;
+
+  showDetails(context, Map moviedetails) async {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return Wrap(children: [Details_view(moviedetails)]);
+        });
+  }
 
   getNumberVotes() async {
     await firestore
@@ -185,6 +196,15 @@ class _ReviewState extends State<Review> {
       genres = genres + x["name"] + ", ";
     }
     genres = genres.substring(0, genres.length - 2);
+    // ignore: missing_return
+    String getCorrectPosterpath(int id) {
+      for (int i = 0; i < _movies_dec.length; i++) {
+        if (_movies_dec[i]["id"] == id) {
+          return _movies_dec[i]["poster_path"];
+        }
+      }
+    }
+
 
     return Material(
         child: Container(
@@ -287,11 +307,85 @@ class _ReviewState extends State<Review> {
                   ),
                 ),
               ),
-              Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(genres),
-              )),
+              ExpandableNotifier(
+                child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ScrollOnExpand(
+                        child: ExpandablePanel(
+                          theme: const ExpandableThemeData(
+                            headerAlignment:
+                            ExpandablePanelHeaderAlignment.center,
+                            tapBodyToCollapse: true,
+                            tapBodyToExpand: false, tapHeaderToExpand: true
+                          ),
+
+                          expanded: Container(
+                            height: 500,
+                            child: ListView.builder(
+                              itemCount: sortedMap.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Card(
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDetails(context,sortedMap.entries.elementAt(index).key);
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Image.network(
+                                            "http://image.tmdb.org/t/p/w92/" +
+                                                getCorrectPosterpath(sortedMap.entries
+                                                    .elementAt(index)
+                                                    .key["id"]),
+                                            height: 80,
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8),
+                                              child: Text(
+                                                sortedMap.entries.elementAt(index).key["title"],
+                                                overflow: TextOverflow.clip,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              sortedMap.entries
+                                                  .elementAt(index)
+                                                  .value
+                                                  .toString(), //voting
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          tapHeaderToExpand: true,
+                          hasIcon: true,
+                          tapBodyToCollapse: true,
+                          header: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              "Hier findet ihr alle Filme",
+                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 23),
+                            ),
+                          ),
+                        ),
+                        scrollOnExpand: true,
+                        scrollOnCollapse: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 50,
               )
@@ -323,31 +417,7 @@ class _ReviewState extends State<Review> {
     getNumberParts();
   }
 
-  Widget getShowAllButton() {
-    if (_numVotes != _sessionParts) {
-      return SizedBox(
-        height: 0,
-        width: 0,
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: FloatingActionButton.extended(
-        heroTag: "15",
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext context) {
-            return ReviewOverview(this.sortedMap, _movies_dec);
-          }));
-        },
-        label: Text(
-          "Alle Filme",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blueGrey,
-      ),
-    );
-  }
+
 
   bool firstCall = true;
   @override
@@ -365,12 +435,12 @@ class _ReviewState extends State<Review> {
           child: Stack(
             children: [
               getReviewView(),
+              /*
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    getShowAllButton(),
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: FloatingActionButton.extended(
@@ -389,6 +459,8 @@ class _ReviewState extends State<Review> {
                   ],
                 ),
               ),
+
+               */
 
               //Stack für header
               Align(

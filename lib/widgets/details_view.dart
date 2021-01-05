@@ -2,12 +2,10 @@ import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
 
 Map details;
-int _counter;
 
 class Details_view extends StatefulWidget {
-  Details_view(Map _details, int counter) {
+  Details_view(Map _details) {
     details = _details;
-    _counter = counter;
   }
 
   @override
