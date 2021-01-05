@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/review_overview.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
@@ -208,6 +209,7 @@ class _ReviewState extends State<Review> {
 
     return Material(
         child: Container(
+          color: backgroundcolor_dark,
       child: ExpandableTheme(
         data: const ExpandableThemeData(
           iconColor: Colors.blue,

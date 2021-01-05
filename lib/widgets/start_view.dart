@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
@@ -62,7 +63,7 @@ class _StartViewState extends State<StartView> {
                                   "Erstellen",
                                   style: TextStyle(
                                       fontSize: 20,
-                                      color: Colors.black54,
+                                      color: backgroundcolor_dark,
                                       fontWeight: FontWeight.w600),
                                 ),
                                 color: Colors.yellow.withOpacity(0.95),
@@ -87,7 +88,7 @@ class _StartViewState extends State<StartView> {
                   child: Hero(
                     tag: "14",
                     child: RaisedButton(
-                          color: Colors.grey[700],
+                          color: blue_ceenes,
                           child: Text(
                             "Teilnehmen",
                             style: TextStyle(fontSize: 20, color: Colors.white),
