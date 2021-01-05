@@ -31,85 +31,101 @@ class _StartViewState extends State<StartView> {
         children: [
 
           Container(
+            height: MediaQuery.of(context).size.height*.5,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/film_roll.jpg'),
+                  image: AssetImage("assets/popcorn_ceenes.jpg"),
                   fit: BoxFit.fitHeight))),
           Container(color: Color.fromRGBO(0, 0, 0, .8)),
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                Padding(
-                  padding: const EdgeInsets.only(left:20.0, right: 20, top: 15, bottom: 10),
-                  child: Text("Finde den besten Film! Zusammen mit deinen Freunden.", style: TextStyle(fontSize: 20),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top:30.0),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: SizedBox(
-                            width: 130,
-                            height: 60,
-                            child: Hero(
-                              tag: "2",
-                              child: RaisedButton(
-                                child: Text(
-                                  "Erstellen",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: backgroundcolor_dark,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                color: Colors.yellow.withOpacity(0.95),
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                    return Create_View();
-                                  }));
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                    child: SizedBox(
-                  width: 130,
-                  height: 60,
-                  child: Hero(
-                    tag: "14",
-                    child: RaisedButton(
-                          color: blue_ceenes,
-                          child: Text(
-                            "Teilnehmen",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) {
-                              return Login_view();
-                            }));
-                          },
-                    ),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height*0.5,
+                    child:  Text("Finde den besten Film. Swipe zusammen mit deinen Freunden.", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),),
+
                   ),
+                  
+                  Padding(
+                    padding: const EdgeInsets.only(left:20, right:20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+            padding: const EdgeInsets.only(bottom:15.0),
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: SizedBox(
+                width: MediaQuery.of(context).size.width*.9,
+                height: 60,
+                child: Hero(
+                  tag: "2",
+                  child: RaisedButton(
+                    child: Text(
+                      "Erstellen",
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: backgroundcolor_dark,
+                          fontWeight: FontWeight.w600),
                     ),
-                        ),
-                      )
-                    ],
+                    color: Colors.yellow.withOpacity(0.95),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) {
+                        return Create_View();
+                      }));
+                    },
                   ),
                 ),
-                
-              ],
+              ),
             ),
+                        ),
+
+                        Padding(
+            padding: const EdgeInsets.only(bottom:15.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+                      child: SizedBox(
+                    width: MediaQuery.of(context).size.width*.9,
+                    height: 60,
+                    child: Hero(
+                      tag: "14",
+                      child: RaisedButton(
+              color: blue_ceenes,
+              child: Text(
+                "Teilnehmen",
+                style: TextStyle(fontSize: 18, color: backgroundcolor_dark),
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return Login_view();
+                }));
+              },
+                      ),
+                    ),
+                      ),
+            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left:20.0, right: 20, top: 15, bottom: 10),
+                          child: Text("1. Erstelle eine Gruppe", style: TextStyle(fontSize: 20),),
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left:20.0, right: 20, top: 15, bottom: 10),
+                    child: Text("2. Swipe mit Freunden", style: TextStyle(fontSize: 20),),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left:20.0, right: 20, top: 15, bottom: 10),
+                    child: Text("3. Ergebnis anzeigen lassen", style: TextStyle(fontSize: 20),),
+                  ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
           ),
           //Stack für header
           Align(
@@ -125,7 +141,7 @@ class _StartViewState extends State<StartView> {
                     Colors.transparent
                   ])),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                       padding: const EdgeInsets.only(

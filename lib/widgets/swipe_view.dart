@@ -342,58 +342,76 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          icon: Icon(Icons.cancel),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (c) => AlertDialog(
-                                      //title: Text('Warning'),
-                                      content: Text(
-                                          'Willst du wirklich abbrechen? Deine bisherigen Entscheidungen gehen verloren'),
-                                      actions: [
-                                        FlatButton(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Ja, abbrechen',
-                                              style: TextStyle(
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.w600),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+                              icon: Icon(Icons.cancel),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (c) => AlertDialog(
+                                          //title: Text('Warning'),
+                                          content: Text(
+                                              'Willst du wirklich abbrechen? Deine bisherigen Entscheidungen gehen verloren'),
+                                          actions: [
+                                            FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Ja, abbrechen',
+                                                  style: TextStyle(
+                                                      color: Colors.black54,
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              StartView()),
+                                                      (Route<dynamic> route) =>
+                                                          false),
+                                              color: Colors.amberAccent,
                                             ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.pushAndRemoveUntil(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (BuildContext
-                                                              context) =>
-                                                          StartView()),
-                                                  (Route<dynamic> route) =>
-                                                      false),
-                                          color: Colors.amberAccent,
-                                        ),
-                                        FlatButton(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Zurück',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600),
+                                            FlatButton(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Zurück',
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.pop(c, false),
+                                              color: Colors.black54,
                                             ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.pop(c, false),
-                                          color: Colors.black54,
-                                        ),
-                                      ],
-                                    ));
-                          },
-                          splashRadius: 20,
+                                          ],
+                                        ));
+                              },
+                              splashRadius: 20,
+                            ),
+                          ),
+                          ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Container(
+                          color: Color.fromRGBO(68, 68, 68, 1),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(_sessionId.toString(),
+                            style: TextStyle(fontSize: 16,),
+                            ),
+                          ),
                         ),
                       ),
+                        ],
+                      ),
+                      
                       Padding(
                           padding: const EdgeInsets.only(
                               top: 8, left: 8, bottom: 8, right: 12),
