@@ -1,3 +1,4 @@
+import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
 
 Map details;
@@ -42,6 +43,7 @@ class _Details_viewState extends State<Details_view> {
     BuildContext context,
   ) {
     return Container(
+      color: backgroundcolor_dark,
       //height: MediaQuery.of(context).size.height * .60,
       child: Stack(children: [
         SingleChildScrollView(

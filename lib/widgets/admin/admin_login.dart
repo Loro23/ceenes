@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/movie.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
@@ -29,113 +30,116 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Stack(
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: SelectableText(
-                        "Deine Gruppe wurde erstellt!",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: SelectableText(
-                        "Um zu starten, müssen deine Freunde den unterstehenden Code eingeben. Wenn alle den Code haben, kannst auch du anfangen, indem "
-                        "du auf Start klickst. Sobald du und deine Freunde fertig sind, könnt ihr euch alle die Ergebnisse anschauen. Los gehts!",
-                        style: TextStyle(
-                          fontSize: 20,
+      child: Container(
+        color: backgroundcolor_dark,
+        child: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: SelectableText(
+                          "Deine Gruppe wurde erstellt!",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 30),
-                      child: SelectableText(
-                        _session.sessionId.toString(),
-                        style: TextStyle(
-                            letterSpacing: 10,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: SelectableText(
+                          "Um zu starten, müssen deine Freunde den unterstehenden Code eingeben. Wenn alle den Code haben, kannst auch du anfangen, indem "
+                          "du auf Start klickst. Sobald du und deine Freunde fertig sind, könnt ihr euch alle die Ergebnisse anschauen. Los gehts!",
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 30),
+                        child: SelectableText(
+                          _session.sessionId.toString(),
+                          style: TextStyle(
+                              letterSpacing: 10,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton.extended(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (BuildContext context) {
+                          //print(_movies);
+                          return Swipe_View(_movies, _session.sessionId);
+                        }));
+                      },
+                      label: Text(
+                        "Start",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.pinkAccent,
+                      heroTag: "2",
+                    )
                   ],
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FloatingActionButton.extended(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        //print(_movies);
-                        return Swipe_View(_movies, _session.sessionId);
-                      }));
-                    },
-                    label: Text(
-                      "Start",
-                      style: TextStyle(color: Colors.white),
+            //Stack für header
+            Align(
+              alignment: Alignment.topLeft,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                      Colors.black.withOpacity(0.8),
+                      Colors.transparent
+                    ])),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        splashRadius: 20,
+                      ),
                     ),
-                    backgroundColor: Colors.pinkAccent,
-                    heroTag: "2",
-                  )
-                ],
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8, left: 8, bottom: 8, right: 12),
+                        child: Image.asset(
+                          "assets/ceenes_logo_yellow4x.png",
+                          height: 40,
+                        )),
+                  ],
+                ),
               ),
             ),
-          ),
-          //Stack für header
-          Align(
-            alignment: Alignment.topLeft,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.transparent
-                  ])),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      splashRadius: 20,
-                    ),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, left: 8, bottom: 8, right: 12),
-                      child: Image.asset(
-                        "assets/ceenes_logo_yellow4x.png",
-                        height: 40,
-                      )),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

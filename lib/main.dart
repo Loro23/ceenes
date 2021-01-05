@@ -95,7 +95,17 @@ class _MyAppState extends State<MyApp> {
     }
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor:  Color.fromRGBO(25, 25, 25, 1),
+        secondaryHeaderColor: Color.fromRGBO(25, 25, 25, 1),
+        backgroundColor: Color.fromRGBO(25, 25, 25, 1),
+        primaryColorDark: Color.fromRGBO(25, 25, 25, 1),
+        dialogBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
+        bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
+        accentColor: Color.fromRGBO(25, 25, 25, 1),
+        colorScheme: ColorScheme.dark(),
+      ),
       title: 'Flutter Demo',
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
