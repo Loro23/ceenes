@@ -53,8 +53,8 @@ class _AdminLoginState extends State<AdminLogin> {
                           padding: const EdgeInsets.only(bottom: 30),
                           child: SelectableText(
                             "Deine Gruppe wurde erstellt!",
-                            style:
-                                TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -80,7 +80,8 @@ class _AdminLoginState extends State<AdminLogin> {
                         ),
                         FlatButton(
                           onPressed: () {
-                            FlutterClipboard.copy(_session.sessionId.toString());
+                            FlutterClipboard.copy(
+                                _session.sessionId.toString());
                           },
                           color: Colors.grey[800],
                           child: Row(
@@ -91,7 +92,8 @@ class _AdminLoginState extends State<AdminLogin> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Kopieren",
-                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
                               ),
                               Padding(

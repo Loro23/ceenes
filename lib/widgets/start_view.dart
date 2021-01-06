@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:ceenes_prototype/util/colors.dart';
@@ -5,6 +6,7 @@ import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
+import 'package:ceenes_prototype/widgets/privacy.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,27 +20,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class StartView extends StatefulWidget {
   @override
   _StartViewState createState() => _StartViewState();
 }
 
 class _StartViewState extends State<StartView> {
-  List<String> carouselcontent = [
-    "1. Erstelle eine Gruppe.",
-    "2. Gib deine Anbieter ein.",
-    "3. Wähle deine Genres aus.",
-    "4. Teile deine Gruppe mit Freunden.",
-    "5. Swipe dich durch die Auswahl.",
-    "6. gemeinsam den besten Film genießen."
-  ];
-  List<String> carouselimages = [
-    "assets/streaming_screen.png",
-    "assets/genres_screen.png",
-    "assets/moviecover.png",
-    "assets/swipe_screen.png"
-  ];
+
   _launchURL() async {
     const url =
         'https://de.linkedin.com/in/benjamin-kasten-a68466155?challengeId=AQGWWfDdKCKNjwAAAXYVZyJsoBJBTAUesYA_Y30jgQvYM8XZnLmkfnDvN58rnfxhg077ug-e2Nqb_PqTIvsQiITK9rtxoP1jFw&submissionId=ab2c09ea-1410-4c16-c6a2-30032c387a20';
@@ -49,7 +37,6 @@ class _StartViewState extends State<StartView> {
     }
   }
 
-
   _launchURL2() async {
     const url = 'https://de.linkedin.com/in/lorenz-pott-156a6513b';
     if (await canLaunch(url)) {
@@ -59,7 +46,6 @@ class _StartViewState extends State<StartView> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -68,7 +54,6 @@ class _StartViewState extends State<StartView> {
         physics: ClampingScrollPhysics(),
         child: Stack(
           children: [
-
             Center(
               child: Container(
                   height: MediaQuery.of(context).size.height * .4,
@@ -80,7 +65,6 @@ class _StartViewState extends State<StartView> {
                         Colors.black.withOpacity(0.75), BlendMode.darken),
                   ))),
             ),
-
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -91,7 +75,7 @@ class _StartViewState extends State<StartView> {
                     Container(
                       height: MediaQuery.of(context).size.height * 0.4,
                       child: Padding(
-                        padding: const EdgeInsets.only( left:25, right: 25),
+                        padding: const EdgeInsets.only(left: 25, right: 25),
                         child: Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -105,15 +89,20 @@ class _StartViewState extends State<StartView> {
                                   )),
                               AutoSizeText(
                                 "Finde den besten Film. Swipe zusammen mit deinen Freunden.",
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, letterSpacing: 1),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    letterSpacing: 1),
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
                               ),
-
-                              SizedBox(height: 10,),
+                              SizedBox(
+                                height: 10,
+                              ),
                               AutoSizeText(
                                 "Starte jetzt - keine Anmeldung, keine Registrierung, keine Kosten",
-                                style: TextStyle( fontSize: 18, letterSpacing: 1),
+                                style:
+                                    TextStyle(fontSize: 18, letterSpacing: 1),
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
                               ),
@@ -122,18 +111,20 @@ class _StartViewState extends State<StartView> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(
+                      height: 30,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30, right:30),
+                      padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Column(
                         children: [
                           ButtonTheme(
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0),
+                              borderRadius: BorderRadius.circular(25.0),
                             ),
-
                             child: Padding(
-                              padding: const EdgeInsets.only(top:20, bottom: 20),
+                              padding:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
                               child: Row(
                                 children: [
                                   Expanded(
@@ -147,14 +138,17 @@ class _StartViewState extends State<StartView> {
                                       ),
                                       color: Colors.yellow.withOpacity(0.95),
                                       onPressed: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (BuildContext context) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
                                           return Create_View();
                                         }));
                                       },
                                     ),
                                   ),
-                                  SizedBox(width: 15,),
+                                  SizedBox(
+                                    width: 15,
+                                  ),
                                   Expanded(
                                     child: RaisedButton(
                                       color: blue_ceenes,
@@ -165,21 +159,24 @@ class _StartViewState extends State<StartView> {
                                             color: backgroundcolor_dark),
                                       ),
                                       onPressed: () {
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (BuildContext context) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
                                           return Login_view();
                                         }));
                                       },
                                     ),
                                   ),
                                 ],
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                               ),
                             ),
                             height: 60,
                           ),
-                          SizedBox(height: 30,),
-
+                          SizedBox(
+                            height: 30,
+                          ),
                           Container(
                             width: double.maxFinite,
                             child: Card(
@@ -188,76 +185,94 @@ class _StartViewState extends State<StartView> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Wie funktioniert's?",
-                                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700 ),
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w700),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Card(
-
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
                                   Text(
                                     "1. Erstelle eine Gruppe",
-                                    style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600 ),
+                                    style: TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(
-                                    "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
-                                    style: TextStyle(fontSize: 16, letterSpacing: 1,),
-                                    textAlign: TextAlign.center,
 
+                                    "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      letterSpacing: 1,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ],
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Card(
-
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
                                   Text(
                                     "2. Swipe mit Freunden",
-                                    style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600 ),
+                                    style: TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.center,
-
                                   ),
                                   Text(
                                     "Entscheide dich jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
-                                    style: TextStyle(fontSize: 16, letterSpacing: 1),
+                                    style: TextStyle(
+                                        fontSize: 16, letterSpacing: 1),
                                     textAlign: TextAlign.center,
-
                                   ),
                                 ],
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 15,
+                          ),
                           Card(
-
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
                                   Text(
                                     "3. Ergebnis anzeigen",
-                                    style: TextStyle(fontSize: 23,fontWeight: FontWeight.w600 ),
+                                    style: TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   Text(
                                     "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
-                                    style: TextStyle(fontSize: 16,letterSpacing: 1),
+                                    style: TextStyle(
+                                        fontSize: 16, letterSpacing: 1),
                                     textAlign: TextAlign.center,
-
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(height: 80,),
+                          SizedBox(
+                            height: 80,
+                          ),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             child: Card(
@@ -266,23 +281,29 @@ class _StartViewState extends State<StartView> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Was ist Ceenes überhaupt?",
-                                  style: TextStyle(fontSize: 28,fontWeight: FontWeight.w700 ), textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w700),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 15,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Ceenes will euch dabei helfen, das ewige Suchen nach einem Film auf Netflix, Prime Video oder eurem Liebelings"
-                                  "Streaming-Anbieter zu beenden. WIr schlagen euch Filme vor, ihr entscheidet. ",
+                              "Streaming-Anbieter zu beenden. WIr schlagen euch Filme vor, ihr entscheidet. ",
                               style: TextStyle(fontSize: 16, letterSpacing: 1),
                               textAlign: TextAlign.start,
-
                             ),
                           ),
-                          SizedBox(height: 80,),
-
+                          SizedBox(
+                            height: 50,
+                          ),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             child: Card(
@@ -291,23 +312,30 @@ class _StartViewState extends State<StartView> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   "Über uns",
-                                  style: TextStyle(fontSize: 28,fontWeight: FontWeight.w700 ), textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w700),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 15,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               "Ceenes entsteht ihm Rahmen eines Seminars an der Universiät Paderborn. Wir, Lorenz und Benjamin, "
-                                  "stecken über ein Semester viel Energie in die Entwicklung dieser Webapp und wollen ein qualitativ hochwertiges "
-                                  "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern.   ",
+                              "stecken über ein Semester viel Energie in die Entwicklung dieser Webapp und wollen ein qualitativ hochwertiges "
+                              "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern.   ",
                               style: TextStyle(fontSize: 16, letterSpacing: 1),
                               textAlign: TextAlign.start,
-
                             ),
                           ),
-                          SizedBox(height: 30,),
+                          SizedBox(
+                            height: 30,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -319,7 +347,8 @@ class _StartViewState extends State<StartView> {
                                   child: Column(
                                     children: [
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(200),
+                                        borderRadius:
+                                            BorderRadius.circular(200),
                                         child: Image.asset(
                                           "assets/profil_loro.jpg",
                                           height: 100,
@@ -332,10 +361,13 @@ class _StartViewState extends State<StartView> {
                                         children: [
                                           Text(
                                             'Lorenz',
-                                            style: TextStyle(color: Colors.white, fontSize: 18),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18),
                                           ),
-                                          SizedBox(width: 10,),
-
+                                          SizedBox(
+                                            width: 10,
+                                          ),
                                           Container(
                                               height: 20,
                                               child: Image.asset(
@@ -359,7 +391,8 @@ class _StartViewState extends State<StartView> {
                                     child: Column(
                                       children: [
                                         ClipRRect(
-                                          borderRadius: BorderRadius.circular(200),
+                                          borderRadius:
+                                              BorderRadius.circular(200),
                                           child: Image.asset(
                                             "assets/profil_benji.jpg",
                                             height: 100,
@@ -372,9 +405,13 @@ class _StartViewState extends State<StartView> {
                                           children: [
                                             Text(
                                               'Benjamin',
-                                              style: TextStyle(color: Colors.white, fontSize: 18),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18),
                                             ),
-                                            SizedBox(width: 10,),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
                                             Container(
                                                 height: 20,
                                                 child: Image.asset(
@@ -388,7 +425,9 @@ class _StartViewState extends State<StartView> {
                                   ))
                             ],
                           ),
-                          SizedBox(height: 150,),
+                          SizedBox(
+                            height: 120,
+                          ),
                           Container(
                             width: MediaQuery.of(context).size.width,
                             height: 50,
@@ -397,20 +436,21 @@ class _StartViewState extends State<StartView> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 FlatButton(
-                                  child: Text("Datenschutz & Impressum"),
-                                  onPressed: (){
-                                    //öffne Datenschutz page
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("Datenschutz", style: TextStyle(fontSize: 18),),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return PrivacyPolicy();
+                                    }));
                                   },
-
                                 ),
                               ],
                             ),
                           ),
-
-
-
-
-
                         ],
                       ),
                     ),

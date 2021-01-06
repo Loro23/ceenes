@@ -107,10 +107,9 @@ class _MyAppState extends State<MyApp> {
         accentColor: Color.fromRGBO(25, 25, 25, 1),
         colorScheme: ColorScheme.dark(),
         cardColor: backgroundcolor_dark,
-
       ),
-      title: 'Flutter Demo',
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Ceenes - Findet den perfekten Film',
+      home: MyHomePage(title: 'Ceenes Homepage'),
     );
   }
 }

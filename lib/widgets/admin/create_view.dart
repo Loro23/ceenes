@@ -19,7 +19,6 @@ import 'package:ceenes_prototype/util/movie.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
 
-
 class Create_View extends StatefulWidget {
   @override
   Create_ViewState createState() => Create_ViewState();
@@ -93,7 +92,6 @@ class Create_ViewState extends State<Create_View>
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -133,7 +131,7 @@ class Create_ViewState extends State<Create_View>
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              constraints: BoxConstraints(maxWidth: 600),
+                constraints: BoxConstraints(maxWidth: 600),
                 child: IntroductionScreen(
                   globalBackgroundColor: backgroundcolor_dark,
                   key: introKey,
@@ -145,7 +143,7 @@ class Create_ViewState extends State<Create_View>
                         child: Text(
                           "Wie viele Personen seid ihr?",
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 36,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
@@ -179,15 +177,14 @@ class Create_ViewState extends State<Create_View>
                         spacing: 5,
                       ),
                     ),
-
                     PageViewModel(
                       titleWidget: Padding(
                         padding:
-                            const EdgeInsets.only(left: 25, right: 25, top: 15),
+                            const EdgeInsets.only(left: 25, right: 25, top: 50),
                         child: Text(
-                          "Genres",
+                          "Welche Genres?",
                           style: TextStyle(
-                            fontSize: 40,
+                            fontSize: 36,
                             fontWeight: FontWeight.w600,
                           ),
                           textAlign: TextAlign.center,
@@ -223,7 +220,7 @@ class Create_ViewState extends State<Create_View>
                     PageViewModel(
                       titleWidget: Padding(
                         padding:
-                        const EdgeInsets.only(left: 25, right: 25, top: 15),
+                            const EdgeInsets.only(left: 25, right: 25, top: 50),
                         child: Text(
                           "Welche Streaming-Anbieter habt ihr?",
                           style: TextStyle(
@@ -240,7 +237,8 @@ class Create_ViewState extends State<Create_View>
                             FormField<List<String>>(
                               autovalidate: true,
                               initialValue: formValue2,
-                              onSaved: (val) => setState(() => formValue2 = val),
+                              onSaved: (val) =>
+                                  setState(() => formValue2 = val),
                               validator: (List value) {
                                 if (value.isEmpty) {
                                   return "Wähle mindestens einen Anbieter aus.";
@@ -276,7 +274,7 @@ class Create_ViewState extends State<Create_View>
                                         }
                                       },
                                       choiceItems:
-                                      C2Choice.listFrom<String, String>(
+                                          C2Choice.listFrom<String, String>(
                                         source: optionsProvider2,
                                         value: (i, v) => v,
                                         label: (i, v) => v,
@@ -292,7 +290,8 @@ class Create_ViewState extends State<Create_View>
                                           labelStyle: TextStyle(fontSize: 18)),
                                       wrapped: true,
                                       alignment: WrapAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       scrollPhysics: ClampingScrollPhysics(),
                                       runSpacing: 5,
                                       spacing: 5,
@@ -307,7 +306,7 @@ class Create_ViewState extends State<Create_View>
                                           style: TextStyle(
                                               color: state.hasError
                                                   ? Color.fromRGBO(
-                                                  207, 102, 121, 1)
+                                                      207, 102, 121, 1)
                                                   : null,
                                               fontSize: 18),
                                         )),
@@ -325,7 +324,7 @@ class Create_ViewState extends State<Create_View>
                   showNextButton: true,
                   skipFlex: 0,
                   nextFlex: 0,
-                  animationDuration: 800,
+                  animationDuration: 500,
                   curve: Curves.easeOutCirc,
                   skip: const Text('Skip'),
                   next: Icon(
@@ -350,8 +349,8 @@ class Create_ViewState extends State<Create_View>
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width * 0.8,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -366,7 +365,8 @@ class Create_ViewState extends State<Create_View>
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: new Text(
                                                 "Bitte wähle mindestens einen Streaming Anbieter aus um zu starten!",
                                                 overflow: TextOverflow.clip,
@@ -391,14 +391,15 @@ class Create_ViewState extends State<Create_View>
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: SizedBox(
-                                      width:
-                                          MediaQuery.of(context).size.width * 0.8,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: new CircularProgressIndicator(
+                                            child:
+                                                new CircularProgressIndicator(
                                               valueColor:
                                                   new AlwaysStoppedAnimation<
                                                       Color>(blue_ceenes),
@@ -406,7 +407,8 @@ class Create_ViewState extends State<Create_View>
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: new Text(
                                                 "Filme werden ausgesucht. Das kann einen Moment dauern...",
                                                 overflow: TextOverflow.clip,
@@ -452,7 +454,8 @@ class Create_ViewState extends State<Create_View>
                                         child: Row(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.sentiment_dissatisfied,
                                                 size: 40,
@@ -467,7 +470,8 @@ class Create_ViewState extends State<Create_View>
                                                 child: Text(
                                                   "Zu deiner Auswahl wurden nicht genug Filme gefunden. Das liegt an der Auswahl der Genres.",
                                                   overflow: TextOverflow.clip,
-                                                  style: TextStyle(fontSize: 25),
+                                                  style:
+                                                      TextStyle(fontSize: 25),
                                                 ),
                                               ),
                                             ),

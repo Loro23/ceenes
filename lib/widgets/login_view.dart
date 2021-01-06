@@ -46,7 +46,6 @@ class _Login_viewState extends State<Login_view> {
   Widget build(BuildContext context) {
     return Material(
       color: backgroundcolor_dark,
-
       child: WillPopScope(
         onWillPop: () async => true,
         child: Container(
@@ -58,7 +57,8 @@ class _Login_viewState extends State<Login_view> {
                 child: Container(
                   constraints: BoxConstraints(maxWidth: 600),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30, right: 30, top: 70),
+                    padding:
+                        const EdgeInsets.only(left: 30, right: 30, top: 70),
                     child: SingleChildScrollView(
                       child: Container(
                         //color: Colors.blue,
@@ -101,8 +101,8 @@ class _Login_viewState extends State<Login_view> {
                                     _pinPutDecoration.copyWith(
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
-                                            color:
-                                                Colors.yellow.withOpacity(0.95))),
+                                            color: Colors.yellow
+                                                .withOpacity(0.95))),
                                 selectedFieldDecoration: _pinPutDecoration,
                                 followingFieldDecoration:
                                     _pinPutDecoration.copyWith(
@@ -133,20 +133,24 @@ class _Login_viewState extends State<Login_view> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
                                                 child:
                                                     new CircularProgressIndicator(),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: new Text("Prüfe eingabe"),
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    new Text("Prüfe eingabe"),
                                               ),
                                             ],
                                           ),
                                         );
                                       },
                                     );
-                                    await checkCorrect(sessionId).then((exists) {
+                                    await checkCorrect(sessionId)
+                                        .then((exists) {
                                       if (!exists) {
                                         Navigator.pop(context);
                                         showDialog(
@@ -165,7 +169,8 @@ class _Login_viewState extends State<Login_view> {
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: new Text(
                                                         "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
                                                         style: TextStyle(
@@ -184,10 +189,10 @@ class _Login_viewState extends State<Login_view> {
                                         fetchMovies(int.parse(sessionId))
                                             .whenComplete(() {
                                           Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (BuildContext context) {
-                                            return Swipe_View(
-                                                movies_enc, int.parse(sessionId));
+                                              MaterialPageRoute(builder:
+                                                  (BuildContext context) {
+                                            return Swipe_View(movies_enc,
+                                                int.parse(sessionId));
                                           }));
                                         });
                                       }
@@ -200,7 +205,8 @@ class _Login_viewState extends State<Login_view> {
                                         color: Colors.grey[700],
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  backgroundColor: Colors.yellow.withOpacity(0.95),
+                                  backgroundColor:
+                                      Colors.yellow.withOpacity(0.95),
                                   //label: Text("Start"),
                                 ),
                               ),

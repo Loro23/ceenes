@@ -42,7 +42,6 @@ class _Details_viewState extends State<Details_view> {
   ) {
     return Center(
       child: Container(
-
         constraints: BoxConstraints(maxWidth: 600),
         color: backgroundcolor_dark,
         //height: MediaQuery.of(context).size.height * .60,
@@ -107,7 +106,8 @@ class _Details_viewState extends State<Details_view> {
                                             "/10",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Color.fromRGBO(238, 238, 238, 1),
+                                          color:
+                                              Color.fromRGBO(238, 238, 238, 1),
                                         )),
                                   ),
                                   Padding(
