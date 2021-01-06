@@ -1,3 +1,4 @@
+import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
@@ -105,6 +106,8 @@ class _MyAppState extends State<MyApp> {
         bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
         accentColor: Color.fromRGBO(25, 25, 25, 1),
         colorScheme: ColorScheme.dark(),
+        cardColor: backgroundcolor_dark,
+
       ),
       title: 'Flutter Demo',
       home: MyHomePage(title: 'Flutter Demo Home Page'),

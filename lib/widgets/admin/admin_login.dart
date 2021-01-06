@@ -35,69 +35,76 @@ class _AdminLoginState extends State<AdminLogin> {
       color: backgroundcolor_dark,
       child: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/giphy_happy.gif",
-                    height: 150,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: SelectableText(
-                      "Deine Gruppe wurde erstellt!",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: SelectableText(
-                      "Um zu starten, teile den Code mit deinen Freunden und klicke dann auf Start!",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: SelectableText(
-                      _session.sessionId.toString(),
-                      style: TextStyle(
-                          letterSpacing: 10,
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      FlutterClipboard.copy(_session.sessionId.toString());
-                    },
-                    color: Colors.grey[800],
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: Column(
                       children: [
+                        Image.asset(
+                          "assets/giphy_happy.gif",
+                          height: 150,
+                        ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Kopieren",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: SelectableText(
+                            "Deine Gruppe wurde erstellt!",
+                            style:
+                                TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(Icons.copy),
-                        )
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: SelectableText(
+                            "Um zu starten, teile den Code mit deinen Freunden und klicke dann auf Start!",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: SelectableText(
+                            _session.sessionId.toString(),
+                            style: TextStyle(
+                                letterSpacing: 10,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            FlutterClipboard.copy(_session.sessionId.toString());
+                          },
+                          color: Colors.grey[800],
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Kopieren",
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(Icons.copy),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           ),

@@ -29,6 +29,7 @@ dependencies:
   clipboard: ^0.1.2+8
   share: ^0.6.5+4
   auto_size_text: ^2.1.0
+  url_launcher: ^5.7.10
 
 
 

@@ -60,7 +60,7 @@ class _Login_viewState extends State<Login_view> {
                       children: [
                         Image.asset(
                           "assets/giphy_tired.gif",
-                          height: 200,
+                          height: 150,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 30),

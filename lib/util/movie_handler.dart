@@ -42,7 +42,7 @@ class MovieHandler {
     if (total_pages == 1) return "0";
     int random_page = 0;
     while (random_page == 0) {
-      random_page = Random().nextInt(total_pages - 1);
+      random_page = Random().nextInt(total_pages);
     }
     print("random: " + random_page.toString());
     return random_page.toString();

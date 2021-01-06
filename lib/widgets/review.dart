@@ -76,7 +76,11 @@ class _ReviewState extends State<Review> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: new CircularProgressIndicator(),
+                child: new CircularProgressIndicator(
+                  valueColor:
+                  new AlwaysStoppedAnimation<
+                      Color>(blue_ceenes),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -164,17 +168,37 @@ class _ReviewState extends State<Review> {
 
     //getNumberParts();
     if (sortedMap == null || _numVotes != _sessionParts) {
-      return Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Warte, bis deine Freunde fertig geswiped haben!"),
-          Text(_numVotes.toString() +
-              " von " +
-              _sessionParts.toString() +
-              " sind fertig."),
-        ],
-      ));
+      return Container(
+        color: backgroundcolor_dark,
+        child: Center(
+            child: RefreshIndicator(
+              color: blue_ceenes,
+              onRefresh: ()async {
+            await getNumberVotes();
+            getRating();
+            },
+              child: ListView(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text("Warte, bis deine Freunde fertig geswiped haben!"),
+                        Text(_numVotes.toString() +
+                            " von " +
+                            _sessionParts.toString() +
+                            " sind fertig."),
+                        Text("Zum aktualisieren nach unten ziehen oder den Button klicken."),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      );
     }
 
     for (Map x in sortedMap.keys.toList()[0]["watch/providers"]["results"]["DE"]
@@ -207,198 +231,207 @@ class _ReviewState extends State<Review> {
 
 
     return Material(
-        child: Container(
-          color: backgroundcolor_dark,
+        color: backgroundcolor_dark,
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: 600
+            ),
+            color: backgroundcolor_dark,
       child: ExpandableTheme(
-        data: const ExpandableThemeData(
-          iconColor: Colors.blue,
-          useInkWell: true,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: ListView(
-            physics: const BouncingScrollPhysics(),
-            children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: 400),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network("http://image.tmdb.org/t/p/w500/" +
-                          sortedMap.keys.toList()[0]["poster_path"]),
+          data: const ExpandableThemeData(
+            iconColor: Colors.blue,
+            useInkWell: true,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 400),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network("http://image.tmdb.org/t/p/w500/" +
+                            sortedMap.keys.toList()[0]["poster_path"]),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child:Row(
-                    children: [
-                      Expanded(child: 
-                        Text(sortedMap.keys.toList()[0]["title"], 
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(238, 238, 238, 1)
-                          ),
-                        )
-                      ),
-                      _getPercentage(0),
-                    ],
-                  ),
-                ),
-              ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, top: 3, bottom: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 3),
-                        child: Text("In Flatrate enthalten bei"),
-                      ),
-                      Row(
-                        children: providerimg,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              ExpandableNotifier(
-                child: Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    children: [
-                      ScrollOnExpand(
-                        child: ExpandablePanel(
-                          theme: const ExpandableThemeData(
-                            headerAlignment:
-                                ExpandablePanelHeaderAlignment.center,
-                            tapBodyToCollapse: true,
-                          ),
-                          collapsed: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              sortedMap.keys.toList()[0]["overview"],
-                              softWrap: true,
-                              textAlign: TextAlign.left,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child:Row(
+                      children: [
+                        Expanded(child:
+                          Text(sortedMap.keys.toList()[0]["title"],
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(238, 238, 238, 1)
                             ),
-                          ),
-                          expanded: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              sortedMap.keys.toList()[0]["overview"],
-                              softWrap: true,
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          tapHeaderToExpand: true,
-                          hasIcon: true,
-                          tapBodyToCollapse: true,
-                          header: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Überblick",
-                              style: TextStyle(fontWeight: FontWeight.w600),
-                            ),
-                          ),
+                          )
                         ),
-                        scrollOnExpand: true,
-                        scrollOnCollapse: false,
-                      ),
-                    ],
+                        _getPercentage(0),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              ExpandableNotifier(
-                child: Card(
-                  clipBehavior: Clip.antiAlias,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ScrollOnExpand(
-                        child: ExpandablePanel(
-                          theme: const ExpandableThemeData(
-                            headerAlignment:
-                            ExpandablePanelHeaderAlignment.center,
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 3, bottom: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 3),
+                          child: Text("In Flatrate enthalten bei"),
+                        ),
+                        Row(
+                          children: providerimg,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ExpandableNotifier(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      children: [
+                        ScrollOnExpand(
+                          child: ExpandablePanel(
+                            theme: const ExpandableThemeData(
+                              headerAlignment:
+                                  ExpandablePanelHeaderAlignment.center,
+                              tapBodyToCollapse: true,
+                            ),
+                            collapsed: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                sortedMap.keys.toList()[0]["overview"],
+                                softWrap: true,
+                                textAlign: TextAlign.left,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            expanded: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                sortedMap.keys.toList()[0]["overview"],
+                                softWrap: true,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            tapHeaderToExpand: true,
+                            hasIcon: true,
                             tapBodyToCollapse: true,
-                            tapBodyToExpand: false, tapHeaderToExpand: true
+                            iconColor: blue_ceenes,
+                            header: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Überblick",
+                                style: TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                            ),
                           ),
+                          scrollOnExpand: true,
+                          scrollOnCollapse: false,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ExpandableNotifier(
+                  child: Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ScrollOnExpand(
+                          child: ExpandablePanel(
+                            theme: const ExpandableThemeData(
+                              headerAlignment:
+                              ExpandablePanelHeaderAlignment.center,
+                              tapBodyToCollapse: true,
+                              tapBodyToExpand: false, tapHeaderToExpand: true
+                            ),
 
-                          expanded: Container(
-                            height: 500,
-                            child: ListView.builder(
-                              itemCount: sortedMap.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  title: Card(
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDetails(context,sortedMap.entries.elementAt(index).key);
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Image.network(
-                                            "http://image.tmdb.org/t/p/w92/" +
-                                                getCorrectPosterpath(sortedMap.entries
-                                                    .elementAt(index)
-                                                    .key["id"]),
-                                            height: 80,
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8),
-                                              child: Text(
-                                                sortedMap.entries.elementAt(index).key["title"],
-                                                overflow: TextOverflow.clip,
+                            expanded: Container(
+                              height: 500,
+                              child: ListView.builder(
+                                itemCount: sortedMap.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Card(
+                                      child: InkWell(
+                                        onTap: () {
+                                          showDetails(context,sortedMap.entries.elementAt(index).key);
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Image.network(
+                                              "http://image.tmdb.org/t/p/w92/" +
+                                                  getCorrectPosterpath(sortedMap.entries
+                                                      .elementAt(index)
+                                                      .key["id"]),
+                                              height: 80,
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 8),
+                                                child: Text(
+                                                  sortedMap.entries.elementAt(index).key["title"],
+                                                  overflow: TextOverflow.clip,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: _getPercentage(index) //voting
-                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: _getPercentage(index) //voting
+                                              ),
 
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
+                            ),
+                            tapHeaderToExpand: true,
+                            hasIcon: true,
+                            tapBodyToCollapse: true,
+                            iconColor: blue_ceenes,
+                            header: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Hier findet ihr alle Filme",
+                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 23),
+                              ),
                             ),
                           ),
-                          tapHeaderToExpand: true,
-                          hasIcon: true,
-                          tapBodyToCollapse: true,
-                          header: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Hier findet ihr alle Filme",
-                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 23),
-                            ),
-                          ),
+                          scrollOnExpand: true,
+                          scrollOnCollapse: false,
                         ),
-                        scrollOnExpand: true,
-                        scrollOnCollapse: false,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 50,
-              )
-            ],
+                SizedBox(
+                  height: 50,
+                )
+              ],
+            ),
           ),
-        ),
       ),
-    ));
+    ),
+        ));
   }
 
   getNumberParts() async {
@@ -454,32 +487,10 @@ class _ReviewState extends State<Review> {
           child: Stack(
             children: [
               getReviewView(),
-              /*
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: FloatingActionButton.extended(
-                        heroTag: "10",
-                        onPressed: () async {
-                          await getNumberVotes();
-                          getRating();
-                        },
-                        label: Text(
-                          "Neu laden",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        backgroundColor: Colors.pinkAccent,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              getRefreshButton(),
 
-               */
+
+
 
               //Stack für header
               Align(
@@ -531,6 +542,27 @@ class _ReviewState extends State<Review> {
             ],
           ),
         ));
+  }
+
+  getRefreshButton() {
+    if (_sessionParts == _numVotes){
+      return SizedBox();
+    }
+    return   Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: FloatingActionButton(
+          heroTag: "10",
+          onPressed: () async {
+            await getNumberVotes();
+            getRating();
+          },
+          child: Icon(Icons.refresh, color: blue_ceenes,),
+          backgroundColor: Colors.grey[800],
+        ),
+      ),
+    );
   }
 }
 
