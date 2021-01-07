@@ -68,7 +68,7 @@ class _StartViewState extends State<StartView> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage("assets/popcorn_ceenes.jpg"),
+                    image: AssetImage("assets/movie_cover.png"),
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.75), BlendMode.darken),
                   ))),
@@ -159,12 +159,17 @@ class _StartViewState extends State<StartView> {
                                   ),
                                   Expanded(
                                     child: RaisedButton(
-                                      color: blue_ceenes,
+                                      color: backgroundcolor_dark,
+                                      shape: RoundedRectangleBorder(side: BorderSide(
+                                          color: Colors.yellow,
+                                          width: 2,
+                                          style: BorderStyle.solid
+                                      ), borderRadius: BorderRadius.circular(50)),
                                       child: Text(
                                         "Teilnehmen",
                                         style: TextStyle(
                                             fontSize: 21,
-                                            color: backgroundcolor_dark),
+                                            color: Colors.yellow),
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).push(

@@ -109,12 +109,6 @@ class _MyAppState extends State<MyApp> {
         accentColor: Color.fromRGBO(25, 25, 25, 1),
         colorScheme: ColorScheme.dark(),
         cardColor: backgroundcolor_dark,
-        textTheme: GoogleFonts.comicNeueTextTheme(
-          Theme.of(context).textTheme,
-        ).copyWith(
-          body1: GoogleFonts.comicNeue(textStyle: TextStyle(color: Colors.white)),
-          button: GoogleFonts.notoSans(textStyle: TextStyle(color: Colors.white)),
-        )
       ),
       title: 'Ceenes - Findet den perfekten Film',
       home: MyHomePage(title: 'Ceenes Homepage'),
