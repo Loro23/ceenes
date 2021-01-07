@@ -99,7 +99,7 @@ class _StartViewState extends State<StartView> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage("assets/movie_cover.png"),
+                    image: AssetImage("assets/movie_cover_2rows.png"),
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.75), BlendMode.darken),
                   ))),
