@@ -54,6 +54,37 @@ class _StartViewState extends State<StartView> {
       throw 'Could not launch $url';
     }
   }
+
+  _getHeight(){
+    return MediaQuery.of(context).size.height;
+  }
+  _getWidth(){
+    return MediaQuery.of(context).size.width;
+
+  }
+
+  getTitleFontSize(){
+    double height = MediaQuery.of(context).size.height;
+    return height*0.03;
+  }
+  getSubtitleFontSize(){
+    double height = MediaQuery.of(context).size.height;
+    return height*0.025;
+  }
+  getButtonFontSize(){
+    double height = MediaQuery.of(context).size.height;
+    if (_getWidth()<300){
+      return height *0.02;
+    }
+    return height *0.03;
+  }
+  getButtonHeightSize(){
+    double height = MediaQuery.of(context).size.height;
+    return height * 0.08;
+  }
+  getLogoSize(){
+    return _getHeight()*0.11;
+  }
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -64,7 +95,7 @@ class _StartViewState extends State<StartView> {
           children: [
             Center(
               child: Container(
-                  height: MediaQuery.of(context).size.height * .4,
+                  height: MediaQuery.of(context).size.height * .6,
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.cover,
@@ -81,7 +112,7 @@ class _StartViewState extends State<StartView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.6,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 25, right: 25),
                         child: Center(
@@ -93,13 +124,13 @@ class _StartViewState extends State<StartView> {
                                       top: 8, left: 8, bottom: 8, right: 12),
                                   child: Image.asset(
                                     "assets/ceenes_logo_yellow4x.png",
-                                    height: 70,
+                                    height: getLogoSize(),
                                   )),
                               AutoSizeText(
                                 "Finde den besten Film. Swipe zusammen mit deinen Freunden.",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25,
+                                    fontSize: getTitleFontSize(),
                                     letterSpacing: 1),
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
@@ -110,10 +141,75 @@ class _StartViewState extends State<StartView> {
                               AutoSizeText(
                                 "Starte jetzt - keine Anmeldung, keine Registrierung, keine Kosten",
                                 style:
-                                    TextStyle(fontSize: 18, letterSpacing: 1),
+                                    TextStyle(fontSize: getSubtitleFontSize(), letterSpacing: 1),
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ButtonTheme(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: Padding(
+                                  padding:
+                                  const EdgeInsets.only(top: 20, bottom: 20),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: RaisedButton(
+                                          child: Text(
+                                            "Erstellen",
+                                            style: TextStyle(
+                                                fontSize: getButtonFontSize(),
+                                                color: backgroundcolor_dark,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          color: Colors.yellow.withOpacity(0.95),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder:
+                                                    (BuildContext context) {
+                                                  return Create_View();
+                                                }));
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Expanded(
+                                        child: RaisedButton(
+                                          color: backgroundcolor_dark,
+                                          shape: RoundedRectangleBorder(side: BorderSide(
+                                              color: Colors.yellow,
+                                              width: 2,
+                                              style: BorderStyle.solid
+                                          ), borderRadius: BorderRadius.circular(50)),
+                                          child: Text(
+                                            "Teilnehmen",
+                                            style: TextStyle(
+                                                fontSize: getButtonFontSize(),
+                                                color: Colors.yellow),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder:
+                                                    (BuildContext context) {
+                                                  return Login_view();
+                                                }));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                  ),
+                                ),
+                                height: getButtonHeightSize(),
+                              ),
+
                             ],
                           ),
                         ),
@@ -126,70 +222,7 @@ class _StartViewState extends State<StartView> {
                       padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Column(
                         children: [
-                          ButtonTheme(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: RaisedButton(
-                                      child: Text(
-                                        "Erstellen",
-                                        style: TextStyle(
-                                            fontSize: 21,
-                                            color: backgroundcolor_dark,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      color: Colors.yellow.withOpacity(0.95),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return Create_View();
-                                        }));
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Expanded(
-                                    child: RaisedButton(
-                                      color: backgroundcolor_dark,
-                                      shape: RoundedRectangleBorder(side: BorderSide(
-                                          color: Colors.yellow,
-                                          width: 2,
-                                          style: BorderStyle.solid
-                                      ), borderRadius: BorderRadius.circular(50)),
-                                      child: Text(
-                                        "Teilnehmen",
-                                        style: TextStyle(
-                                            fontSize: 21,
-                                            color: Colors.yellow),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return Login_view();
-                                        }));
-                                      },
-                                    ),
-                                  ),
-                                ],
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                              ),
-                            ),
-                            height: 60,
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
+
                           Container(
                             width: double.maxFinite,
                             child: Card(
