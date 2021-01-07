@@ -31,9 +31,8 @@ dependencies:
   auto_size_text: ^2.1.0
   url_launcher: ^5.7.10
   flutter_html: "^1.0.0"
-
-
-
+  flutter_linkify: ^4.0.2
+  google_fonts: ^1.1.1
 
 
 dev_dependencies:

@@ -12,6 +12,8 @@ import 'package:tmdb_api/tmdb_api.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
@@ -107,6 +109,12 @@ class _MyAppState extends State<MyApp> {
         accentColor: Color.fromRGBO(25, 25, 25, 1),
         colorScheme: ColorScheme.dark(),
         cardColor: backgroundcolor_dark,
+        textTheme: GoogleFonts.comicNeueTextTheme(
+          Theme.of(context).textTheme,
+        ).copyWith(
+          body1: GoogleFonts.comicNeue(textStyle: TextStyle(color: Colors.white)),
+          button: GoogleFonts.notoSans(textStyle: TextStyle(color: Colors.white)),
+        )
       ),
       title: 'Ceenes - Findet den perfekten Film',
       home: MyHomePage(title: 'Ceenes Homepage'),

@@ -5,6 +5,7 @@ import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
+import 'package:ceenes_prototype/widgets/license_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
 import 'package:ceenes_prototype/widgets/privacy.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
@@ -26,7 +27,6 @@ class StartView extends StatefulWidget {
 }
 
 class _StartViewState extends State<StartView> {
-
   _launchURL() async {
     const url =
         'https://de.linkedin.com/in/benjamin-kasten-a68466155?challengeId=AQGWWfDdKCKNjwAAAXYVZyJsoBJBTAUesYA_Y30jgQvYM8XZnLmkfnDvN58rnfxhg077ug-e2Nqb_PqTIvsQiITK9rtxoP1jFw&submissionId=ab2c09ea-1410-4c16-c6a2-30032c387a20';
@@ -46,6 +46,14 @@ class _StartViewState extends State<StartView> {
     }
   }
 
+  _launchURLIG() async {
+    const url = 'https://www.instagram.com/ceenes.official/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -209,7 +217,6 @@ class _StartViewState extends State<StartView> {
                                     textAlign: TextAlign.center,
                                   ),
                                   Text(
-
                                     "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
                                     style: TextStyle(
                                       fontSize: 16,
@@ -428,27 +435,64 @@ class _StartViewState extends State<StartView> {
                           SizedBox(
                             height: 120,
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                FlatButton(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("Datenschutz", style: TextStyle(fontSize: 18),),
+                          InkWell(
+
+                            onTap: _launchURLIG,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/ig.webp", height: 18, color: Colors.white,),
+                                  SizedBox(width: 4,),
+                                  Text("@ceenes.offcial", style: TextStyle(fontSize: 18),)
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FlatButton(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text("Lizenzen & Credits", style: TextStyle(fontSize: 15),),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return LicenceCredits_View();
+                                      }));
+                                    },
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                      return PrivacyPolicy();
-                                    }));
-                                  },
-                                ),
-                              ],
+                                  FlatButton(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                        "Datenschutz",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return PrivacyPolicy();
+                                      }));
+                                    },
+                                  ),
+
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -458,35 +502,6 @@ class _StartViewState extends State<StartView> {
                 ),
               ),
             ),
-
-            /*
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.transparent
-                    ])),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: 8, left: 8, bottom: 8, right: 12),
-                        child: Image.asset(
-                          "assets/ceenes_logo_yellow4x.png",
-                          height: 40,
-                        )),
-                  ],
-                ),
-              ),
-            ),
-*/
           ],
         ),
       ),
