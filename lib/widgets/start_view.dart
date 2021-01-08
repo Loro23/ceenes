@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
@@ -55,10 +56,10 @@ class _StartViewState extends State<StartView> {
     }
   }
 
-  _getHeight(){
+  double _getHeight(){
     return MediaQuery.of(context).size.height;
   }
-  _getWidth(){
+  double _getWidth(){
     return MediaQuery.of(context).size.width;
 
   }
@@ -80,7 +81,7 @@ class _StartViewState extends State<StartView> {
   }
   getButtonHeightSize(){
     double height = MediaQuery.of(context).size.height;
-    return height * 0.08;
+    return _getHeight() * 0.08;
   }
   getLogoSize(){
     return _getHeight()*0.11;
@@ -181,7 +182,7 @@ class _StartViewState extends State<StartView> {
                                       ),
                                       Expanded(
                                         child: RaisedButton(
-                                          color: backgroundcolor_dark,
+                                          color: Colors.transparent,
                                           shape: RoundedRectangleBorder(side: BorderSide(
                                               color: Colors.yellow,
                                               width: 2,
@@ -243,31 +244,42 @@ class _StartViewState extends State<StartView> {
                             height: 15,
                           ),
                           Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "1. Erstelle eine Gruppe",
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.center,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "1. Erstell eine Gruppe",
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    letterSpacing: 1,
                                   ),
-                                  Text(
-                                    "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      letterSpacing: 1,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(decoration: BoxDecoration(
+                                    color: Colors.grey[700],
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),child: Padding(
+                                    padding: const EdgeInsets.all(1),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        child: Image.asset("assets/create.gif", width: 300,)),
+                                  )),
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 15,
                           ),
                           Card(
                             child: Padding(
@@ -281,19 +293,41 @@ class _StartViewState extends State<StartView> {
                                         fontWeight: FontWeight.w600),
                                     textAlign: TextAlign.center,
                                   ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   Text(
-                                    "Entscheide dich jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
+                                    "Entscheide für jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
                                     style: TextStyle(
                                         fontSize: 16, letterSpacing: 1),
                                     textAlign: TextAlign.center,
                                   ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(decoration: BoxDecoration(
+                                    color: Colors.grey[700],
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),child: Padding(
+                                    padding: const EdgeInsets.all(1),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                                            child: Container(
+                                              color: backgroundcolor_dark,
+                                              padding: EdgeInsets.only(bottom: 8, left: 10, right: 10),
+                                                child: Image.asset("assets/swipe.gif", width: 300,)),
+                                          ),
+                                        )),
+                                  )),
                                 ],
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
+
                           Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -305,12 +339,37 @@ class _StartViewState extends State<StartView> {
                                         fontSize: 23,
                                         fontWeight: FontWeight.w600),
                                   ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   Text(
                                     "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
                                     style: TextStyle(
                                         fontSize: 16, letterSpacing: 1),
                                     textAlign: TextAlign.center,
                                   ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(decoration: BoxDecoration(
+                                    color: Colors.grey[700],
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),child: Padding(
+                                    padding: const EdgeInsets.all(1),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                                            child: Container(
+                                                color: backgroundcolor_dark,
+                                                padding: EdgeInsets.only(bottom: 8, left: 10, right: 10),
+                                                child: Image.asset("assets/review.gif", width: 300,)),
+                                          ),
+                                        )),
+                                  )),
+
                                 ],
                               ),
                             ),
@@ -340,8 +399,8 @@ class _StartViewState extends State<StartView> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Ceenes will euch dabei helfen, das ewige Suchen nach einem Film auf Netflix, Prime Video oder eurem Liebelings"
-                              "Streaming-Anbieter zu beenden. WIr schlagen euch Filme vor, ihr entscheidet. ",
+                              "Ceenes will euch dabei helfen, das ewige Suchen nach einem Film auf Netflix, Prime Video oder eurem Liebelings-"
+                              "Streaming-Anbieter zu beenden. Wir schlagen euch Filme vor, ihr entscheidet. ",
                               style: TextStyle(fontSize: 16, letterSpacing: 1),
                               textAlign: TextAlign.start,
                             ),
@@ -373,7 +432,7 @@ class _StartViewState extends State<StartView> {
                             child: Text(
                               "Ceenes entsteht ihm Rahmen eines Seminars an der Universiät Paderborn. Wir, Lorenz und Benjamin, "
                               "stecken über ein Semester viel Energie in die Entwicklung dieser Webapp und wollen ein qualitativ hochwertiges "
-                              "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern.   ",
+                              "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern. ",
                               style: TextStyle(fontSize: 16, letterSpacing: 1),
                               textAlign: TextAlign.start,
                             ),
@@ -485,7 +544,7 @@ class _StartViewState extends State<StartView> {
                                 children: [
                                   Image.asset("assets/ig.webp", height: 18, color: Colors.white,),
                                   SizedBox(width: 4,),
-                                  Text("@ceenes.offcial", style: TextStyle(fontSize: 18),)
+                                  Text("ceenes.offcial", style: TextStyle(fontSize: 18),)
                                 ],
                               ),
                             ),

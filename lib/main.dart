@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
         bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
         accentColor: Color.fromRGBO(25, 25, 25, 1),
         colorScheme: ColorScheme.dark(),
-        cardColor: backgroundcolor_dark,
+        cardColor: backgroundcolor_dark
       ),
       title: 'Ceenes - Findet den perfekten Film',
       home: MyHomePage(title: 'Ceenes Homepage'),
