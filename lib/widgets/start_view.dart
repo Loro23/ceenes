@@ -259,7 +259,7 @@ class _StartViewState extends State<StartView> {
                                 Text(
                                   "Lege fest, was für Filme ihr angezeigt bekommen wollt. Welche Streaming-Anbieter habt ihr, welche Genres wollt ihr?",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     letterSpacing: 1,
                                   ),
                                 ),
@@ -281,31 +281,32 @@ class _StartViewState extends State<StartView> {
                               ],
                             ),
                           ),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "2. Swipe mit Freunden",
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w600),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    "Entscheide für jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
-                                    style: TextStyle(
-                                        fontSize: 16, letterSpacing: 1),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Container(decoration: BoxDecoration(
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+
+                              children: [
+                                Text(
+                                  "2. Swipe mit Freunden",
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "Entscheide für jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
+                                  style: TextStyle(
+                                      fontSize: 18, letterSpacing: 1),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(decoration: BoxDecoration(
                                     color: Colors.grey[700],
                                     borderRadius: BorderRadius.all(Radius.circular(20)),
                                   ),child: Padding(
@@ -323,35 +324,36 @@ class _StartViewState extends State<StartView> {
                                           ),
                                         )),
                                   )),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
 
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "3. Ergebnis anzeigen",
-                                    style: TextStyle(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text(
-                                    "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
-                                    style: TextStyle(
-                                        fontSize: 16, letterSpacing: 1),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Container(decoration: BoxDecoration(
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "3. Ergebnis anzeigen",
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
+                                  style: TextStyle(
+                                      fontSize: 18, letterSpacing: 1),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(decoration: BoxDecoration(
                                     color: Colors.grey[700],
                                     borderRadius: BorderRadius.all(Radius.circular(20)),
                                   ),child: Padding(
@@ -369,9 +371,9 @@ class _StartViewState extends State<StartView> {
                                           ),
                                         )),
                                   )),
+                                ),
 
-                                ],
-                              ),
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -401,7 +403,7 @@ class _StartViewState extends State<StartView> {
                             child: Text(
                               "Ceenes will euch dabei helfen, das ewige Suchen nach einem Film auf Netflix, Prime Video oder eurem Liebelings-"
                               "Streaming-Anbieter zu beenden. Wir schlagen euch Filme vor, ihr entscheidet. ",
-                              style: TextStyle(fontSize: 16, letterSpacing: 1),
+                              style: TextStyle(fontSize: 18, letterSpacing: 1),
                               textAlign: TextAlign.start,
                             ),
                           ),
@@ -433,7 +435,7 @@ class _StartViewState extends State<StartView> {
                               "Ceenes entsteht ihm Rahmen eines Seminars an der Universiät Paderborn. Wir, Lorenz und Benjamin, "
                               "stecken über ein Semester viel Energie in die Entwicklung dieser Webapp und wollen ein qualitativ hochwertiges "
                               "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern. ",
-                              style: TextStyle(fontSize: 16, letterSpacing: 1),
+                              style: TextStyle(fontSize: 18, letterSpacing: 1),
                               textAlign: TextAlign.start,
                             ),
                           ),

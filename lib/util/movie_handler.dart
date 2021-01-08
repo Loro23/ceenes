@@ -4,7 +4,6 @@ import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'dart:math';
 import 'api.dart';
-import 'movie.dart';
 import 'package:http/http.dart' as http;
 
 class MovieHandler {
@@ -20,7 +19,9 @@ class MovieHandler {
         "&ott_region=DE" +
         "&page=" +
         page +
-        "&vote_average.gte=5";
+        "&vote_average.gte=4" +
+        "&vote_count.gte=1000"+
+        "&include_adult=false";
 
     return request;
   }
@@ -34,12 +35,16 @@ class MovieHandler {
         "&with_genres=" +
         session.connectGenres() +
         "&ott_region=DE" +
-        "&vote_average.gte=5";
+        "&vote_average.gte=4" +
+    "&vote_count.gte=1000"+
+    "&include_adult=false"
+
+    ;
 
     final response = await http.get(request);
     int total_pages = jsonDecode(response.body)["total_pages"];
     print("total: " + jsonDecode(response.body)["total_pages"].toString());
-    if (total_pages == 1) return "0";
+    if (total_pages <=1) return "0";
     int random_page = 0;
     while (random_page == 0) {
       random_page = Random().nextInt(total_pages);
@@ -67,7 +72,6 @@ class MovieHandler {
             .get(_createRequestMoviesByProvider(session, prov, random_page));
         moviesNeu.addAll(jsonDecode(response.body)[
             "results"]); //füge die filme der egsamtasuwahl für diese Session
-
       }
     }
 
@@ -78,14 +82,18 @@ class MovieHandler {
     //details rausholen
     while (moviesDetails.length < 15) {
       int index = Random().nextInt(moviesNeu.length);
-
       await tmdb.v3.movies
           .getDetails(moviesNeu[index]["id"],
               appendToResponse: "watch/providers", language: "de-DE")
           .then((_result) {
         if (!usedIndex.contains(index)) {
           usedIndex.add(index);
-          moviesDetails.add(_result);
+          print(_result["title"]);
+
+          if (_result["poster_path"] != null && _result["overview"] != null && _result["title"] != null && _result["genres"] != null && _result["vote_average"] != null && _result["release_date"]!=null){
+            print(1);
+            moviesDetails.add(_result);
+          }
         }
       });
     }
