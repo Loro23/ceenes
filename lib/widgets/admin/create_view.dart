@@ -127,7 +127,7 @@ class Create_ViewState extends State<Create_View>
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
-        onWillPop: (){
+        onWillPop: () {
           print("wil poppen");
         },
         child: Stack(
@@ -142,8 +142,8 @@ class Create_ViewState extends State<Create_View>
                     pages: [
                       PageViewModel(
                         titleWidget: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 25, right: 25, top: 50),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 50),
                           child: Text(
                             "Wie viele Personen seid ihr?",
                             style: TextStyle(
@@ -183,8 +183,8 @@ class Create_ViewState extends State<Create_View>
                       ),
                       PageViewModel(
                         titleWidget: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 25, right: 25, top: 50),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 50),
                           child: Text(
                             "Welche Genres?",
                             style: TextStyle(
@@ -223,8 +223,8 @@ class Create_ViewState extends State<Create_View>
                       ),
                       PageViewModel(
                         titleWidget: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 25, right: 25, top: 50),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 50),
                           child: Text(
                             "Welche Streaming-Anbieter habt ihr?",
                             style: TextStyle(
@@ -258,7 +258,8 @@ class Create_ViewState extends State<Create_View>
                                         onChanged: (val) {
                                           state.didChange(val);
                                           //  print(formKey2.currentState.validate());
-                                          if (formKey2.currentState.validate()) {
+                                          if (formKey2.currentState
+                                              .validate()) {
                                             // If the form is valid, save the value.
                                             formKey2.currentState.save();
                                             valueProvider2 = val;
@@ -290,8 +291,10 @@ class Create_ViewState extends State<Create_View>
                                             labelStyle: TextStyle(fontSize: 18),
                                             borderOpacity: 0.5),
                                         choiceStyle: C2ChoiceStyle(
-                                            color: Colors.white.withOpacity(0.8),
-                                            labelStyle: TextStyle(fontSize: 18)),
+                                            color:
+                                                Colors.white.withOpacity(0.8),
+                                            labelStyle:
+                                                TextStyle(fontSize: 18)),
                                         wrapped: true,
                                         alignment: WrapAlignment.center,
                                         mainAxisAlignment:
@@ -353,13 +356,15 @@ class Create_ViewState extends State<Create_View>
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: SizedBox(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.8,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Icon(
                                                 Icons.error,
                                                 color: Color.fromRGBO(
@@ -374,7 +379,8 @@ class Create_ViewState extends State<Create_View>
                                                 child: new Text(
                                                   "Bitte wähle mindestens einen Streaming Anbieter aus um zu starten!",
                                                   overflow: TextOverflow.clip,
-                                                  style: TextStyle(fontSize: 22),
+                                                  style:
+                                                      TextStyle(fontSize: 22),
                                                 ),
                                               ),
                                             ),
@@ -395,13 +401,15 @@ class Create_ViewState extends State<Create_View>
                                     child: Padding(
                                       padding: const EdgeInsets.all(15),
                                       child: SizedBox(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.8,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.8,
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child:
                                                   new CircularProgressIndicator(
                                                 valueColor:
@@ -416,7 +424,8 @@ class Create_ViewState extends State<Create_View>
                                                 child: new Text(
                                                   "Filme werden ausgesucht. Das kann einen Moment dauern...",
                                                   overflow: TextOverflow.clip,
-                                                  style: TextStyle(fontSize: 22),
+                                                  style:
+                                                      TextStyle(fontSize: 22),
                                                 ),
                                               ),
                                             ),
@@ -448,7 +457,8 @@ class Create_ViewState extends State<Create_View>
                                 if (movies.length > 0) {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                    return AdminLogin(this.session, this.movies);
+                                    return AdminLogin(
+                                        this.session, this.movies);
                                   }));
                                 } else {
                                   showDialog(

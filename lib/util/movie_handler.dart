@@ -20,7 +20,7 @@ class MovieHandler {
         "&page=" +
         page +
         "&vote_average.gte=4" +
-        "&vote_count.gte=1000"+
+        "&vote_count.gte=1000" +
         "&include_adult=false";
 
     return request;
@@ -36,14 +36,13 @@ class MovieHandler {
         session.connectGenres() +
         "&ott_region=DE" +
         "&vote_average.gte=4" +
-    "&vote_count.gte=1000"+
-    "&include_adult=false"
-    ;
+        "&vote_count.gte=1000" +
+        "&include_adult=false";
 
     final response = await http.get(request);
     int total_pages = jsonDecode(response.body)["total_pages"];
     print("total: " + jsonDecode(response.body)["total_pages"].toString());
-    if (total_pages <=1) return "0";
+    if (total_pages <= 1) return "0";
     int random_page = 0;
     while (random_page == 0) {
       random_page = Random().nextInt(total_pages);
@@ -89,7 +88,12 @@ class MovieHandler {
           usedIndex.add(index);
           print(_result["title"]);
 
-          if (_result["poster_path"] != null && _result["overview"] != null && _result["title"] != null && _result["genres"] != null && _result["vote_average"] != null && _result["release_date"]!=null){
+          if (_result["poster_path"] != null &&
+              _result["overview"] != null &&
+              _result["title"] != null &&
+              _result["genres"] != null &&
+              _result["vote_average"] != null &&
+              _result["release_date"] != null) {
             print(1);
             moviesDetails.add(_result);
           }

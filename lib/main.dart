@@ -99,17 +99,16 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
-        scaffoldBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
-        secondaryHeaderColor: Color.fromRGBO(25, 25, 25, 1),
-        backgroundColor: Color.fromRGBO(25, 25, 25, 1),
-        primaryColorDark: Color.fromRGBO(25, 25, 25, 1),
-        dialogBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
-        bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
-        accentColor: Color.fromRGBO(25, 25, 25, 1),
-        colorScheme: ColorScheme.dark(),
-        cardColor: backgroundcolor_dark
-      ),
+          primaryColor: Colors.white,
+          scaffoldBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
+          secondaryHeaderColor: Color.fromRGBO(25, 25, 25, 1),
+          backgroundColor: Color.fromRGBO(25, 25, 25, 1),
+          primaryColorDark: Color.fromRGBO(25, 25, 25, 1),
+          dialogBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
+          bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
+          accentColor: Color.fromRGBO(25, 25, 25, 1),
+          colorScheme: ColorScheme.dark(),
+          cardColor: backgroundcolor_dark),
       title: 'Ceenes - Findet den perfekten Film',
       home: MyHomePage(title: 'Ceenes Homepage'),
     );
