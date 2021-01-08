@@ -240,10 +240,9 @@ class _StartViewState extends State<StartView> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Card(
+
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -264,7 +263,7 @@ class _StartViewState extends State<StartView> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 20,
+                                  height: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.center,
@@ -275,14 +274,22 @@ class _StartViewState extends State<StartView> {
                                     padding: const EdgeInsets.all(1),
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                                        child: Image.asset("assets/create.gif", width: 300,)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(1),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                                            child: Container(
+                                                color: backgroundcolor_dark,
+                                                child: Image.asset("assets/create.gif", width: 300,)),
+                                          ),
+                                        )),
                                   )),
                                 ),
                               ],
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 50),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -294,7 +301,7 @@ class _StartViewState extends State<StartView> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 20,
                                 ),
                                 Text(
                                   "Entscheide für jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
@@ -302,7 +309,7 @@ class _StartViewState extends State<StartView> {
                                       fontSize: 18, letterSpacing: 1),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.center,
@@ -330,7 +337,7 @@ class _StartViewState extends State<StartView> {
                           ),
 
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 50),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -341,7 +348,7 @@ class _StartViewState extends State<StartView> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 20,
                                 ),
                                 Text(
                                   "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
@@ -349,7 +356,7 @@ class _StartViewState extends State<StartView> {
                                       fontSize: 18, letterSpacing: 1),
                                 ),
                                 SizedBox(
-                                  height: 15,
+                                  height: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.center,

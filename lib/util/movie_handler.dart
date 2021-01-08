@@ -38,7 +38,6 @@ class MovieHandler {
         "&vote_average.gte=4" +
     "&vote_count.gte=1000"+
     "&include_adult=false"
-
     ;
 
     final response = await http.get(request);
