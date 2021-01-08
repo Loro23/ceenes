@@ -79,6 +79,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
     for (Map x in movies_dec) {
       if (x["overview"] == "") {
         tmdb.v3.movies.getDetails(x["id"], language: "en-US").then((_result) {
+          if(_result == null){
+            x["overview"] = "";
+          }
           x["overview"] = _result["overview"];
         });
       }
