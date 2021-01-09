@@ -31,7 +31,7 @@ class _Details_viewState extends State<Details_view> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5.0),
           child: Image.network(
-            "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+            "https://image.tmdb.org/t/p/w500/" + x["logo_path"],
           ),
         ),
         height: 50,
@@ -75,19 +75,22 @@ class _Details_viewState extends State<Details_view> {
               children: [
                 Expanded(
                   flex: 10,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      child: FadeInImage.memoryNetwork(
-
-                        placeholder: kTransparentImage,
-                        image: "https://image.tmdb.org/t/p/original/" + actor.profil_path,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:3, left: 3, right: 3),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipOval(
+                        child: FadeInImage.memoryNetwork(
+                          fit: BoxFit.cover,
+                          placeholder: kTransparentImage,
+                          image: "https://image.tmdb.org/t/p/w185/" + actor.profil_path,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 5,
                     child: Padding(
                       padding: const EdgeInsets.all(2),
                       child: Center(
@@ -95,6 +98,7 @@ class _Details_viewState extends State<Details_view> {
                   actor.name + " als " + actor.character,
                   style: TextStyle(fontSize: 10),
                   overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
                 ),
                       ),
                     ))
@@ -130,7 +134,7 @@ class _Details_viewState extends State<Details_view> {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            "http://image.tmdb.org/t/p/w500/" +
+                            "https://image.tmdb.org/t/p/w500/" +
                                 details["poster_path"],
                             height: 120,
                           )),
@@ -213,6 +217,7 @@ class _Details_viewState extends State<Details_view> {
                     child: Text(details["overview"],
                         style: TextStyle(fontSize: 16))),
                 Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   height: 150,
                   child: FutureBuilder(
                     future: _setCast(),
@@ -229,7 +234,8 @@ class _Details_viewState extends State<Details_view> {
                         return CircularProgressIndicator();
                     },
                   ),
-                )
+                ),
+                SizedBox(height: 10,)
               ],
             ),
           ),
