@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:ceenes_prototype/util/actor.dart';
+import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
+
 
 Map details;
 
@@ -14,6 +20,7 @@ class Details_view extends StatefulWidget {
 
 class _Details_viewState extends State<Details_view> {
   List<Widget> providerimg = [];
+  List<Widget> actorImg = [];
   String genres = "";
   @override
   void initState() {
@@ -24,7 +31,7 @@ class _Details_viewState extends State<Details_view> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(5.0),
           child: Image.network(
-            "http://image.tmdb.org/t/p/w500/" + x["logo_path"],
+            "https://image.tmdb.org/t/p/w500/" + x["logo_path"],
           ),
         ),
         height: 50,
@@ -36,10 +43,76 @@ class _Details_viewState extends State<Details_view> {
     genres = genres.substring(0, genres.length - 2);
   }
 
+  Map<String, dynamic> _cast = Map();
+  List cast = [];
+
+  List<Actor> actors = [];
+
+  List<Widget> actorWidgets = [];
+
+  _setCast() async {
+    _cast = await tmdb.v3.movies.getCredits(details["id"],);
+    cast = _cast.values.toList()[1];
+    for (int i = 0; i < cast.length; i++) {
+      print(cast[i]);
+      actors.add(new Actor(
+          cast[i]["name"], cast[i]["profile_path"], cast[i]["character"], cast[i]["popularity"]));
+    }
+    actors.sort((a, b) => a.pop.compareTo(b.pop));
+    actors = actors.reversed.toList();
+
+    for (Actor actor in actors) {
+      if (actor.profil_path == null) continue;
+      actorWidgets.add(Padding(
+        padding: const EdgeInsets.only(right: 5),
+        child: Card(
+          color: Colors.grey[800],
+          child: Container(
+            width: 100,
+            height: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 10,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top:3, left: 3, right: 3),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipOval(
+                        child: FadeInImage.memoryNetwork(
+                          fit: BoxFit.cover,
+                          placeholder: kTransparentImage,
+                          image: "https://image.tmdb.org/t/p/w185/" + actor.profil_path,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 5,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Center(
+                        child: Text(
+                  actor.name + " als " + actor.character,
+                  style: TextStyle(fontSize: 10),
+                  overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
+                ),
+                      ),
+                    ))
+              ],
+            ),
+          ),
+        ),
+      ));
+    }
+    return actorWidgets;
+  }
+
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
         constraints: BoxConstraints(maxWidth: 600),
@@ -61,7 +134,7 @@ class _Details_viewState extends State<Details_view> {
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
                           child: Image.network(
-                            "http://image.tmdb.org/t/p/w500/" +
+                            "https://image.tmdb.org/t/p/w500/" +
                                 details["poster_path"],
                             height: 120,
                           )),
@@ -143,6 +216,26 @@ class _Details_viewState extends State<Details_view> {
                         const EdgeInsets.only(bottom: 15, left: 20, right: 20),
                     child: Text(details["overview"],
                         style: TextStyle(fontSize: 16))),
+                Container(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  height: 150,
+                  child: FutureBuilder(
+                    future: _setCast(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                          //color: Colors.blue,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: snapshot.data,
+                          ),
+                        );
+                      } else
+                        return CircularProgressIndicator();
+                    },
+                  ),
+                ),
+                SizedBox(height: 10,)
               ],
             ),
           ),

@@ -56,36 +56,41 @@ class _StartViewState extends State<StartView> {
     }
   }
 
-  double _getHeight(){
+  double _getHeight() {
     return MediaQuery.of(context).size.height;
   }
-  double _getWidth(){
+
+  double _getWidth() {
     return MediaQuery.of(context).size.width;
-
   }
 
-  getTitleFontSize(){
+  getTitleFontSize() {
     double height = MediaQuery.of(context).size.height;
-    return height*0.03;
+    return height * 0.03;
   }
-  getSubtitleFontSize(){
+
+  getSubtitleFontSize() {
     double height = MediaQuery.of(context).size.height;
-    return height*0.025;
+    return height * 0.025;
   }
-  getButtonFontSize(){
+
+  getButtonFontSize() {
     double height = MediaQuery.of(context).size.height;
-    if (_getWidth()<300){
-      return height *0.02;
+    if (_getWidth() < 300) {
+      return height * 0.02;
     }
-    return height *0.03;
+    return height * 0.03;
   }
-  getButtonHeightSize(){
+
+  getButtonHeightSize() {
     double height = MediaQuery.of(context).size.height;
     return _getHeight() * 0.08;
   }
-  getLogoSize(){
-    return _getHeight()*0.11;
+
+  getLogoSize() {
+    return _getHeight() * 0.11;
   }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -141,8 +146,9 @@ class _StartViewState extends State<StartView> {
                               ),
                               AutoSizeText(
                                 "Starte jetzt - keine Anmeldung, keine Registrierung, keine Kosten",
-                                style:
-                                    TextStyle(fontSize: getSubtitleFontSize(), letterSpacing: 1),
+                                style: TextStyle(
+                                    fontSize: getSubtitleFontSize(),
+                                    letterSpacing: 1),
                                 textAlign: TextAlign.center,
                                 maxLines: 5,
                               ),
@@ -154,8 +160,8 @@ class _StartViewState extends State<StartView> {
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
+                                  padding: const EdgeInsets.only(
+                                      top: 20, bottom: 20),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -167,13 +173,14 @@ class _StartViewState extends State<StartView> {
                                                 color: backgroundcolor_dark,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          color: Colors.yellow.withOpacity(0.95),
+                                          color:
+                                              Colors.yellow.withOpacity(0.95),
                                           onPressed: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
-                                                  return Create_View();
-                                                }));
+                                              return Create_View();
+                                            }));
                                           },
                                         ),
                                       ),
@@ -183,11 +190,13 @@ class _StartViewState extends State<StartView> {
                                       Expanded(
                                         child: RaisedButton(
                                           color: Colors.transparent,
-                                          shape: RoundedRectangleBorder(side: BorderSide(
-                                              color: Colors.yellow,
-                                              width: 2,
-                                              style: BorderStyle.solid
-                                          ), borderRadius: BorderRadius.circular(50)),
+                                          shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                  color: Colors.yellow,
+                                                  width: 2,
+                                                  style: BorderStyle.solid),
+                                              borderRadius:
+                                                  BorderRadius.circular(50)),
                                           child: Text(
                                             "Teilnehmen",
                                             style: TextStyle(
@@ -198,19 +207,18 @@ class _StartViewState extends State<StartView> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
-                                                  return Login_view();
-                                                }));
+                                              return Login_view();
+                                            }));
                                           },
                                         ),
                                       ),
                                     ],
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                   ),
                                 ),
                                 height: getButtonHeightSize(),
                               ),
-
                             ],
                           ),
                         ),
@@ -223,7 +231,6 @@ class _StartViewState extends State<StartView> {
                       padding: const EdgeInsets.only(left: 30, right: 30),
                       child: Column(
                         children: [
-
                           Container(
                             width: double.maxFinite,
                             child: Card(
@@ -240,7 +247,6 @@ class _StartViewState extends State<StartView> {
                               ),
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(top: 50),
                             child: Column(
@@ -267,23 +273,31 @@ class _StartViewState extends State<StartView> {
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: Container(decoration: BoxDecoration(
-                                    color: Colors.grey[700],
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  ),child: Padding(
-                                    padding: const EdgeInsets.all(1),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(1),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            child: Container(
-                                                color: backgroundcolor_dark,
-                                                child: Image.asset("assets/create.gif", width: 300,)),
-                                          ),
-                                        )),
-                                  )),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[700],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                child: Container(
+                                                    color: backgroundcolor_dark,
+                                                    child: Image.asset(
+                                                      "assets/create.gif",
+                                                      width: 300,
+                                                    )),
+                                              ),
+                                            )),
+                                      )),
                                 ),
                               ],
                             ),
@@ -292,7 +306,6 @@ class _StartViewState extends State<StartView> {
                             padding: const EdgeInsets.only(top: 50),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-
                               children: [
                                 Text(
                                   "2. Swipe mit Freunden",
@@ -305,37 +318,47 @@ class _StartViewState extends State<StartView> {
                                 ),
                                 Text(
                                   "Entscheide für jeden Film: Gefällt er dir, swipe nach rechts, sonst nach links",
-                                  style: TextStyle(
-                                      fontSize: 18, letterSpacing: 1),
+                                  style:
+                                      TextStyle(fontSize: 18, letterSpacing: 1),
                                 ),
                                 SizedBox(
                                   height: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: Container(decoration: BoxDecoration(
-                                    color: Colors.grey[700],
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  ),child: Padding(
-                                    padding: const EdgeInsets.all(1),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(1),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            child: Container(
-                                              color: backgroundcolor_dark,
-                                              padding: EdgeInsets.only(bottom: 8, left: 10, right: 10),
-                                                child: Image.asset("assets/swipe.gif", width: 300,)),
-                                          ),
-                                        )),
-                                  )),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[700],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                child: Container(
+                                                    color: backgroundcolor_dark,
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 8,
+                                                        left: 10,
+                                                        right: 10),
+                                                    child: Image.asset(
+                                                      "assets/swipe.gif",
+                                                      width: 300,
+                                                    )),
+                                              ),
+                                            )),
+                                      )),
                                 ),
                               ],
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(top: 50),
                             child: Column(
@@ -352,34 +375,44 @@ class _StartViewState extends State<StartView> {
                                 ),
                                 Text(
                                   "Am Ende wird euch der Film angezeigt, der euer gemeinsamer Favorit ist. Ihr könnt euch aber auch alle anderen Filme anschauen",
-                                  style: TextStyle(
-                                      fontSize: 18, letterSpacing: 1),
+                                  style:
+                                      TextStyle(fontSize: 18, letterSpacing: 1),
                                 ),
                                 SizedBox(
                                   height: 30,
                                 ),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: Container(decoration: BoxDecoration(
-                                    color: Colors.grey[700],
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  ),child: Padding(
-                                    padding: const EdgeInsets.all(1),
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(1),
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                                            child: Container(
-                                                color: backgroundcolor_dark,
-                                                padding: EdgeInsets.only(bottom: 8, left: 10, right: 10),
-                                                child: Image.asset("assets/review.gif", width: 300,)),
-                                          ),
-                                        )),
-                                  )),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[700],
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(1),
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(1),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
+                                                child: Container(
+                                                    color: backgroundcolor_dark,
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 8,
+                                                        left: 10,
+                                                        right: 10),
+                                                    child: Image.asset(
+                                                      "assets/review.gif",
+                                                      width: 300,
+                                                    )),
+                                              ),
+                                            )),
+                                      )),
                                 ),
-
                               ],
                             ),
                           ),
@@ -542,7 +575,6 @@ class _StartViewState extends State<StartView> {
                             height: 120,
                           ),
                           InkWell(
-
                             onTap: _launchURLIG,
                             child: Padding(
                               padding: const EdgeInsets.all(5),
@@ -551,9 +583,18 @@ class _StartViewState extends State<StartView> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset("assets/ig.webp", height: 18, color: Colors.white,),
-                                  SizedBox(width: 4,),
-                                  Text("ceenes.offcial", style: TextStyle(fontSize: 18),)
+                                  Image.asset(
+                                    "assets/ig.webp",
+                                    height: 18,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    "ceenes.offcial",
+                                    style: TextStyle(fontSize: 18),
+                                  )
                                 ],
                               ),
                             ),
@@ -570,7 +611,10 @@ class _StartViewState extends State<StartView> {
                                   FlatButton(
                                     child: Padding(
                                       padding: const EdgeInsets.all(5),
-                                      child: Text("Lizenzen & Credits", style: TextStyle(fontSize: 15),),
+                                      child: Text(
+                                        "Lizenzen & Credits",
+                                        style: TextStyle(fontSize: 15),
+                                      ),
                                     ),
                                     onPressed: () {
                                       Navigator.of(context).push(
@@ -596,7 +640,6 @@ class _StartViewState extends State<StartView> {
                                       }));
                                     },
                                   ),
-
                                 ],
                               ),
                             ),

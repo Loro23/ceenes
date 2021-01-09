@@ -74,13 +74,12 @@ class _Swipe_ViewState extends State<Swipe_View> {
   @override
   void initState() {
     movies_dec = jsonDecode(_movies);
-    print(movies_dec);
+    //  print(movies_dec);
     controller = CardController();
     for (Map x in movies_dec) {
       if (x["overview"] == "") {
         tmdb.v3.movies.getDetails(x["id"], language: "en-US").then((_result) {
-          if(_result == null){
-
+          if (_result == null) {
             x["overview"] = "";
           }
           x["overview"] = _result["overview"];
@@ -171,7 +170,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                             borderRadius:
                                                 BorderRadius.circular(14),
                                             child: Image.network(
-                                              "http://image.tmdb.org/t/p/w500/" +
+                                              "http://image.tmdb.org/t/p/w342/" +
                                                   movies_dec[index]
                                                       ["poster_path"],
                                               height: getHeightPoster(),
