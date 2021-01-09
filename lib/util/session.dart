@@ -36,4 +36,20 @@ class Session {
 
     return _finalGenres;
   }
+
+  Session.fromJson(Map<String, dynamic> json)
+    : sessionId = json["sessionId"],
+  numPats = json["numPats"],
+  genres = json["genres"],
+  provider = json["provider"];
+
+  Map<String, dynamic> toJson() =>
+      {
+        'sessionId' : sessionId,
+        'numPats': numPats,
+        'genres': genres,
+        'provider' : provider
+
+      };
+
 }

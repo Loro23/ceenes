@@ -78,10 +78,17 @@ class Create_ViewState extends State<Create_View>
           .document(session.sessionId.toString())
           .updateData({"movies_json": this.movies});
 
+      /*
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
-          .updateData({"numberPart": session.numPats});
+          .updateData({"session": jsonEncode(session)});
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"nextSession": null});
+
+       */
 
       firestore
           .collection("sessions")
