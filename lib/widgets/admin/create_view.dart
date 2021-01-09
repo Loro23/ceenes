@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/content.dart';
 import 'package:ceenes_prototype/util/create_view_utils.dart';
@@ -20,6 +21,7 @@ import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
 
 class Create_View extends StatefulWidget {
+  Create_View({Key key}) : super(key: key);
   @override
   Create_ViewState createState() => Create_ViewState();
 }
@@ -36,6 +38,7 @@ class Create_ViewState extends State<Create_View>
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final mycontroller = TextEditingController();
+  final _myController = TextEditingController();
 
   AnimationController _controller;
   Animation<Color> animation;
@@ -51,6 +54,8 @@ class Create_ViewState extends State<Create_View>
     "Disney Plus",
     "Sky Ticket",
   ];
+
+  List<Widget> searchedmovies = [];
 
   final introKey = GlobalKey<IntroductionScreenState>();
   // Note: This is a GlobalKey<FormState>,
@@ -92,6 +97,15 @@ class Create_ViewState extends State<Create_View>
     });
   }
 
+  void _searchMovies(String movieName){
+    tmdb.v3.
+  }
+
+
+  final _formKey = GlobalKey<FormState>();
+
+
+
   @override
   void initState() {
     super.initState();
@@ -123,6 +137,11 @@ class Create_ViewState extends State<Create_View>
   String valuePart = "3";
 
   @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _myController.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     return Material(
       color: backgroundcolor_dark,
@@ -179,6 +198,74 @@ class Create_ViewState extends State<Create_View>
                           scrollPhysics: ClampingScrollPhysics(),
                           runSpacing: 5,
                           spacing: 5,
+                        ),
+                      ),
+                      PageViewModel(
+                        titleWidget: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 25, right: 25, top: 50),
+                          child: Text(
+                            "Gib einen Film ein der dir gefällt?",
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        bodyWidget: Container(
+                          child: Column(
+                            children: [
+                              Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  TextFormField(
+                                    controller: _myController,
+                                    cursorColor: Colors.yellow,
+                                    decoration: const InputDecoration(
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      focusedBorder:OutlineInputBorder(
+                                        borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                                      ),
+                                      hintText: 'dein Film',
+                                    ),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Bitte gib einen Film ein.';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow),
+                                      ),
+                                      onPressed: () {
+                                        // Validate will return true if the form is valid, or false if
+                                        // the form is invalid.
+                                        if (_formKey.currentState.validate()) {
+                                          _searchMovies(_myController.text);
+                                        }
+                                      },
+                                      child: Text('suchen'),
+                                    ),
+                                  ),
+                                ],
+                              ), 
+                              ),
+                              Column(
+                                children: searchedmovies,
+                              ),
+                              // hier möchte ich die film ergebnisse reinladen.
+                            ],
+                          ),
                         ),
                       ),
                       PageViewModel(
@@ -544,4 +631,5 @@ class Create_ViewState extends State<Create_View>
       ),
     );
   }
+
 }
