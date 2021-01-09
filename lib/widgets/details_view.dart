@@ -51,12 +51,12 @@ class _Details_viewState extends State<Details_view> {
   List<Widget> actorWidgets = [];
 
   _setCast() async {
-    _cast = await tmdb.v3.movies.getCredits(details["id"]);
+    _cast = await tmdb.v3.movies.getCredits(details["id"],);
     cast = _cast.values.toList()[1];
     for (int i = 0; i < cast.length; i++) {
       print(cast[i]);
       actors.add(new Actor(
-          cast[i]["name"], cast[i]["profile_path"], cast[i]["popularity"]));
+          cast[i]["name"], cast[i]["profile_path"], cast[i]["character"], cast[i]["popularity"]));
     }
     actors.sort((a, b) => a.pop.compareTo(b.pop));
     actors = actors.reversed.toList();
@@ -64,7 +64,7 @@ class _Details_viewState extends State<Details_view> {
     for (Actor actor in actors) {
       if (actor.profil_path == null) continue;
       actorWidgets.add(Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(right: 5),
         child: Card(
           color: Colors.grey[800],
           child: Container(
@@ -74,21 +74,25 @@ class _Details_viewState extends State<Details_view> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 5,
-                  child: Container(
-                    child: FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image: "https://image.tmdb.org/t/p/original/" + actor.profil_path,
+                  flex: 10,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      child: FadeInImage.memoryNetwork(
+
+                        placeholder: kTransparentImage,
+                        image: "https://image.tmdb.org/t/p/original/" + actor.profil_path,
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(2),
                       child: Center(
                         child: Text(
-                  actor.name,
+                  actor.name + " als " + actor.character,
                   style: TextStyle(fontSize: 10),
                   overflow: TextOverflow.clip,
                 ),
