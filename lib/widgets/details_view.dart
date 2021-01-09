@@ -4,6 +4,8 @@ import 'package:ceenes_prototype/util/actor.dart';
 import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
+
 
 Map details;
 
@@ -59,35 +61,50 @@ class _Details_viewState extends State<Details_view> {
     actors.sort((a, b) => a.pop.compareTo(b.pop));
     actors = actors.reversed.toList();
 
-    for (Actor actor in actors){
+    for (Actor actor in actors) {
       if (actor.profil_path == null) continue;
       actorWidgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
           color: Colors.grey[800],
           child: Container(
-            width: 80,
-            height: 200,
+            width: 100,
+            height: 150,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.network(
-                  "https://image.tmdb.org/t/p/original/" +
-                      actor.profil_path,
-                  height: 80,
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    child: FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: "https://image.tmdb.org/t/p/original/" + actor.profil_path,
+                    ),
+                  ),
                 ),
-                Expanded(child: Text(actor.name, style: TextStyle(fontSize: 10), overflow: TextOverflow.clip,))
+                Expanded(
+                  flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Center(
+                        child: Text(
+                  actor.name,
+                  style: TextStyle(fontSize: 10),
+                  overflow: TextOverflow.clip,
+                ),
+                      ),
+                    ))
               ],
             ),
           ),
         ),
       ));
     }
-    return actorWidgets.getRange(0, 10).toList();
+    return actorWidgets;
   }
 
   @override
-  Widget build(
-    BuildContext context) {
+  Widget build(BuildContext context) {
     return Center(
       child: Container(
         constraints: BoxConstraints(maxWidth: 600),
@@ -192,11 +209,11 @@ class _Details_viewState extends State<Details_view> {
                     child: Text(details["overview"],
                         style: TextStyle(fontSize: 16))),
                 Container(
-                  height: 120,
+                  height: 150,
                   child: FutureBuilder(
                     future: _setCast(),
-                    builder: (context, AsyncSnapshot snapshot){
-                      if(snapshot.hasData){
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
                         return Container(
                           //color: Colors.blue,
                           child: ListView(
@@ -204,7 +221,8 @@ class _Details_viewState extends State<Details_view> {
                             children: snapshot.data,
                           ),
                         );
-                      } else return CircularProgressIndicator();
+                      } else
+                        return CircularProgressIndicator();
                     },
                   ),
                 )

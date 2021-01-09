@@ -33,6 +33,7 @@ dependencies:
   flutter_html: "^1.0.0"
   flutter_linkify: ^4.0.2
   google_fonts: ^1.1.1
+  transparent_image: ^1.0.0
 
 
 dev_dependencies:
