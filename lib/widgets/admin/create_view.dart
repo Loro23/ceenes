@@ -138,9 +138,7 @@ class Create_ViewState extends State<Create_View>
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
-        onWillPop: () {
-          print("wil poppen");
-        },
+        onWillPop: () async => true,
         child: Stack(
           children: [
             Align(
