@@ -1,11 +1,11 @@
 {
-    "name": "ceenes_prototype",
-    "short_name": "ceenes_prototype",
+    "name": "Ceenes",
+    "short_name": "Ceenes",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#191919",
+    "theme_color": "#fff64a",
+    "description": "Findet den perfekten Film!",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
