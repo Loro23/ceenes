@@ -111,35 +111,25 @@ class _AdminLoginState extends State<AdminLogin> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    child: FloatingActionButton.extended(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          //print(_movies);
-                          return Swipe_View(_movies, _session.sessionId);
-                        }));
-                      },
-                      label: Text(
-                        "Start",
-                        style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.grey[900],
-                            fontWeight: FontWeight.w600),
-                      ),
-                      backgroundColor: Colors.yellow.withOpacity(0.95),
-                      heroTag: "2",
-                    ),
-                    height: 100,
-                    width: 100,
-                  )
-                ],
+              padding: const EdgeInsets.all(25),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return Swipe_View(_movies, _session.sessionId);
+                  }));
+                },
+                label: Text(
+                  "Start",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600),
+                ),
+                backgroundColor: primary_color,
+                heroTag: "2",
               ),
             ),
           ),

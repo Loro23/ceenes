@@ -36,7 +36,7 @@ dependencies:
   transparent_image: ^1.0.0
   firebase_analytics: ^6.3.0
   google_tag_manager: ^0.0.3
-
+  toast:
 
 
 dev_dependencies:

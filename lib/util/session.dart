@@ -5,7 +5,7 @@ class Session {
   int numPats;
 
   List<String> genres;
-  String finalGenres;
+
   List<String> provider;
 
   Session(String numPats, List<String> genres, List<String> provider) {
@@ -16,6 +16,24 @@ class Session {
     this.provider = provider;
     var rng = new Random();
     this.sessionId = rng.nextInt(1000000);
+  }
+  String connectProvider() {
+    //print("connect");
+    String _finalProviders = "";
+    for (int i = 0; i < this.provider.length; i++) {
+      if (this.provider[i] == "0") {
+        return "";
+      }
+      if (i == this.provider.length - 1) {
+        _finalProviders = _finalProviders + this.provider[i];
+      } else {
+        _finalProviders = _finalProviders + this.provider[i] + "|";
+      }
+    }
+    //print("connected");
+    //print(_finalGenres);
+
+    return _finalProviders;
   }
 
   String connectGenres() {

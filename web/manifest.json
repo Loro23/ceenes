@@ -8,6 +8,7 @@
     "description": "Findet den perfekten Film!",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+
     "icons": [
         {
             "src": "icons/Icon-192.png",

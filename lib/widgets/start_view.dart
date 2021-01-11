@@ -92,7 +92,7 @@ class _StartViewState extends State<StartView> {
     if (_getWidth() < 300) {
       return height * 0.02;
     }
-    return height * 0.03;
+    return height * 0.025;
   }
 
   getButtonHeightSize() {
@@ -103,6 +103,7 @@ class _StartViewState extends State<StartView> {
   getLogoSize() {
     return _getHeight() * 0.11;
   }
+
   Future<void> _sendAnalyticsEvent(String what) async {
     await analytics.logEvent(
       name: what,
@@ -192,14 +193,14 @@ class _StartViewState extends State<StartView> {
                                       Expanded(
                                         child: RaisedButton(
                                           child: Text(
-                                            "Erstellen",
+                                            " Erstellen ",
                                             style: TextStyle(
                                                 fontSize: getButtonFontSize(),
                                                 color: backgroundcolor_dark,
                                                 fontWeight: FontWeight.w600),
                                           ),
                                           color:
-                                              Colors.yellow.withOpacity(0.95),
+                                              primary_color,
                                           onPressed: () {
                                             _sendAnalyticsEvent("Erstellen");
                                             //gtm.pushEvent("erstellen geglickt");
@@ -219,16 +220,16 @@ class _StartViewState extends State<StartView> {
                                           color: Colors.transparent,
                                           shape: RoundedRectangleBorder(
                                               side: BorderSide(
-                                                  color: Colors.yellow,
+                                                  color: primary_color,
                                                   width: 2,
                                                   style: BorderStyle.solid),
                                               borderRadius:
                                                   BorderRadius.circular(50)),
                                           child: Text(
-                                            "Teilnehmen",
+                                            " Teilnehmen ",
                                             style: TextStyle(
                                                 fontSize: getButtonFontSize(),
-                                                color: Colors.yellow),
+                                                color: primary_color),
                                           ),
                                           onPressed: () {
                                             _sendAnalyticsEvent("Teilnehmen");
@@ -602,6 +603,10 @@ class _StartViewState extends State<StartView> {
                           SizedBox(
                             height: 120,
                           ),
+                          FlatButton(onPressed: (){
+                            setState(() {
+                            });
+                          }, child: Text("Change background")),
                           InkWell(
                             onTap: _launchURLIG,
                             child: Padding(

@@ -51,6 +51,8 @@ class MovieHandler {
     return random_page.toString();
   }
 
+
+
   static Future<List> getMoviesNew(Session session) async {
     List moviesNeu = [];
 
@@ -58,6 +60,7 @@ class MovieHandler {
 
     List<String> provider = getProviderIds(session.provider);
     // print(provider);
+
 
     for (String prov in provider) {
       String random_page = await _getRandomPage(session, prov);
@@ -72,6 +75,7 @@ class MovieHandler {
             "results"]); //füge die filme der egsamtasuwahl für diese Session
       }
     }
+
 
     if (moviesNeu.length == 0) {
       return [];

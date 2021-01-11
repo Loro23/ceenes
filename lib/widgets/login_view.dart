@@ -37,7 +37,7 @@ class _Login_viewState extends State<Login_view> {
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
-      border: Border.all(color: Colors.yellow, width: 2),
+      border: Border.all(color: primary_color, width: 2),
       borderRadius: BorderRadius.circular(5.0),
     );
   }
@@ -101,8 +101,7 @@ class _Login_viewState extends State<Login_view> {
                                     _pinPutDecoration.copyWith(
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
-                                            color: Colors.yellow
-                                                .withOpacity(0.95))),
+                                            color: primary_color)),
                                 selectedFieldDecoration: _pinPutDecoration,
                                 followingFieldDecoration:
                                     _pinPutDecoration.copyWith(
@@ -206,7 +205,7 @@ class _Login_viewState extends State<Login_view> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   backgroundColor:
-                                      Colors.yellow.withOpacity(0.95),
+                                      primary_color,
                                   //label: Text("Start"),
                                 ),
                               ),

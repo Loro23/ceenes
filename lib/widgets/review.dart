@@ -12,8 +12,11 @@ import 'package:expandable/expandable.dart';
 import 'dart:collection';
 
 import 'package:tmdb_api/tmdb_api.dart';
+import 'package:toast/toast.dart';
 
 import 'details_view.dart';
+import 'package:intl/intl.dart';
+
 
 int _sessionId;
 List _movies_dec;
@@ -552,14 +555,94 @@ class _ReviewState extends State<Review> {
                   ),
                 ),
               ),
+
             ],
           ),
         ));
   }
 
+  _sendFeedback() async{
+    await firestore
+        .collection("feedback")
+        .add({  DateTime.now().toString()
+        : feedbackTextContr.text});
+    Toast.show(
+      "Danke für dein Feedback!",
+      context,
+      duration: 2,
+      gravity: Toast.TOP,
+      backgroundColor: primary_color,
+      textColor: Colors.black87,
+    );
+    
+    
+
+  }
+
+  TextEditingController feedbackTextContr = TextEditingController();
   getRefreshButton() {
     if (_sessionParts == _numVotes) {
-      return SizedBox();
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: FloatingActionButton.extended(backgroundColor: red_ceenes,
+              onPressed: (){
+
+            showDialog(context: context, child: Dialog(
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Feedback",style: TextStyle(fontSize: 22),),
+                        IconButton(
+                          icon: Icon(Icons.close, color: Colors.white,),
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: "Wie fandest du die Anzahl der Filme?\n"
+                            "Wie findest du die Farbe?\n"
+                            "Welche Features wünscht du dir?\n"
+                            "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
+                            "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
+                            "Hast du weiteres Feedback?",
+                      ),
+                      controller: feedbackTextContr,
+                      maxLines: 15,
+                      keyboardType: TextInputType.multiline,
+                      cursorColor: primary_color,
+                    ),
+                  ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton.extended(label: Text("Jetzt senden", style: TextStyle(fontSize: 18, color: Colors.black87),), onPressed: () async {
+                print(feedbackTextContr.value.text);
+                await _sendFeedback();
+                feedbackTextContr.clear();
+                Navigator.pop(context);
+              },
+              backgroundColor: primary_color,),
+            )
+                ],
+              ),
+            ));
+          }, label: Text('Feedback', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),)),
+        ),
+      );
     }
     return Align(
       alignment: Alignment.bottomRight,

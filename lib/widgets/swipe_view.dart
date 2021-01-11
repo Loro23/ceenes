@@ -67,7 +67,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(children: [Details_view(moviedetails)]);
+          return ConstrainedBox(constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.5),child: Details_view(moviedetails));
         });
   }
 
@@ -403,7 +403,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                             onPressed: () {
                               controller.triggerRight();
                             },
-                            child: Icon(Icons.favorite, color: Colors.yellow),
+                            child: Icon(Icons.favorite, color: primary_color),
                           ),
                         ),
                       ],
@@ -464,7 +464,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                             StartView()),
                                                     (Route<dynamic> route) =>
                                                         false),
-                                            color: Colors.amberAccent,
+                                            color: primary_color,
                                           ),
                                           FlatButton(
                                             child: Padding(
