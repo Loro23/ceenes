@@ -25,8 +25,6 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -34,7 +32,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   bool _initialized = false;
 
@@ -108,7 +106,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
-
       ],
       theme: ThemeData(
           primaryColor: Colors.white,
@@ -122,20 +119,23 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.dark(),
           cardColor: backgroundcolor_dark),
       title: 'Ceenes - Findet den perfekten Film',
-      home: MyHomePage(title: 'Ceenes Homepage', analytics: analytics, observer: observer),
+      home: MyHomePage(
+          title: 'Ceenes Homepage', analytics: analytics, observer: observer),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title,this.analytics, this.observer}) : super(key: key);
+  MyHomePage({Key key, this.title, this.analytics, this.observer})
+      : super(key: key);
 
   final String title;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState(this.analytics, this.observer);
+  _MyHomePageState createState() =>
+      _MyHomePageState(this.analytics, this.observer);
 }
 
 class _MyHomePageState extends State<MyHomePage> {

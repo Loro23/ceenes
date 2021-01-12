@@ -25,8 +25,6 @@ class Create_View extends StatefulWidget {
 
 class Create_ViewState extends State<Create_View>
     with TickerProviderStateMixin {
-
-
   String movies;
   Session session;
 
@@ -446,7 +444,7 @@ class Create_ViewState extends State<Create_View>
                               this.session = new Session(valuePart,
                                   getGenreIds(valueGenre), valueProvider2);
 
-                              await MovieHandler.getMoviesNew(this.session)
+                              await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {
                                 if (movies.length == 0) {
                                   this.movies = "";
@@ -472,28 +470,28 @@ class Create_ViewState extends State<Create_View>
                                       child: Dialog(
                                         child: Padding(
                                           padding: const EdgeInsets.all(12),
-                                          child: Row(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Icon(
                                                   Icons.sentiment_dissatisfied,
-                                                  size: 40,
-                                                  color: Color.fromRGBO(
-                                                      207, 102, 121, 1),
+                                                  size: 50,
+                                                  color: error_ceenes,
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Zu deiner Auswahl wurden nicht genug Filme gefunden. Das liegt an der Auswahl der Genres.",
-                                                    overflow: TextOverflow.clip,
-                                                    style:
-                                                        TextStyle(fontSize: 25),
-                                                  ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "Zu deiner Auswahl wurden nicht genug Filme gefunden. "
+                                                  "Bitte wähle mehr oder andere Genres aus oder füge andere Streaming-Anbieter hinzu.\n\n"
+                                                  "Beachte: Manche Anbieter haben bestimmte Genres nicht im Angebot. ",
+                                                  overflow: TextOverflow.clip,
+                                                  style:
+                                                      TextStyle(fontSize: 20),
                                                 ),
                                               ),
                                             ],

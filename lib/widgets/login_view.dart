@@ -100,8 +100,8 @@ class _Login_viewState extends State<Login_view> {
                                 submittedFieldDecoration:
                                     _pinPutDecoration.copyWith(
                                         borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: primary_color)),
+                                        border:
+                                            Border.all(color: primary_color)),
                                 selectedFieldDecoration: _pinPutDecoration,
                                 followingFieldDecoration:
                                     _pinPutDecoration.copyWith(
@@ -204,8 +204,7 @@ class _Login_viewState extends State<Login_view> {
                                         color: Colors.grey[700],
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  backgroundColor:
-                                      primary_color,
+                                  backgroundColor: primary_color,
                                   //label: Text("Start"),
                                 ),
                               ),

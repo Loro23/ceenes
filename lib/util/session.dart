@@ -17,17 +17,17 @@ class Session {
     var rng = new Random();
     this.sessionId = rng.nextInt(1000000);
   }
-  String connectProvider() {
+  String connectProvider(List<String> _provider) {
     //print("connect");
     String _finalProviders = "";
-    for (int i = 0; i < this.provider.length; i++) {
-      if (this.provider[i] == "0") {
+    for (int i = 0; i < _provider.length; i++) {
+      if (_provider[i] == "0") {
         return "";
       }
-      if (i == this.provider.length - 1) {
-        _finalProviders = _finalProviders + this.provider[i];
+      if (i == _provider.length - 1) {
+        _finalProviders = _finalProviders + _provider[i];
       } else {
-        _finalProviders = _finalProviders + this.provider[i] + "|";
+        _finalProviders = _finalProviders + _provider[i] + "|";
       }
     }
     //print("connected");
@@ -56,18 +56,15 @@ class Session {
   }
 
   Session.fromJson(Map<String, dynamic> json)
-    : sessionId = json["sessionId"],
-  numPats = json["numPats"],
-  genres = json["genres"],
-  provider = json["provider"];
+      : sessionId = json["sessionId"],
+        numPats = json["numPats"],
+        genres = json["genres"],
+        provider = json["provider"];
 
-  Map<String, dynamic> toJson() =>
-      {
-        'sessionId' : sessionId,
+  Map<String, dynamic> toJson() => {
+        'sessionId': sessionId,
         'numPats': numPats,
         'genres': genres,
-        'provider' : provider
-
+        'provider': provider
       };
-
 }

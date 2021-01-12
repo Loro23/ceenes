@@ -199,8 +199,7 @@ class _StartViewState extends State<StartView> {
                                                 color: backgroundcolor_dark,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          color:
-                                              primary_color,
+                                          color: primary_color,
                                           onPressed: () {
                                             _sendAnalyticsEvent("Erstellen");
                                             //gtm.pushEvent("erstellen geglickt");
@@ -603,10 +602,11 @@ class _StartViewState extends State<StartView> {
                           SizedBox(
                             height: 120,
                           ),
-                          FlatButton(onPressed: (){
-                            setState(() {
-                            });
-                          }, child: Text("Change background")),
+                          FlatButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              child: Text("Change background")),
                           InkWell(
                             onTap: _launchURLIG,
                             child: Padding(

@@ -67,7 +67,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return ConstrainedBox(constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height*0.5),child: Details_view(moviedetails));
+          return Wrap(
+            children: [Details_view(moviedetails)],
+          );
         });
   }
 

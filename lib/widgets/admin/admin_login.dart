@@ -116,8 +116,8 @@ class _AdminLoginState extends State<AdminLogin> {
               padding: const EdgeInsets.all(25),
               child: FloatingActionButton.extended(
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (BuildContext context) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (BuildContext context) {
                     return Swipe_View(_movies, _session.sessionId);
                   }));
                 },
