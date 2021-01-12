@@ -3,6 +3,7 @@ import 'dart:html';
 import 'dart:math';
 
 import 'package:ceenes_prototype/util/colors.dart';
+import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
@@ -41,6 +42,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   int currentIndex;
 
+  /*
   String getGenres(int index) {
     String genres = "";
     for (Map genre in movies_dec[index]["genres"]) {
@@ -50,6 +52,17 @@ class _Swipe_ViewState extends State<Swipe_View> {
       return "keine Genres";
     }
     return genres.substring(0, genres.length - 2);
+  }
+
+   */
+
+  String getGenres(int index) {
+    String genreIds = "";
+    for (int genreId in movies_dec[index]["genre_ids"]) {
+      genreIds += genreId.toString();
+    }
+    print(genreIds);
+    return genreIds;
   }
 
   uploadRanking(List<int> movies_rating) async {
@@ -102,7 +115,6 @@ class _Swipe_ViewState extends State<Swipe_View> {
   }
 
   double getMaxWidth() {
-    print("hier");
     double maxWidth;
     if (MediaQuery.of(context).size.width > 600) {
       maxWidth = 550;
@@ -124,11 +136,24 @@ class _Swipe_ViewState extends State<Swipe_View> {
     return minWidth;
   }
 
+  String getGenresForMovie(int index) {
+    List<String> genres = getGenreStrings(movies_dec[index]["genre_ids"]);
+    print(genres);
+    String genresFinal = "";
+    for (String genre in genres) {
+      print(genre);
+      genresFinal += genre + ", ";
+    }
+    print(genresFinal);
+    genresFinal = genresFinal.substring(0, genresFinal.length - 2);
+    return genresFinal;
+  }
+
   @override
   Widget build(BuildContext context) {
     //print(session.sessionId.toString());
     print(MediaQuery.of(context).size);
-    //print(movies_dec);
+    print(movies_dec[0]);
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
@@ -210,9 +235,16 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                             iconSize: 28,
                                             icon: Icon(Icons.info),
                                             tooltip: 'mehr Details',
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              Map movieDetails = await tmdb
+                                                  .v3.movies
+                                                  .getDetails(
+                                                      movies_dec[index]["id"],
+                                                      appendToResponse:
+                                                          "watch/providers",
+                                                      language: "de-DE");
                                               showDetails(
-                                                  context, movies_dec[index]);
+                                                  context, movieDetails);
                                             },
                                           ),
                                         ),
@@ -254,7 +286,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                 right: 20,
                                                 top: 5,
                                                 bottom: 5),
-                                            child: Text(getGenres(index),
+                                            child: Text(
+                                                getGenresForMovie(index),
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: Color.fromRGBO(

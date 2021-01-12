@@ -63,6 +63,75 @@ List<String> getProviderIds(List<String> provider) {
   return providerIds;
 }
 
+List<String> getGenreStrings(List<dynamic> genreIds) {
+  print(genreIds);
+  List<String> genres = [];
+  for (int genreId in genreIds) {
+    switch (genreId) {
+      case (28):
+        print("action");
+        genres.add("Action");
+        break;
+      case (16):
+        genres.add("Animation");
+        break;
+      case (99):
+        genres.add("Dokumentarfilm");
+        break;
+      case (18):
+        genres.add("Drama");
+        break;
+      case (10751):
+        genres.add("Familie");
+        break;
+      case (14):
+        genres.add("Fantasy");
+        break;
+      case (36):
+        genres.add("Historie");
+        break;
+      case (35):
+        genres.add("Komödie");
+        break;
+      case (10752):
+        genres.add("Kriegsfilm");
+        break;
+      case (80):
+        genres.add("Krimi");
+        break;
+      case (9648):
+        genres.add("Mystery");
+        break;
+      case (10749):
+        genres.add("Liebesfilm");
+        break;
+      case (878):
+        genres.add("Science Fiction");
+        break;
+      case (27):
+        genres.add("Horror");
+        break;
+      case (10770):
+        genres.add("TV-Film");
+        break;
+      case (53):
+        genres.add("Thriller");
+        break;
+      case (37):
+        genres.add("Western");
+        break;
+      case (12):
+        genres.add("Abenteuer");
+        break;
+      case (10402):
+        genres.add("Musik");
+        break;
+    }
+  }
+  //print(genres);
+  return genres;
+}
+
 List<String> getGenreIds(List<String> genres) {
   List<String> genreIds = [];
   for (String genre in genres) {
