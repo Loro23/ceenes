@@ -601,6 +601,7 @@ class _StartViewState extends State<StartView> {
                                       onTap: () {
                                         _sendAnalyticsEvent(
                                             "Start View - Profil Benji");
+                                        _launchURL();
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -644,11 +645,14 @@ class _StartViewState extends State<StartView> {
                               SizedBox(
                                 height: 120,
                               ),
+                              /*
                               FlatButton(
                                   onPressed: () {
                                     setState(() {});
                                   },
                                   child: Text("Change background")),
+
+                               */
                               InkWell(
                                 onTap: () {
                                   _sendAnalyticsEvent(
@@ -741,7 +745,7 @@ class _StartViewState extends State<StartView> {
           Positioned(
             bottom: 1,
             left: 0.1,
-            right:0.1,
+            right: 0.1,
             child: Visibility(
               visible: showConsent == true,
               child: AlertDialog(
@@ -785,11 +789,10 @@ class _StartViewState extends State<StartView> {
                             onPressed: () {
                               _sendAnalyticsEvent(
                                   "Start View - PopUp Mehr Infos ");
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder:
-                                      (BuildContext context) {
-                                    return PrivacyPolicy();
-                                  }));
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return PrivacyPolicy();
+                              }));
                             },
                           ),
                         ),
