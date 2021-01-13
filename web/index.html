@@ -81,13 +81,15 @@
     storageBucket: "ceenes-project.appspot.com",
     messagingSenderId: "193350358823",
     appId: "1:193350358823:web:dfe3e695e80fd6fba6fb02",
-    //measurementId: "G-2Y7EHQK4JP"
+    measurementId: "G-2Y7EHQK4JP"
   };
   // Initialize Firebase
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
 }
-  //firebase.initializeApp(firebaseConfig);
+  var     measurementId = "G-2Y7EHQK4JP"
+window['ga-disable-' + measurementID] = false;
+
   firebase.analytics();
 
 </script>

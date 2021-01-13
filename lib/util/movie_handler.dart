@@ -22,7 +22,8 @@ class MovieHandler {
         "&language=de-DE" +
         "&with_watch_providers=" +
         providerString +
-        "&watch_region=DE";
+        "&watch_region=DE"
+    ;
     print(request);
 
     return request;
@@ -43,7 +44,8 @@ class MovieHandler {
         "&vote_average.gte=4" +
         "&vote_count.gte=160" +
         "&include_adult=false" +
-        "&language=de-DE";
+        "&language=de-DE"
+    ;
 
     print(request);
     final response = await http.get(request);

@@ -652,7 +652,7 @@ class _ReviewState extends State<Review> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left:8.0,right:8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: FloatingActionButton.extended(
                     backgroundColor: red_ceenes,
                     onPressed: () {
@@ -667,7 +667,8 @@ class _ReviewState extends State<Review> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "Feedback",
@@ -690,7 +691,7 @@ class _ReviewState extends State<Review> {
                                   child: TextField(
                                     decoration: InputDecoration(
                                       hintText:
-                                      "Wie fandest du die Anzahl der Filme?\n"
+                                          "Wie fandest du die Anzahl der Filme?\n"
                                           "Wie findest du die Farbe?\n"
                                           "Welche Features wünscht du dir?\n"
                                           "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
@@ -709,16 +710,20 @@ class _ReviewState extends State<Review> {
                                     label: Text(
                                       "Jetzt senden",
                                       style: TextStyle(
-                                        fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,),
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     onPressed: () async {
-                                      _sendAnalyticsEvent("Review View - Feedback senden Button");
+                                      _sendAnalyticsEvent(
+                                          "Review View - Feedback senden Button");
                                       print(feedbackTextContr.value.text);
                                       await _sendFeedback();
                                       feedbackTextContr.clear();
                                       Navigator.pop(context);
                                     },
-                                    backgroundColor:red_ceenes,
+                                    backgroundColor: red_ceenes,
                                   ),
                                 )
                               ],
@@ -727,16 +732,17 @@ class _ReviewState extends State<Review> {
                     },
                     label: Text(
                       'Feedback',
-                      style:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w700),
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 child: FloatingActionButton.extended(
                     backgroundColor: blue_ceenes,
                     onPressed: () {
-                      _sendAnalyticsEvent("Review View - Nochmal Swipen Button");
+                      _sendAnalyticsEvent(
+                          "Review View - Nochmal Swipen Button");
                       showDialog(
                           context: context,
                           child: Dialog(
@@ -747,19 +753,23 @@ class _ReviewState extends State<Review> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Wünscht du dir dieses Feature?",
                                               overflow: TextOverflow.clip,
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
                                             ),
                                             Text(
-                                              "Leider gibt es dieses Feature noch nicht, aber wir arbeiten daran.\n"+
+                                              "Leider gibt es dieses Feature noch nicht, aber wir arbeiten daran.\n" +
                                                   "Aktuell musst du eine neue Gruppe auf machen, um erneut mit deinen Freunden zu swipen.",
                                               overflow: TextOverflow.clip,
                                               style: TextStyle(fontSize: 15),
@@ -767,7 +777,6 @@ class _ReviewState extends State<Review> {
                                           ],
                                         ),
                                       ),
-
                                       IconButton(
                                         icon: Icon(
                                           Icons.close,
@@ -786,8 +795,8 @@ class _ReviewState extends State<Review> {
                     },
                     label: Text(
                       'nochmal swipen',
-                      style:
-                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w700),
                     )),
               ),
             ],
@@ -821,11 +830,7 @@ class _ReviewState extends State<Review> {
 
 */
 
-
-
-
-
-  /*
+/*
   getRefreshButton() {
     if (_sessionParts == _numVotes) {
       return Align(

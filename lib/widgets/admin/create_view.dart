@@ -120,10 +120,7 @@ class Create_ViewState extends State<Create_View>
     );
   }
 
-
   final _formKey = GlobalKey<FormState>();
-
-
 
   @override
   void initState() {
@@ -162,6 +159,7 @@ class Create_ViewState extends State<Create_View>
     _myController.dispose();
     super.dispose();
   }
+
   Widget build(BuildContext context) {
     return Material(
       color: backgroundcolor_dark,
@@ -220,8 +218,8 @@ class Create_ViewState extends State<Create_View>
                       ),
                       PageViewModel(
                         titleWidget: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 25, right: 25, top: 50),
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 50),
                           child: Text(
                             "Welche Genres?",
                             style: TextStyle(
@@ -601,5 +599,4 @@ class Create_ViewState extends State<Create_View>
       ),
     );
   }
-
 }

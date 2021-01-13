@@ -421,7 +421,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   });
                                 } else if (orientation ==
                                     CardSwipeOrientation.RIGHT) {
-                                      _sendAnalyticsEvent(
+                                  _sendAnalyticsEvent(
                                       "Swipe View - Swipe right");
                                   setState(() {
                                     counter += 1;
