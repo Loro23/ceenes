@@ -627,81 +627,147 @@ class _ReviewState extends State<Review> {
         alignment: Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.all(15),
-          child: FloatingActionButton.extended(
-              backgroundColor: red_ceenes,
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    child: Dialog(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:8.0,right:8.0),
+                child: FloatingActionButton.extended(
+                    backgroundColor: red_ceenes,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          child: Dialog(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  "Feedback",
-                                  style: TextStyle(fontSize: 22),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Colors.white,
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Feedback",
+                                        style: TextStyle(fontSize: 22),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
                                   ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          "Wie fandest du die Anzahl der Filme?\n"
+                                          "Wie findest du die Farbe?\n"
+                                          "Welche Features wünscht du dir?\n"
+                                          "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
+                                          "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
+                                          "Hast du weiteres Feedback?",
+                                    ),
+                                    controller: feedbackTextContr,
+                                    maxLines: 15,
+                                    keyboardType: TextInputType.multiline,
+                                    cursorColor: primary_color,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FloatingActionButton.extended(
+                                    label: Text(
+                                      "Jetzt senden",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,),
+                                    ),
+                                    onPressed: () async {
+                                      print(feedbackTextContr.value.text);
+                                      await _sendFeedback();
+                                      feedbackTextContr.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    backgroundColor:red_ceenes,
+                                  ),
                                 )
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                hintText:
-                                    "Wie fandest du die Anzahl der Filme?\n"
-                                    "Wie findest du die Farbe?\n"
-                                    "Welche Features wünscht du dir?\n"
-                                    "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
-                                    "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
-                                    "Hast du weiteres Feedback?",
-                              ),
-                              controller: feedbackTextContr,
-                              maxLines: 15,
-                              keyboardType: TextInputType.multiline,
-                              cursorColor: primary_color,
+                          ));
+                    },
+                    label: Text(
+                      'Feedback',
+                      style:
+                          TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    )),
+              ),
+                  Padding(
+                    padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                    child: FloatingActionButton.extended(
+                    backgroundColor: blue_ceenes,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          child: Dialog(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Wünscht du dir dieses Feature?",
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                              ),
+                                             Text(
+                                             "Leider gibt es dieses Feature noch nicht, aber wir arbeiten daran.\n"+
+                                             "Aktuell musst du eine neue Gruppe auf machen, um erneut mit deinen Freunden zu swipen.",
+                                             overflow: TextOverflow.clip,
+                                             style: TextStyle(fontSize: 15),
+                                          ),
+                                          ],
+                                        ),
+                                      ),
+                                     
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: FloatingActionButton.extended(
-                              label: Text(
-                                "Jetzt senden",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black87),
-                              ),
-                              onPressed: () async {
-                                print(feedbackTextContr.value.text);
-                                await _sendFeedback();
-                                feedbackTextContr.clear();
-                                Navigator.pop(context);
-                              },
-                              backgroundColor: primary_color,
-                            ),
-                          )
-                        ],
-                      ),
-                    ));
-              },
-              label: Text(
-                'Feedback',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-              )),
+                          ));
+                    },
+                    label: Text(
+                      'nochmal swipen',
+                      style:
+                          TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    )),
+                  ),
+            ],
+          ),
         ),
       );
     }

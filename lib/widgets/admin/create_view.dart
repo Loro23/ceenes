@@ -50,8 +50,6 @@ class Create_ViewState extends State<Create_View>
     "Sky Ticket",
   ];
 
-  List<Widget> searchedmovies = [];
-
   final introKey = GlobalKey<IntroductionScreenState>();
   // Note: This is a GlobalKey<FormState>,
   // not a GlobalKey<MyCustomFormState>.
@@ -102,10 +100,6 @@ class Create_ViewState extends State<Create_View>
           .document("dummy_doc")
           .setData({});
     });
-  }
-
-  void _searchMovies(String movieName){
-    tmdb.v3.
   }
 
 
@@ -203,74 +197,6 @@ class Create_ViewState extends State<Create_View>
                           scrollPhysics: ClampingScrollPhysics(),
                           runSpacing: 5,
                           spacing: 5,
-                        ),
-                      ),
-                      PageViewModel(
-                        titleWidget: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 50),
-                          child: Text(
-                            "Gib einen Film ein der dir gefällt?",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        bodyWidget: Container(
-                          child: Column(
-                            children: [
-                              Form(
-                              key: _formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  TextFormField(
-                                    controller: _myController,
-                                    cursorColor: Colors.yellow,
-                                    decoration: const InputDecoration(
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderSide: const BorderSide(color: Colors.white, width: 2.0),
-                                      ),
-                                      focusedBorder:OutlineInputBorder(
-                                        borderSide: const BorderSide(color: Colors.white, width: 2.0),
-                                      ),
-                                      hintText: 'dein Film',
-                                    ),
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Bitte gib einen Film ein.';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow),
-                                      ),
-                                      onPressed: () {
-                                        // Validate will return true if the form is valid, or false if
-                                        // the form is invalid.
-                                        if (_formKey.currentState.validate()) {
-                                          _searchMovies(_myController.text);
-                                        }
-                                      },
-                                      child: Text('suchen'),
-                                    ),
-                                  ),
-                                ],
-                              ), 
-                              ),
-                              Column(
-                                children: searchedmovies,
-                              ),
-                              // hier möchte ich die film ergebnisse reinladen.
-                            ],
-                          ),
                         ),
                       ),
                       PageViewModel(
