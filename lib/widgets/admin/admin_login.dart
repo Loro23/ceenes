@@ -7,27 +7,50 @@ import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'create_view.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:share/share.dart';
+import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 
 Session _session;
 String _movies;
 
 class AdminLogin extends StatefulWidget {
-  AdminLogin(Session session, String movies) {
+  AdminLogin(Session session, String movies, {this.analytics, this.observer}) {
     _session = session;
     _movies = movies;
   }
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
-  _AdminLoginState createState() => _AdminLoginState();
+  _AdminLoginState createState() => _AdminLoginState(analytics, observer);
 }
 
 class _AdminLoginState extends State<AdminLogin> {
+  _AdminLoginState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _sendAnalyticsEvent("Admin Login - Init State");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +103,8 @@ class _AdminLoginState extends State<AdminLogin> {
                         ),
                         FlatButton(
                           onPressed: () {
+                            _sendAnalyticsEvent(
+                                "Admin Login - Kopieren Button");
                             FlutterClipboard.copy(
                                 _session.sessionId.toString());
                           },
@@ -116,9 +141,11 @@ class _AdminLoginState extends State<AdminLogin> {
               padding: const EdgeInsets.all(25),
               child: FloatingActionButton.extended(
                 onPressed: () {
+                  _sendAnalyticsEvent("Admin Login - Start Button");
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (BuildContext context) {
-                    return Swipe_View(_movies, _session.sessionId);
+                    return Swipe_View(_movies, _session.sessionId,
+                        analytics: this.analytics, observer: this.observer);
                   }));
                 },
                 label: Text(
@@ -154,6 +181,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     child: IconButton(
                       icon: Icon(Icons.arrow_back),
                       onPressed: () {
+                        _sendAnalyticsEvent("Admin Login - Back Button");
                         Navigator.pop(context);
                       },
                       splashRadius: 20,

@@ -9,6 +9,8 @@ import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
 import 'package:ceenes_prototype/widgets/review.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -23,16 +25,23 @@ String _movies;
 int _sessionId;
 
 class Swipe_View extends StatefulWidget {
-  Swipe_View(String movies, int sessionId) {
+  Swipe_View(String movies, int sessionId, {this.analytics, this.observer})
+      : super(key: key) {
     _movies = movies;
     _sessionId = sessionId;
-    //_movies is the json form of the movie map
   }
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
   @override
-  _Swipe_ViewState createState() => _Swipe_ViewState();
+  _Swipe_ViewState createState() => _Swipe_ViewState(analytics, observer);
 }
 
 class _Swipe_ViewState extends State<Swipe_View> {
+  _Swipe_ViewState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   List movies_dec;
   List<int> movies_rating = [];
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -46,13 +55,18 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   Widget feedbackWidget = SizedBox();
 
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+    );
+  }
 
   String getGenres(int index) {
     String genreIds = "";
     for (int genreId in movies_dec[index]["genre_ids"]) {
       genreIds += genreId.toString();
     }
-   // print(genreIds);
+    // print(genreIds);
     return genreIds;
   }
 
@@ -79,6 +93,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   @override
   void initState() {
+    _sendAnalyticsEvent("Swipe View - Init State");
     movies_dec = jsonDecode(_movies);
     //  print(movies_dec);
     controller = CardController();
@@ -112,7 +127,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
       return maxWidth;
     }
     maxWidth = MediaQuery.of(context).size.width * 0.9;
-   // print(maxWidth);
+    // print(maxWidth);
     return maxWidth;
   }
 
@@ -129,7 +144,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   String getGenresForMovie(int index) {
     List<String> genres = getGenreStrings(movies_dec[index]["genre_ids"]);
- //   print(genres);
+    //   print(genres);
     String genresFinal = "";
     for (String genre in genres) {
       print(genre);
@@ -143,7 +158,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
   @override
   Widget build(BuildContext context) {
     //print(session.sessionId.toString());
-   // print(MediaQuery.of(context).size);
+    // print(MediaQuery.of(context).size);
     //print(movies_dec[0]);
     return Material(
       color: backgroundcolor_dark,
@@ -170,12 +185,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
                               stackNum: 3,
                               swipeEdge: 4,
                               maxWidth: getMaxWidth(),
-                              maxHeight: MediaQuery.of(context).size.height * 0.9,
+                              maxHeight:
+                                  MediaQuery.of(context).size.height * 0.9,
                               minWidth: getMinWidth(),
-                              minHeight: MediaQuery.of(context).size.height * 0.8,
+                              minHeight:
+                                  MediaQuery.of(context).size.height * 0.8,
                               cardBuilder: (context, index) {
                                 currentIndex = index;
-
 
                                 return Card(
                                     elevation: 10,
@@ -206,14 +222,21 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           children: [
                                             Expanded(
                                               child: Container(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 5, left: 20, bottom: 5),
-                                                  alignment: Alignment.centerLeft,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 5,
+                                                          left: 20,
+                                                          bottom: 5),
+                                                  alignment:
+                                                      Alignment.centerLeft,
                                                   child: Text(
-                                                      movies_dec[index]["title"],
-                                                      overflow: TextOverflow.clip,
+                                                      movies_dec[index]
+                                                          ["title"],
+                                                      overflow:
+                                                          TextOverflow.clip,
                                                       style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                         fontSize: 20,
                                                         color: Color.fromRGBO(
                                                             238, 238, 238, 1),
@@ -223,18 +246,21 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                               width: 5,
                                             ),
                                             Container(
-                                              margin:
-                                                  const EdgeInsets.only(right: 20),
+                                              margin: const EdgeInsets.only(
+                                                  right: 20),
                                               child: IconButton(
                                                 splashRadius: 20,
                                                 iconSize: 28,
                                                 icon: Icon(Icons.info),
                                                 tooltip: 'mehr Details',
                                                 onPressed: () async {
+                                                  _sendAnalyticsEvent(
+                                                      "Swipe View - More Details Button");
                                                   Map movieDetails = await tmdb
                                                       .v3.movies
                                                       .getDetails(
-                                                          movies_dec[index]["id"],
+                                                          movies_dec[index]
+                                                              ["id"],
                                                           appendToResponse:
                                                               "watch/providers",
                                                           language: "de-DE");
@@ -270,12 +296,14 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                             children: [
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(5)),
-                                                  color:
-                                                      Color.fromRGBO(68, 68, 68, 1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                  color: Color.fromRGBO(
+                                                      68, 68, 68, 1),
                                                 ),
-                                                padding: const EdgeInsets.all(10),
+                                                padding:
+                                                    const EdgeInsets.all(10),
                                                 margin: const EdgeInsets.only(
                                                     left: 20,
                                                     right: 20,
@@ -284,17 +312,19 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                 child: Text(
                                                     getGenresForMovie(index),
                                                     style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: Color.fromRGBO(
                                                           238, 238, 238, 1),
                                                     )),
                                               ),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(5)),
-                                                  color:
-                                                      Color.fromRGBO(68, 68, 68, 1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(5)),
+                                                  color: Color.fromRGBO(
+                                                      68, 68, 68, 1),
                                                 ),
                                                 margin: const EdgeInsets.only(
                                                     left: 20,
@@ -302,12 +332,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                     top: 5,
                                                     bottom: 10),
                                                 child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              10, 10, 2, 10),
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          10, 10, 2, 10),
                                                       child: Text(
                                                           movies_dec[index][
                                                                       "vote_average"]
@@ -316,14 +347,18 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                           style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.bold,
-                                                            color: Color.fromRGBO(
-                                                                238, 238, 238, 1),
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    238,
+                                                                    238,
+                                                                    238,
+                                                                    1),
                                                           )),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.fromLTRB(
-                                                              2, 10, 10, 10),
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          2, 10, 10, 10),
                                                       child: Icon(
                                                         Icons.star,
                                                         color: Colors.yellow,
@@ -348,8 +383,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     feedbackWidget = Align(
                                       alignment: Alignment.topLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(top:50, left:15),
-                                        child: Icon(Icons.clear, color: Colors.red, size: 50),
+                                        padding: const EdgeInsets.only(
+                                            top: 50, left: 15),
+                                        child: Icon(Icons.clear,
+                                            color: Colors.red, size: 50),
                                       ),
                                     );
                                   });
@@ -359,15 +396,16 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     feedbackWidget = Align(
                                       alignment: Alignment.topRight,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(top:50, right:15),
-                                        child: Icon(Icons.favorite, color: Colors.green, size: 50),
+                                        padding: const EdgeInsets.only(
+                                            top: 50, right: 15),
+                                        child: Icon(Icons.favorite,
+                                            color: Colors.green, size: 50),
                                       ),
                                     );
                                   });
-                                } else{
+                                } else {
                                   setState(() {
                                     feedbackWidget = SizedBox();
-
                                   });
                                 }
                               },
@@ -375,16 +413,17 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   (CardSwipeOrientation orientation,
                                       int index) async {
                                 if (orientation == CardSwipeOrientation.LEFT) {
+                                  _sendAnalyticsEvent(
+                                      "Swipe View - Swipe left");
                                   setState(() {
-
                                     counter += 1;
                                     movies_rating.add(0);
                                   });
                                 } else if (orientation ==
                                     CardSwipeOrientation.RIGHT) {
-
+                                      _sendAnalyticsEvent(
+                                      "Swipe View - Swipe right");
                                   setState(() {
-
                                     counter += 1;
                                     movies_rating.add(1);
                                   });
@@ -395,7 +434,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                 });
 
                                 if (counter == movies_dec.length) {
-                                //  print("letzte karte" + index.toString());
+                                  //  print("letzte karte" + index.toString());
                                   showDialog(
                                     context: context,
                                     barrierDismissible: false,
@@ -405,15 +444,18 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: new CircularProgressIndicator(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child:
+                                                  new CircularProgressIndicator(
                                                 valueColor:
                                                     new AlwaysStoppedAnimation<
                                                         Color>(blue_ceenes),
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: new Text(
                                                 "Laden...",
                                                 style: TextStyle(fontSize: 25),
@@ -426,9 +468,12 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   );
                                   await uploadRanking(movies_rating)
                                       .whenComplete(() {
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (BuildContext context) {
-                                      return Review(_sessionId, movies_dec);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) {
+                                      return Review(_sessionId, movies_dec,
+                                          analytics: this.analytics,
+                                          observer: this.observer);
                                     }));
                                   });
                                 }
@@ -500,6 +545,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                           IconButton(
                             icon: Icon(Icons.cancel),
                             onPressed: () {
+                              _sendAnalyticsEvent("Swipe View - Close Button");
                               showDialog(
                                   context: context,
                                   builder: (c) => AlertDialog(
@@ -519,15 +565,18 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                         FontWeight.w600),
                                               ),
                                             ),
-                                            onPressed: () =>
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (BuildContext
-                                                                context) =>
-                                                            StartView()),
-                                                    (Route<dynamic> route) =>
-                                                        false),
+                                            onPressed: () {
+                                              _sendAnalyticsEvent(
+                                                  "Swipe View - Close Button - bestätigt");
+                                              Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          StartView()),
+                                                  (Route<dynamic> route) =>
+                                                      false);
+                                            },
                                             color: primary_color,
                                           ),
                                           FlatButton(
@@ -541,8 +590,11 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                         FontWeight.w600),
                                               ),
                                             ),
-                                            onPressed: () =>
-                                                Navigator.pop(c, false),
+                                            onPressed: () {
+                                              _sendAnalyticsEvent(
+                                                  "Swipe View - Close Button - abgebrochen");
+                                              Navigator.pop(c, false);
+                                            },
                                             color: Colors.black54,
                                           ),
                                         ],

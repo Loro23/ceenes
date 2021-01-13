@@ -18,15 +18,27 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:ceenes_prototype/util/movie.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
+import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 
 class Create_View extends StatefulWidget {
-  Create_View({Key key}) : super(key: key);
+  Create_View({this.analytics, this.observer});
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
-  Create_ViewState createState() => Create_ViewState();
+  Create_ViewState createState() => Create_ViewState(analytics, observer);
 }
 
 class Create_ViewState extends State<Create_View>
     with TickerProviderStateMixin {
+  Create_ViewState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   String movies;
   Session session;
 
@@ -102,6 +114,12 @@ class Create_ViewState extends State<Create_View>
     });
   }
 
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+    );
+  }
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -109,6 +127,7 @@ class Create_ViewState extends State<Create_View>
 
   @override
   void initState() {
+    _sendAnalyticsEvent("Create View - Init State");
     super.initState();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 300),
@@ -366,6 +385,8 @@ class Create_ViewState extends State<Create_View>
                       ),
                       onPressed: _isDisabled
                           ? () {
+                              _sendAnalyticsEvent(
+                                  "Create View - Erstellen Button");
                               showDialog(
                                 context: context,
                                 barrierDismissible: true,
@@ -475,12 +496,17 @@ class Create_ViewState extends State<Create_View>
                               }).whenComplete(() {
                                 Navigator.pop(context); //dialog beenden
                                 if (movies.length > 0) {
+                                  _sendAnalyticsEvent(
+                                      "Create View - Enough movies found");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                    return AdminLogin(
-                                        this.session, this.movies);
+                                    return AdminLogin(this.session, this.movies,
+                                        analytics: this.analytics,
+                                        observer: this.observer);
                                   }));
                                 } else {
+                                  _sendAnalyticsEvent(
+                                      "Create View - No movies found");
                                   showDialog(
                                       child: Dialog(
                                         child: Padding(
@@ -550,6 +576,7 @@ class Create_ViewState extends State<Create_View>
                       child: IconButton(
                         icon: Icon(Icons.arrow_back),
                         onPressed: () {
+                          _sendAnalyticsEvent("Create View - Back Button");
                           Navigator.pop(context);
                         },
                         splashRadius: 20,

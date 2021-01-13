@@ -12,17 +12,17 @@ class MovieHandler {
     // print(session.connectGenres());
     String request = "https://api.themoviedb.org/3/discover/movie?api_key=" +
         apiKey +
-        "&with_ott_providers=" +
-        providerString +
         "&with_genres=" +
         session.connectGenres() +
-        "&ott_region=DE" +
         "&page=" +
         page +
         "&vote_average.gte=4" +
-        "&vote_count.gte=1000" +
+        "&vote_count.gte=160" +
         "&include_adult=false" +
-        "&language=de-DE";
+        "&language=de-DE" +
+        "&with_watch_providers=" +
+        providerString +
+        "&watch_region=DE";
     print(request);
 
     return request;
@@ -35,17 +35,17 @@ class MovieHandler {
 
     String request = "https://api.themoviedb.org/3/discover/movie?api_key=" +
         apiKey +
-        "&with_ott_providers=" +
+        "&with_watch_providers=" +
         providerIdsString +
         "&with_genres=" +
         session.connectGenres() +
-        "&ott_region=DE" +
+        "&watch_region=DE" +
         "&vote_average.gte=4" +
-        "&vote_count.gte=1000" +
+        "&vote_count.gte=160" +
         "&include_adult=false" +
         "&language=de-DE";
 
-    //print(request);
+    print(request);
     final response = await http.get(request);
     // print(response.body);
     int total_pages = jsonDecode(response.body)["total_pages"];
@@ -59,8 +59,9 @@ class MovieHandler {
   //return a random page greater 0 and smaller
   static getRandomPage(int totalPages) {
     int randomPage = 0;
+
     while (randomPage == 0) {
-      randomPage = Random().nextInt(totalPages + 1);
+      randomPage = Random().nextInt(totalPages);
     }
     return randomPage;
   }
@@ -73,7 +74,7 @@ class MovieHandler {
 
     int totalPages = await _getTotalPages(session);
     int randomPage = 0;
-    if (totalPages == 0) {
+    if (totalPages <= 1) {
       // print("mache garnichts");
       return [];
     } else {

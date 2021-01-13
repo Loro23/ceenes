@@ -7,6 +7,8 @@ import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
@@ -20,20 +22,29 @@ import 'package:toast/toast.dart';
 import 'details_view.dart';
 import 'package:intl/intl.dart';
 
+import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
+
 int _sessionId;
 List _movies_dec;
 
 class Review extends StatefulWidget {
-  Review(int sessionId, List movies_dec) {
+  Review(int sessionId, List movies_dec, {this.analytics, this.observer}) {
     _sessionId = sessionId;
     _movies_dec = movies_dec;
   }
 
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
   @override
-  _ReviewState createState() => _ReviewState();
+  _ReviewState createState() => _ReviewState(analytics, observer);
 }
 
 class _ReviewState extends State<Review> {
+  _ReviewState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<int> rating = []; //gesamtes rating
@@ -43,6 +54,12 @@ class _ReviewState extends State<Review> {
   LinkedHashMap<Map<String, dynamic>, int> sortedMap;
 
   bool isEnabled = true;
+
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+    );
+  }
 
   showDetails(context, Map moviedetails) async {
     showModalBottomSheet(
@@ -177,6 +194,7 @@ class _ReviewState extends State<Review> {
             child: RefreshIndicator(
           color: blue_ceenes,
           onRefresh: () async {
+            _sendAnalyticsEvent("Review View - Refresh Indicator");
             await getNumberVotes();
             getRating();
           },
@@ -522,6 +540,7 @@ class _ReviewState extends State<Review> {
 
   @override
   initState() {
+    _sendAnalyticsEvent("Review View - Init State");
     super.initState();
     //getRating();
     getNumberVotes();
@@ -553,7 +572,6 @@ class _ReviewState extends State<Review> {
                     }
                   }),
               getRefreshButton(),
-
               //Stack für header
               Align(
                 alignment: Alignment.topLeft,
@@ -574,6 +592,7 @@ class _ReviewState extends State<Review> {
                         padding: const EdgeInsets.all(8.0),
                         child: IconButton(
                           onPressed: () {
+                            _sendAnalyticsEvent("Review View - Home Button");
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
@@ -607,6 +626,7 @@ class _ReviewState extends State<Review> {
   }
 
   _sendFeedback() async {
+    _sendAnalyticsEvent("Review View - Feedback gesendet");
     await firestore
         .collection("feedback")
         .add({DateTime.now().toString(): feedbackTextContr.text});
@@ -621,6 +641,7 @@ class _ReviewState extends State<Review> {
   }
 
   TextEditingController feedbackTextContr = TextEditingController();
+
   getRefreshButton() {
     if (_sessionParts == _numVotes) {
       return Align(
@@ -635,7 +656,193 @@ class _ReviewState extends State<Review> {
                 child: FloatingActionButton.extended(
                     backgroundColor: red_ceenes,
                     onPressed: () {
+                      _sendAnalyticsEvent("Review View - Feedback Button");
                       showDialog(
+                          context: context,
+                          child: Dialog(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Feedback",
+                                        style: TextStyle(fontSize: 22),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      hintText:
+                                      "Wie fandest du die Anzahl der Filme?\n"
+                                          "Wie findest du die Farbe?\n"
+                                          "Welche Features wünscht du dir?\n"
+                                          "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
+                                          "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
+                                          "Hast du weiteres Feedback?",
+                                    ),
+                                    controller: feedbackTextContr,
+                                    maxLines: 15,
+                                    keyboardType: TextInputType.multiline,
+                                    cursorColor: primary_color,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FloatingActionButton.extended(
+                                    label: Text(
+                                      "Jetzt senden",
+                                      style: TextStyle(
+                                        fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold,),
+                                    ),
+                                    onPressed: () async {
+                                      _sendAnalyticsEvent("Review View - Feedback senden Button");
+                                      print(feedbackTextContr.value.text);
+                                      await _sendFeedback();
+                                      feedbackTextContr.clear();
+                                      Navigator.pop(context);
+                                    },
+                                    backgroundColor:red_ceenes,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ));
+                    },
+                    label: Text(
+                      'Feedback',
+                      style:
+                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                child: FloatingActionButton.extended(
+                    backgroundColor: blue_ceenes,
+                    onPressed: () {
+                      _sendAnalyticsEvent("Review View - Nochmal Swipen Button");
+                      showDialog(
+                          context: context,
+                          child: Dialog(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Wünscht du dir dieses Feature?",
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                            ),
+                                            Text(
+                                              "Leider gibt es dieses Feature noch nicht, aber wir arbeiten daran.\n"+
+                                                  "Aktuell musst du eine neue Gruppe auf machen, um erneut mit deinen Freunden zu swipen.",
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                    },
+                    label: Text(
+                      'nochmal swipen',
+                      style:
+                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: const EdgeInsets.all(15),
+        child: FloatingActionButton(
+          heroTag: "10",
+          onPressed: () async {
+            _sendAnalyticsEvent("Review View - Refresh Button");
+            await getNumberVotes();
+            getRating();
+          },
+          child: Icon(
+            Icons.refresh,
+            color: blue_ceenes,
+          ),
+          backgroundColor: Colors.grey[800],
+        ),
+      ),
+    );
+  }
+}
+
+/*
+
+*/
+
+
+
+
+
+  /*
+  getRefreshButton() {
+    if (_sessionParts == _numVotes) {
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left:8.0,right:8.0),
+                child: FloatingActionButton.extended(
+                    backgroundColor: red_ceenes,
+                    onPressed: () {
+                      _sendAnalyticsEvent("Review View - Refresh Button");
+
+                    showDialog(
                           context: context,
                           child: Dialog(
                             child: Column(
@@ -743,7 +950,7 @@ class _ReviewState extends State<Review> {
                                           ],
                                         ),
                                       ),
-                                     
+
                                       IconButton(
                                         icon: Icon(
                                           Icons.close,
@@ -768,6 +975,85 @@ class _ReviewState extends State<Review> {
                   ),
             ],
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FloatingActionButton.extended(
+                backgroundColor: red_ceenes,
+                onPressed: () {
+                  _sendAnalyticsEvent("Review View - Refresh Button");
+                  showDialog(
+                      context: context,
+                      child: Dialog(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Feedback",
+                                    style: TextStyle(fontSize: 22),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText:
+                                      "Wie fandest du die Anzahl der Filme?\n"
+                                      "Wie findest du die Farbe?\n"
+                                      "Welche Features wünscht du dir?\n"
+                                      "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
+                                      "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
+                                      "Hast du weiteres Feedback?",
+                                ),
+                                controller: feedbackTextContr,
+                                maxLines: 15,
+                                keyboardType: TextInputType.multiline,
+                                cursorColor: primary_color,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: FloatingActionButton.extended(
+                                label: Text(
+                                  "Jetzt senden",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black87),
+                                ),
+                                onPressed: () async {
+                                  _sendAnalyticsEvent(
+                                      "Review View - Feedback Button");
+                                  await _sendFeedback();
+                                  feedbackTextContr.clear();
+                                  Navigator.pop(context);
+                                },
+                                backgroundColor: primary_color,
+                              ),
+                            )
+                          ],
+                        ),
+                      ));
+                },
+                label: Text(
+                  'Feedback',
+                  style:
+                      TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                )),
         ),
       );
     }
@@ -792,6 +1078,6 @@ class _ReviewState extends State<Review> {
   }
 }
 
-/*
 
-*/
+
+   */

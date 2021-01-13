@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.analytics, this.observer})
+  MyHomePage({Key key, this.title, this.analytics, this.observer}) 
       : super(key: key);
 
   final String title;

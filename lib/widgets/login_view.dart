@@ -5,6 +5,8 @@ import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -13,13 +15,29 @@ import 'package:smart_select/smart_select.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 class Login_view extends StatefulWidget {
+  Login_view({this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
-  _Login_viewState createState() => _Login_viewState();
+  _Login_viewState createState() => _Login_viewState(analytics, observer);
 }
 
 class _Login_viewState extends State<Login_view> {
+  _Login_viewState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String movies_enc;
+
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+    );
+  }
 
   Future<String> fetchMovies(int sessionId) async {
     await firestore
@@ -40,6 +58,13 @@ class _Login_viewState extends State<Login_view> {
       border: Border.all(color: primary_color, width: 2),
       borderRadius: BorderRadius.circular(5.0),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _sendAnalyticsEvent("Login View - Init State");
   }
 
   @override
@@ -140,8 +165,8 @@ class _Login_viewState extends State<Login_view> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child:
-                                                    new Text("Prüfe eingabe"),
+                                                child: new Text(
+                                                    "Prüfe eingabe..."),
                                               ),
                                             ],
                                           ),
@@ -151,6 +176,8 @@ class _Login_viewState extends State<Login_view> {
                                     await checkCorrect(sessionId)
                                         .then((exists) {
                                       if (!exists) {
+                                        _sendAnalyticsEvent(
+                                            "Login View - Fehler bei Code Eingabe");
                                         Navigator.pop(context);
                                         showDialog(
                                           child: Dialog(
@@ -238,6 +265,7 @@ class _Login_viewState extends State<Login_view> {
                         child: IconButton(
                           icon: Icon(Icons.arrow_back),
                           onPressed: () {
+                            _sendAnalyticsEvent("Login View - Back Button");
                             Navigator.pop(context);
                           },
                           splashRadius: 20,

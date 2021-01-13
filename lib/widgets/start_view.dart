@@ -107,14 +107,14 @@ class _StartViewState extends State<StartView> {
   Future<void> _sendAnalyticsEvent(String what) async {
     await analytics.logEvent(
       name: what,
-      parameters: <String, dynamic>{
-        'string': 'string',
-        'int': 42,
-        'long': 12345678910,
-        'double': 42.0,
-        'bool': true,
-      },
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _sendAnalyticsEvent("Start View - Init State");
   }
 
   @override
@@ -202,11 +202,13 @@ class _StartViewState extends State<StartView> {
                                           color: primary_color,
                                           onPressed: () {
                                             _sendAnalyticsEvent("Erstellen");
-                                            //gtm.pushEvent("erstellen geglickt");
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
-                                              return Create_View();
+                                              return Create_View(
+                                                analytics: this.analytics,
+                                                observer: this.observer,
+                                              );
                                             }));
                                           },
                                         ),
@@ -235,7 +237,9 @@ class _StartViewState extends State<StartView> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
-                                              return Login_view();
+                                              return Login_view(
+                                                  analytics: this.analytics,
+                                                  observer: this.observer);
                                             }));
                                           },
                                         ),
@@ -515,7 +519,11 @@ class _StartViewState extends State<StartView> {
                             children: [
                               //profil Loro
                               InkWell(
-                                onTap: _launchURL2,
+                                onTap: () {
+                                  _sendAnalyticsEvent(
+                                      "Start View - Profil Lorenz");
+                                  _launchURL2();
+                                },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -559,7 +567,10 @@ class _StartViewState extends State<StartView> {
                               ),
                               //Profil benji
                               InkWell(
-                                  onTap: _launchURL,
+                                  onTap: () {
+                                    _sendAnalyticsEvent(
+                                        "Start View - Profil Benji");
+                                  },
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -608,7 +619,11 @@ class _StartViewState extends State<StartView> {
                               },
                               child: Text("Change background")),
                           InkWell(
-                            onTap: _launchURLIG,
+                            onTap: () {
+                              _sendAnalyticsEvent(
+                                  "Start View - Instagram Button");
+                              _launchURLIG();
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Row(
@@ -650,6 +665,8 @@ class _StartViewState extends State<StartView> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      _sendAnalyticsEvent(
+                                          "Start View - Lizenzen und Credits Button");
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
@@ -666,6 +683,8 @@ class _StartViewState extends State<StartView> {
                                       ),
                                     ),
                                     onPressed: () {
+                                      _sendAnalyticsEvent(
+                                          "Start View - Privacy Policy Button");
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (BuildContext context) {
