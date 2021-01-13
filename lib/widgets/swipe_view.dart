@@ -42,26 +42,17 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   int currentIndex;
 
-  /*
-  String getGenres(int index) {
-    String genres = "";
-    for (Map genre in movies_dec[index]["genres"]) {
-      genres = genres + genre["name"] + ", ";
-    }
-    if (genres == "") {
-      return "keine Genres";
-    }
-    return genres.substring(0, genres.length - 2);
-  }
+  Color feedbackColor = Colors.transparent;
 
-   */
+  Widget feedbackWidget = SizedBox();
+
 
   String getGenres(int index) {
     String genreIds = "";
     for (int genreId in movies_dec[index]["genre_ids"]) {
       genreIds += genreId.toString();
     }
-    print(genreIds);
+   // print(genreIds);
     return genreIds;
   }
 
@@ -121,7 +112,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
       return maxWidth;
     }
     maxWidth = MediaQuery.of(context).size.width * 0.9;
-    print(maxWidth);
+   // print(maxWidth);
     return maxWidth;
   }
 
@@ -132,13 +123,13 @@ class _Swipe_ViewState extends State<Swipe_View> {
       return minWidth;
     }
     minWidth = MediaQuery.of(context).size.width * 0.8;
-    print(minWidth);
+    //print(minWidth);
     return minWidth;
   }
 
   String getGenresForMovie(int index) {
     List<String> genres = getGenreStrings(movies_dec[index]["genre_ids"]);
-    print(genres);
+ //   print(genres);
     String genresFinal = "";
     for (String genre in genres) {
       print(genre);
@@ -152,8 +143,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
   @override
   Widget build(BuildContext context) {
     //print(session.sessionId.toString());
-    print(MediaQuery.of(context).size);
-    print(movies_dec[0]);
+   // print(MediaQuery.of(context).size);
+    //print(movies_dec[0]);
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
@@ -168,245 +159,283 @@ class _Swipe_ViewState extends State<Swipe_View> {
                   children: [
                     Expanded(
                       child: Container(
-                        child: TinderSwapCard(
-                          swipeUp: false,
-                          swipeDown: false,
-                          animDuration: 300,
-                          orientation: AmassOrientation.TOP,
-                          totalNum: movies_dec.length,
-                          stackNum: 3,
-                          swipeEdge: 4,
-                          maxWidth: getMaxWidth(),
-                          maxHeight: MediaQuery.of(context).size.height * 0.9,
-                          minWidth: getMinWidth(),
-                          minHeight: MediaQuery.of(context).size.height * 0.8,
-                          cardBuilder: (context, index) {
-                            currentIndex = index;
-                            return Card(
-                                elevation: 10,
-                                color: Color.fromRGBO(37, 37, 37, 1),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 20,
-                                        ),
-                                        child: Container(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(14),
-                                            child: Image.network(
-                                              "http://image.tmdb.org/t/p/w342/" +
-                                                  movies_dec[index]
-                                                      ["poster_path"],
-                                              height: getHeightPoster(),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
+                        child: Stack(
+                          children: [
+                            TinderSwapCard(
+                              swipeUp: false,
+                              swipeDown: false,
+                              animDuration: 300,
+                              orientation: AmassOrientation.TOP,
+                              totalNum: movies_dec.length,
+                              stackNum: 3,
+                              swipeEdge: 4,
+                              maxWidth: getMaxWidth(),
+                              maxHeight: MediaQuery.of(context).size.height * 0.9,
+                              minWidth: getMinWidth(),
+                              minHeight: MediaQuery.of(context).size.height * 0.8,
+                              cardBuilder: (context, index) {
+                                currentIndex = index;
+
+
+                                return Card(
+                                    elevation: 10,
+                                    color: Color.fromRGBO(37, 37, 37, 1),
+                                    child: Column(
                                       children: [
                                         Expanded(
-                                          child: Container(
-                                              padding: const EdgeInsets.only(
-                                                  top: 5, left: 20, bottom: 5),
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                  movies_dec[index]["title"],
-                                                  overflow: TextOverflow.clip,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20,
-                                                    color: Color.fromRGBO(
-                                                        238, 238, 238, 1),
-                                                  ))),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 20),
-                                          child: IconButton(
-                                            splashRadius: 20,
-                                            iconSize: 28,
-                                            icon: Icon(Icons.info),
-                                            tooltip: 'mehr Details',
-                                            onPressed: () async {
-                                              Map movieDetails = await tmdb
-                                                  .v3.movies
-                                                  .getDetails(
-                                                      movies_dec[index]["id"],
-                                                      appendToResponse:
-                                                          "watch/providers",
-                                                      language: "de-DE");
-                                              showDetails(
-                                                  context, movieDetails);
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                        alignment: Alignment.topLeft,
-                                        padding: const EdgeInsets.only(
-                                            left: 20,
-                                            top: 5,
-                                            bottom: 5,
-                                            right: 20),
-                                        child: Text(
-                                          movies_dec[index]["overview"],
-                                          overflow: TextOverflow.fade,
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                238, 238, 238, 1),
-                                          ),
-                                        )),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              color:
-                                                  Color.fromRGBO(68, 68, 68, 1),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 20,
                                             ),
-                                            padding: const EdgeInsets.all(10),
-                                            margin: const EdgeInsets.only(
-                                                left: 20,
-                                                right: 20,
-                                                top: 5,
-                                                bottom: 5),
-                                            child: Text(
-                                                getGenresForMovie(index),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromRGBO(
-                                                      238, 238, 238, 1),
-                                                )),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)),
-                                              color:
-                                                  Color.fromRGBO(68, 68, 68, 1),
+                                            child: Container(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(14),
+                                                child: Image.network(
+                                                  "http://image.tmdb.org/t/p/w342/" +
+                                                      movies_dec[index]
+                                                          ["poster_path"],
+                                                  height: getHeightPoster(),
+                                                ),
+                                              ),
                                             ),
-                                            margin: const EdgeInsets.only(
-                                                left: 20,
-                                                right: 20,
-                                                top: 5,
-                                                bottom: 10),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          10, 10, 2, 10),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 5, left: 20, bottom: 5),
+                                                  alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                      movies_dec[index][
-                                                                  "vote_average"]
-                                                              .toString() +
-                                                          "/10",
+                                                      movies_dec[index]["title"],
+                                                      overflow: TextOverflow.clip,
                                                       style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 20,
                                                         color: Color.fromRGBO(
                                                             238, 238, 238, 1),
-                                                      )),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          2, 10, 10, 10),
-                                                  child: Icon(
-                                                    Icons.star,
-                                                    color: Colors.yellow,
-                                                    size: 20.0,
-                                                    semanticLabel: 'Stern',
-                                                  ),
-                                                ),
-                                              ],
+                                                      ))),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ));
-                          },
-                          cardController: controller,
-                          swipeCompleteCallback:
-                              (CardSwipeOrientation orientation,
-                                  int index) async {
-                            if (orientation == CardSwipeOrientation.LEFT) {
-                              //print("left");
-                              setState(() {
-                                counter += 1;
-                                movies_rating.add(0);
-                              });
-                              //print("counter: " + counter.toString());
-                            } else if (orientation ==
-                                CardSwipeOrientation.RIGHT) {
-                              //print("right");
-
-                              setState(() {
-                                //print("in set state");
-                                counter += 1;
-                                movies_rating.add(1);
-                              });
-                              //print("counter: " + counter.toString());
-                            }
-
-                            if (counter == movies_dec.length) {
-                              print("letzte karte" + index.toString());
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return Dialog(
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: new CircularProgressIndicator(
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                    Color>(blue_ceenes),
-                                          ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Container(
+                                              margin:
+                                                  const EdgeInsets.only(right: 20),
+                                              child: IconButton(
+                                                splashRadius: 20,
+                                                iconSize: 28,
+                                                icon: Icon(Icons.info),
+                                                tooltip: 'mehr Details',
+                                                onPressed: () async {
+                                                  Map movieDetails = await tmdb
+                                                      .v3.movies
+                                                      .getDetails(
+                                                          movies_dec[index]["id"],
+                                                          appendToResponse:
+                                                              "watch/providers",
+                                                          language: "de-DE");
+                                                  showDetails(
+                                                      context, movieDetails);
+                                                },
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: new Text(
-                                            "Laden...",
-                                            style: TextStyle(fontSize: 25),
+                                        Container(
+                                            alignment: Alignment.topLeft,
+                                            padding: const EdgeInsets.only(
+                                                left: 20,
+                                                top: 5,
+                                                bottom: 5,
+                                                right: 20),
+                                            child: Text(
+                                              movies_dec[index]["overview"],
+                                              overflow: TextOverflow.fade,
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(
+                                                    238, 238, 238, 1),
+                                              ),
+                                            )),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5)),
+                                                  color:
+                                                      Color.fromRGBO(68, 68, 68, 1),
+                                                ),
+                                                padding: const EdgeInsets.all(10),
+                                                margin: const EdgeInsets.only(
+                                                    left: 20,
+                                                    right: 20,
+                                                    top: 5,
+                                                    bottom: 5),
+                                                child: Text(
+                                                    getGenresForMovie(index),
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color.fromRGBO(
+                                                          238, 238, 238, 1),
+                                                    )),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(5)),
+                                                  color:
+                                                      Color.fromRGBO(68, 68, 68, 1),
+                                                ),
+                                                margin: const EdgeInsets.only(
+                                                    left: 20,
+                                                    right: 20,
+                                                    top: 5,
+                                                    bottom: 10),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              10, 10, 2, 10),
+                                                      child: Text(
+                                                          movies_dec[index][
+                                                                      "vote_average"]
+                                                                  .toString() +
+                                                              "/10",
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color.fromRGBO(
+                                                                238, 238, 238, 1),
+                                                          )),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                              2, 10, 10, 10),
+                                                      child: Icon(
+                                                        Icons.star,
+                                                        color: Colors.yellow,
+                                                        size: 20.0,
+                                                        semanticLabel: 'Stern',
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
-                                    ),
-                                  );
-                                },
-                              );
-                              await uploadRanking(movies_rating)
-                                  .whenComplete(() {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                    ));
+                              },
+                              cardController: controller,
+                              swipeUpdateCallback:
+                                  (DragUpdateDetails details, Alignment align) {
+                                if (align.x < -0.2) {
+                                  setState(() {
+                                    feedbackWidget = Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top:50, left:15),
+                                        child: Icon(Icons.clear, color: Colors.red, size: 50),
+                                      ),
+                                    );
+                                  });
+                                } else if (align.x > 0.2) {
+                                  //Card is RIGHT swiping
+                                  setState(() {
+                                    feedbackWidget = Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top:50, right:15),
+                                        child: Icon(Icons.favorite, color: Colors.green, size: 50),
+                                      ),
+                                    );
+                                  });
+                                } else{
+                                  setState(() {
+                                    feedbackWidget = SizedBox();
+
+                                  });
+                                }
+                              },
+                              swipeCompleteCallback:
+                                  (CardSwipeOrientation orientation,
+                                      int index) async {
+                                if (orientation == CardSwipeOrientation.LEFT) {
+                                  setState(() {
+
+                                    counter += 1;
+                                    movies_rating.add(0);
+                                  });
+                                } else if (orientation ==
+                                    CardSwipeOrientation.RIGHT) {
+
+                                  setState(() {
+
+                                    counter += 1;
+                                    movies_rating.add(1);
+                                  });
+                                }
+
+                                setState(() {
+                                  feedbackWidget = SizedBox();
+                                });
+
+                                if (counter == movies_dec.length) {
+                                //  print("letzte karte" + index.toString());
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
                                     builder: (BuildContext context) {
-                                  return Review(_sessionId, movies_dec);
-                                }));
-                              });
-                            }
-                          },
+                                      return Dialog(
+                                        child: new Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: new CircularProgressIndicator(
+                                                valueColor:
+                                                    new AlwaysStoppedAnimation<
+                                                        Color>(blue_ceenes),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: new Text(
+                                                "Laden...",
+                                                style: TextStyle(fontSize: 25),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  await uploadRanking(movies_rating)
+                                      .whenComplete(() {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (BuildContext context) {
+                                      return Review(_sessionId, movies_dec);
+                                    }));
+                                  });
+                                }
+                              },
+                            ),
+                            feedbackWidget
+                          ],
                         ),
                       ),
                     ),
