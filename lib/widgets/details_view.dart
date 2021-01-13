@@ -6,7 +6,6 @@ import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-
 Map details;
 
 class Details_view extends StatefulWidget {
@@ -51,12 +50,14 @@ class _Details_viewState extends State<Details_view> {
   List<Widget> actorWidgets = [];
 
   _setCast() async {
-    _cast = await tmdb.v3.movies.getCredits(details["id"],);
+    _cast = await tmdb.v3.movies.getCredits(
+      details["id"],
+    );
     cast = _cast.values.toList()[1];
     for (int i = 0; i < cast.length; i++) {
       print(cast[i]);
-      actors.add(new Actor(
-          cast[i]["name"], cast[i]["profile_path"], cast[i]["character"], cast[i]["popularity"]));
+      actors.add(new Actor(cast[i]["name"], cast[i]["profile_path"],
+          cast[i]["character"], cast[i]["popularity"]));
     }
     actors.sort((a, b) => a.pop.compareTo(b.pop));
     actors = actors.reversed.toList();
@@ -76,30 +77,31 @@ class _Details_viewState extends State<Details_view> {
                 Expanded(
                   flex: 10,
                   child: Padding(
-                    padding: const EdgeInsets.only(top:3, left: 3, right: 3),
+                    padding: const EdgeInsets.only(top: 3, left: 3, right: 3),
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: ClipOval(
                         child: FadeInImage.memoryNetwork(
                           fit: BoxFit.cover,
                           placeholder: kTransparentImage,
-                          image: "https://image.tmdb.org/t/p/w185/" + actor.profil_path,
+                          image: "https://image.tmdb.org/t/p/w185/" +
+                              actor.profil_path,
                         ),
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 5,
+                    flex: 5,
                     child: Padding(
                       padding: const EdgeInsets.all(2),
                       child: Center(
                         child: Text(
-                  actor.name + " als " + actor.character,
-                  style: TextStyle(fontSize: 10),
-                  overflow: TextOverflow.clip,
+                          actor.name + " als " + actor.character,
+                          style: TextStyle(fontSize: 10),
+                          overflow: TextOverflow.clip,
                           textAlign: TextAlign.center,
-                ),
+                        ),
                       ),
                     ))
               ],
@@ -195,7 +197,7 @@ class _Details_viewState extends State<Details_view> {
                                 ],
                               ),
                             ),
-                            Row(
+                            Wrap(
                               children: providerimg,
                             ),
                           ]),
@@ -235,7 +237,9 @@ class _Details_viewState extends State<Details_view> {
                     },
                   ),
                 ),
-                SizedBox(height: 10,)
+                SizedBox(
+                  height: 10,
+                )
               ],
             ),
           ),

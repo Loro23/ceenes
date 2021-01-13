@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
-import 'package:ceenes_prototype/util/content.dart';
 import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
@@ -28,10 +27,6 @@ class Create_View extends StatefulWidget {
 
 class Create_ViewState extends State<Create_View>
     with TickerProviderStateMixin {
-  Color dark_0 = Color.fromRGBO(21, 21, 21, 1);
-  Color dark_1 = Color.fromRGBO(37, 37, 37, 1);
-  Color white_0 = Color.fromRGBO(238, 238, 238, 1);
-
   String movies;
   Session session;
 
@@ -82,11 +77,23 @@ class Create_ViewState extends State<Create_View>
           .collection("sessions")
           .document(session.sessionId.toString())
           .updateData({"movies_json": this.movies});
-
       firestore
           .collection("sessions")
           .document(session.sessionId.toString())
           .updateData({"numberPart": session.numPats});
+
+      /*
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"session": jsonEncode(session)});
+
+      firestore
+          .collection("sessions")
+          .document(session.sessionId.toString())
+          .updateData({"nextSession": null});
+
+       */
 
       firestore
           .collection("sessions")
@@ -115,7 +122,7 @@ class Create_ViewState extends State<Create_View>
     );
     animation = ColorTween(
       begin: Colors.grey[600],
-      end: Colors.yellow,
+      end: primary_color,
     ).animate(_controller)
       ..addListener(() {
         setState(() {});
@@ -146,9 +153,7 @@ class Create_ViewState extends State<Create_View>
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
-        onWillPop: () {
-          print("wil poppen");
-        },
+        onWillPop: () async => true,
         child: Stack(
           children: [
             Align(
@@ -185,7 +190,7 @@ class Create_ViewState extends State<Create_View>
                             tooltip: (i, v) => v,
                           ),
                           choiceActiveStyle: C2ChoiceStyle(
-                              color: Colors.yellow[400],
+                              color: primary_color,
                               borderWidth: 2,
                               labelStyle: TextStyle(fontSize: 25),
                               borderOpacity: 0.5),
@@ -294,7 +299,7 @@ class Create_ViewState extends State<Create_View>
                             label: (i, v) => v,
                           ),
                           choiceActiveStyle: C2ChoiceStyle(
-                              color: Colors.yellow[400],
+                              color: primary_color,
                               borderWidth: 2,
                               labelStyle: TextStyle(fontSize: 18),
                               borderOpacity: 0.5),
@@ -373,7 +378,7 @@ class Create_ViewState extends State<Create_View>
                                           tooltip: (i, v) => v,
                                         ),
                                         choiceActiveStyle: C2ChoiceStyle(
-                                            color: Colors.yellow[400],
+                                            color: primary_color,
                                             borderWidth: 2,
                                             labelStyle: TextStyle(fontSize: 18),
                                             borderOpacity: 0.5),
@@ -526,9 +531,11 @@ class Create_ViewState extends State<Create_View>
                               this.session = new Session(valuePart,
                                   getGenreIds(valueGenre), valueProvider2);
 
-                              await MovieHandler.getMoviesNew(this.session)
+                              await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {
+                                print(movies);
                                 if (movies.length == 0) {
+                                  print("length i 0");
                                   this.movies = "";
                                   return;
                                 }
@@ -552,28 +559,28 @@ class Create_ViewState extends State<Create_View>
                                       child: Dialog(
                                         child: Padding(
                                           padding: const EdgeInsets.all(12),
-                                          child: Row(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
                                             children: [
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Icon(
                                                   Icons.sentiment_dissatisfied,
-                                                  size: 40,
-                                                  color: Color.fromRGBO(
-                                                      207, 102, 121, 1),
+                                                  size: 50,
+                                                  color: error_ceenes,
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Zu deiner Auswahl wurden nicht genug Filme gefunden. Das liegt an der Auswahl der Genres.",
-                                                    overflow: TextOverflow.clip,
-                                                    style:
-                                                        TextStyle(fontSize: 25),
-                                                  ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "Zu deiner Auswahl wurden nicht genug Filme gefunden. "
+                                                  "Bitte wähle mehr oder andere Genres aus oder füge andere Streaming-Anbieter hinzu.\n\n"
+                                                  "Beachte: Manche Anbieter haben bestimmte Genres nicht im Angebot. ",
+                                                  overflow: TextOverflow.clip,
+                                                  style:
+                                                      TextStyle(fontSize: 20),
                                                 ),
                                               ),
                                             ],
@@ -585,7 +592,7 @@ class Create_ViewState extends State<Create_View>
                               });
                             },
                     ),
-                    dotsDecorator: const DotsDecorator(
+                    dotsDecorator: DotsDecorator(
                       activeColor: blue_ceenes,
                       size: Size(10.0, 10.0),
                       color: Colors.grey,

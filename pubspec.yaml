@@ -18,7 +18,7 @@ dependencies:
   flutter_tindercard: ^0.1.7
   sticky_headers: 
   smart_select: ^4.3.2
-  firebase_core: "0.5.2"
+  firebase_core: ^0.5.2
   cloud_firestore: "^0.14.3"
   pinput: ^0.2.0
   chips_choice: ^2.0.1
@@ -34,6 +34,9 @@ dependencies:
   flutter_linkify: ^4.0.2
   google_fonts: ^1.1.1
   transparent_image: ^1.0.0
+  firebase_analytics: ^6.3.0
+  google_tag_manager: ^0.0.3
+  toast:
 
 
 dev_dependencies:

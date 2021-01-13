@@ -4,6 +4,8 @@ import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'util/api.dart';
@@ -18,18 +20,20 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:html' as html;
 
 void main() {
-  //GestureBinding.instance.resamplingEnabled = true; // Set this flag.
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  // Set default `_initialized` and `_error` state to false
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   bool _initialized = false;
 
   bool _error = false;
@@ -96,8 +100,13 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     }
+    FirebaseAnalytics analytics = FirebaseAnalytics();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
       theme: ThemeData(
           primaryColor: Colors.white,
           scaffoldBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
@@ -110,23 +119,33 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.dark(),
           cardColor: backgroundcolor_dark),
       title: 'Ceenes - Findet den perfekten Film',
-      home: MyHomePage(title: 'Ceenes Homepage'),
+      home: MyHomePage(
+          title: 'Ceenes Homepage', analytics: analytics, observer: observer),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.analytics, this.observer})
+      : super(key: key);
 
   final String title;
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() =>
+      _MyHomePageState(this.analytics, this.observer);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   @override
   Widget build(BuildContext context) {
-    return StartView();
+    return StartView(analytics: this.analytics, observer: this.observer);
   }
 }

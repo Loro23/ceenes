@@ -12,6 +12,8 @@ import 'package:ceenes_prototype/widgets/privacy.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../util/api.dart';
@@ -21,13 +23,24 @@ import 'package:smart_select/smart_select.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 
 class StartView extends StatefulWidget {
+  StartView({this.analytics, this.observer}) : super(key: key);
+
+  final FirebaseAnalytics analytics;
+  final FirebaseAnalyticsObserver observer;
+
   @override
-  _StartViewState createState() => _StartViewState();
+  _StartViewState createState() => _StartViewState(analytics, observer);
 }
 
 class _StartViewState extends State<StartView> {
+  _StartViewState(this.analytics, this.observer);
+
+  final FirebaseAnalyticsObserver observer;
+  final FirebaseAnalytics analytics;
+
   _launchURL() async {
     const url =
         'https://de.linkedin.com/in/benjamin-kasten-a68466155?challengeId=AQGWWfDdKCKNjwAAAXYVZyJsoBJBTAUesYA_Y30jgQvYM8XZnLmkfnDvN58rnfxhg077ug-e2Nqb_PqTIvsQiITK9rtxoP1jFw&submissionId=ab2c09ea-1410-4c16-c6a2-30032c387a20';
@@ -79,7 +92,7 @@ class _StartViewState extends State<StartView> {
     if (_getWidth() < 300) {
       return height * 0.02;
     }
-    return height * 0.03;
+    return height * 0.025;
   }
 
   getButtonHeightSize() {
@@ -89,6 +102,19 @@ class _StartViewState extends State<StartView> {
 
   getLogoSize() {
     return _getHeight() * 0.11;
+  }
+
+  Future<void> _sendAnalyticsEvent(String what) async {
+    await analytics.logEvent(
+      name: what,
+      parameters: <String, dynamic>{
+        'string': 'string',
+        'int': 42,
+        'long': 12345678910,
+        'double': 42.0,
+        'bool': true,
+      },
+    );
   }
 
   @override
@@ -167,15 +193,16 @@ class _StartViewState extends State<StartView> {
                                       Expanded(
                                         child: RaisedButton(
                                           child: Text(
-                                            "Erstellen",
+                                            " Erstellen ",
                                             style: TextStyle(
                                                 fontSize: getButtonFontSize(),
                                                 color: backgroundcolor_dark,
                                                 fontWeight: FontWeight.w600),
                                           ),
-                                          color:
-                                              Colors.yellow.withOpacity(0.95),
+                                          color: primary_color,
                                           onPressed: () {
+                                            _sendAnalyticsEvent("Erstellen");
+                                            //gtm.pushEvent("erstellen geglickt");
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
@@ -192,18 +219,19 @@ class _StartViewState extends State<StartView> {
                                           color: Colors.transparent,
                                           shape: RoundedRectangleBorder(
                                               side: BorderSide(
-                                                  color: Colors.yellow,
+                                                  color: primary_color,
                                                   width: 2,
                                                   style: BorderStyle.solid),
                                               borderRadius:
                                                   BorderRadius.circular(50)),
                                           child: Text(
-                                            "Teilnehmen",
+                                            " Teilnehmen ",
                                             style: TextStyle(
                                                 fontSize: getButtonFontSize(),
-                                                color: Colors.yellow),
+                                                color: primary_color),
                                           ),
                                           onPressed: () {
+                                            _sendAnalyticsEvent("Teilnehmen");
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(builder:
                                                     (BuildContext context) {
@@ -574,6 +602,11 @@ class _StartViewState extends State<StartView> {
                           SizedBox(
                             height: 120,
                           ),
+                          FlatButton(
+                              onPressed: () {
+                                setState(() {});
+                              },
+                              child: Text("Change background")),
                           InkWell(
                             onTap: _launchURLIG,
                             child: Padding(
