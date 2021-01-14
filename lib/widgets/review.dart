@@ -186,7 +186,7 @@ class _ReviewState extends State<Review> {
     providerimg = [];
 
     //getNumberParts();
-    if (sortedMap == null || _numVotes != _sessionParts) {
+    if (sortedMap == null || _numVotes < _sessionParts) {
       print("noch nicht fertig");
       return Container(
         color: backgroundcolor_dark,
@@ -692,10 +692,10 @@ class _ReviewState extends State<Review> {
                                     decoration: InputDecoration(
                                       hintText:
                                           "Wie fandest du die Anzahl der Filme?\n"
-                                          "Wie findest du die Farbe?\n"
+                                          "Wie findest du die Farbe / das Desgin der App?\n"
                                           "Welche Features wünscht du dir?\n"
-                                          "War es bishier hin einfach einen gemeinsamen Film zu finden?\n"
-                                          "Sind Probleme/Fehler aufgetreten? Wenn ja, welche?\n"
+                                          "War es bis hierhin einfach einen gemeinsamen Film zu finden?\n"
+                                          "Sind Probleme / Fehler aufgetreten? Wenn ja, welche?\n"
                                           "Hast du weiteres Feedback?",
                                     ),
                                     controller: feedbackTextContr,

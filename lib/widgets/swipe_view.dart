@@ -208,7 +208,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                 borderRadius:
                                                     BorderRadius.circular(14),
                                                 child: Image.network(
-                                                  "http://image.tmdb.org/t/p/w342/" +
+                                                  "http://image.tmdb.org/t/p/w500/" +
                                                       movies_dec[index]
                                                           ["poster_path"],
                                                   height: getHeightPoster(),

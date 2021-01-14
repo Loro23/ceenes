@@ -168,7 +168,7 @@ class _StartViewState extends State<StartView> {
                                         height: getLogoSize(),
                                       )),
                                   AutoSizeText(
-                                    "Finde den besten Film. Swipe zusammen mit deinen Freunden.",
+                                    "Finde den perfekten Film. Swipe zusammen mit deinen Freunden.",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: getTitleFontSize(),

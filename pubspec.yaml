@@ -1,5 +1,5 @@
 name: ceenes_prototype
-description: A new Flutter project.
+description: Findet den perfekten Film.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -25,7 +25,7 @@ dependencies:
   introduction_screen: ^1.0.9
   circular_reveal_animation: ^1.1.5
   expandable: ^4.1.4
-  http:
+  http: ^0.12.2
   clipboard: ^0.1.2+8
   share: ^0.6.5+4
   auto_size_text: ^2.1.0
