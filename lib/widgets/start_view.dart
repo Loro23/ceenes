@@ -536,7 +536,7 @@ class _StartViewState extends State<StartView> {
                                 child: Text(
                                   "Ceenes entsteht ihm Rahmen eines Seminars an der Universiät Paderborn. Wir, Lorenz und Benjamin, "
                                   "stecken über ein Semester viel Energie in die Entwicklung dieser Webapp und wollen ein qualitativ hochwertiges "
-                                  "Produkt erstellen, um euch bei den \"Film-Entscheidungs-Prozess\" zu erleichtern. ",
+                                  "Produkt erstellen, um euch den \"Film-Entscheidungs-Prozess\" zu erleichtern. ",
                                   style:
                                       TextStyle(fontSize: 18, letterSpacing: 1),
                                   textAlign: TextAlign.start,
