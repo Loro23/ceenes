@@ -64,102 +64,105 @@ class _AdminLoginState extends State<AdminLogin> {
               constraints: BoxConstraints(maxWidth: 600),
               child: Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          "assets/giphy_happy.gif",
-                          height: 150,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: SelectableText(
-                            "Deine Gruppe wurde erstellt!",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w600),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: SelectableText(
-                            "Um zu starten, teile den Code mit deinen Freunden und klicke dann auf Start!",
-                            style: TextStyle(
-                              fontSize: 20,
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              "assets/giphy_happy.gif",
+                              height: 150,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 30),
-                          child: SelectableText(
-                            _session.sessionId.toString(),
-                            style: TextStyle(
-                                letterSpacing: 10,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            _sendAnalyticsEvent(
-                                "Admin Login - Kopieren Button");
-                            FlutterClipboard.copy(
-                                _session.sessionId.toString());
-                          },
-                          color: Colors.grey[800],
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Kopieren",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30),
+                              child: SelectableText(
+                                "Deine Gruppe wurde erstellt!",
+                                style: TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.center,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.copy),
-                              )
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30),
+                              child: SelectableText(
+                                "Um zu starten, teile den Code mit deinen Freunden und klicke dann auf Start!",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30),
+                              child: SelectableText(
+                                _session.sessionId.toString(),
+                                style: TextStyle(
+                                    letterSpacing: 10,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                _sendAnalyticsEvent(
+                                    "Admin Login - Kopieren Button");
+                                FlutterClipboard.copy(
+                                    _session.sessionId.toString());
+                              },
+                              color: Colors.grey[800],
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "Kopieren",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.copy),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            _sendAnalyticsEvent("Admin Login - Start Button");
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) {
+                              return Swipe_View(_movies, _session.sessionId,
+                                  analytics: this.analytics,
+                                  observer: this.observer);
+                            }));
+                          },
+                          label: Text(
+                            "Start",
+                          ),
+                          backgroundColor: primary_color,
+                          heroTag: "2",
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  _sendAnalyticsEvent("Admin Login - Start Button");
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (BuildContext context) {
-                    return Swipe_View(_movies, _session.sessionId,
-                        analytics: this.analytics, observer: this.observer);
-                  }));
-                },
-                label: Text(
-                  "Start",
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w600),
-                ),
-                backgroundColor: primary_color,
-                heroTag: "2",
-              ),
-            ),
-          ),
+
           //Stack für header
           Align(
             alignment: Alignment.topLeft,

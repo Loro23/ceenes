@@ -8,6 +8,7 @@ import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
 import 'package:ceenes_prototype/widgets/review.dart';
+import 'package:ceenes_prototype/widgets/review2.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -147,10 +148,10 @@ class _Swipe_ViewState extends State<Swipe_View> {
     //   print(genres);
     String genresFinal = "";
     for (String genre in genres) {
-      print(genre);
+      // print(genre);
       genresFinal += genre + ", ";
     }
-    print(genresFinal);
+    // print(genresFinal);
     genresFinal = genresFinal.substring(0, genresFinal.length - 2);
     return genresFinal;
   }
@@ -280,7 +281,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                 right: 20),
                                             child: Text(
                                               movies_dec[index]["overview"],
-                                              overflow: TextOverflow.fade,
+                                              overflow: TextOverflow.ellipsis,
                                               maxLines: 3,
                                               style: TextStyle(
                                                 color: Color.fromRGBO(
@@ -385,8 +386,21 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             top: 50, left: 15),
-                                        child: Icon(Icons.clear,
-                                            color: Colors.red, size: 50),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: Container(
+                                            color: Colors.grey[800],
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: Colors.red,
+                                                size: 50,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     );
                                   });
@@ -398,8 +412,19 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             top: 50, right: 15),
-                                        child: Icon(Icons.favorite,
-                                            color: Colors.green, size: 50),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: Container(
+                                            color: Colors.grey[800],
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Icon(Icons.favorite,
+                                                  color: Colors.yellow,
+                                                  size: 50),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     );
                                   });
@@ -471,7 +496,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
                                             builder: (BuildContext context) {
-                                      return Review(_sessionId, movies_dec,
+                                      return Review2(_sessionId, movies_dec,
                                           analytics: this.analytics,
                                           observer: this.observer);
                                     }));

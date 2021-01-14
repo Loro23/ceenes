@@ -77,7 +77,7 @@ class _ReviewState extends State<Review> {
         .collection("votes")
         .getDocuments()
         .then((snapshot) {
-      print(snapshot.documents);
+      // print(snapshot.documents);
       setState(() {
         this._numVotes = snapshot.documents.length - 1;
       });
@@ -86,9 +86,11 @@ class _ReviewState extends State<Review> {
 
   int _numVotes = 0;
   int _sessionParts = 0;
+
   getRating() async {
     showDialog(
       barrierDismissible: false,
+      // ignore: deprecated_member_use
       child: Dialog(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.2,
@@ -394,7 +396,8 @@ class _ReviewState extends State<Review> {
                                         ExpandablePanelHeaderAlignment.center,
                                     tapBodyToCollapse: true,
                                     tapBodyToExpand: false,
-                                    tapHeaderToExpand: true),
+                                    tapHeaderToExpand: true,
+                                    ),
                                 expanded: Container(
                                   height: 500,
                                   child: ListView.builder(
@@ -519,7 +522,7 @@ class _ReviewState extends State<Review> {
   Widget _getPercentage(int _index) {
     double percent;
     percent = sortedMap.entries.elementAt(_index).value.toDouble();
-    percent = percent / _sessionParts;
+    percent = percent / _numVotes;
     percent = percent * 100;
     if (percent >= 75) {
       return Text(

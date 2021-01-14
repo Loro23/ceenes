@@ -175,47 +175,47 @@ class Create_ViewState extends State<Create_View>
                     globalBackgroundColor: backgroundcolor_dark,
                     key: introKey,
                     pages: [
-                      PageViewModel(
-                        titleWidget: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 50),
-                          child: Text(
-                            "Wie viele Personen seid ihr?",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        bodyWidget: ChipsChoice<String>.single(
-                          value: valuePart,
-                          onChanged: (val) => setState(() {
-                            valuePart = val;
-                            //print(valueProvider2);
-                          }),
-                          choiceItems: C2Choice.listFrom<String, String>(
-                            source: optionsPart,
-                            value: (i, v) => v,
-                            label: (i, v) => v,
-                            tooltip: (i, v) => v,
-                          ),
-                          choiceActiveStyle: C2ChoiceStyle(
-                              color: primary_color,
-                              borderWidth: 2,
-                              labelStyle: TextStyle(fontSize: 25),
-                              borderOpacity: 0.5),
-                          choiceStyle: C2ChoiceStyle(
-                              color: Colors.white.withOpacity(0.8),
-                              labelStyle: TextStyle(fontSize: 25)),
-                          wrapped: true,
-                          alignment: WrapAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          scrollPhysics: ClampingScrollPhysics(),
-                          runSpacing: 5,
-                          spacing: 5,
-                        ),
-                      ),
+                      // PageViewModel(
+                      //   titleWidget: Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         left: 25, right: 25, top: 50),
+                      //     child: Text(
+                      //       "Wie viele Personen seid ihr?",
+                      //       style: TextStyle(
+                      //         fontSize: 36,
+                      //         fontWeight: FontWeight.w600,
+                      //       ),
+                      //       textAlign: TextAlign.center,
+                      //     ),
+                      //   ),
+                      //   bodyWidget: ChipsChoice<String>.single(
+                      //     value: valuePart,
+                      //     onChanged: (val) => setState(() {
+                      //       valuePart = val;
+                      //       //print(valueProvider2);
+                      //     }),
+                      //     choiceItems: C2Choice.listFrom<String, String>(
+                      //       source: optionsPart,
+                      //       value: (i, v) => v,
+                      //       label: (i, v) => v,
+                      //       tooltip: (i, v) => v,
+                      //     ),
+                      //     choiceActiveStyle: C2ChoiceStyle(
+                      //         color: primary_color,
+                      //         borderWidth: 2,
+                      //         labelStyle: TextStyle(fontSize: 25),
+                      //         borderOpacity: 0.5),
+                      //     choiceStyle: C2ChoiceStyle(
+                      //         color: Colors.white.withOpacity(0.8),
+                      //         labelStyle: TextStyle(fontSize: 25)),
+                      //     wrapped: true,
+                      //     alignment: WrapAlignment.center,
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     scrollPhysics: ClampingScrollPhysics(),
+                      //     runSpacing: 5,
+                      //     spacing: 5,
+                      //   ),
+                      // ),
                       PageViewModel(
                         titleWidget: Padding(
                           padding: const EdgeInsets.only(

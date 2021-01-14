@@ -45,7 +45,7 @@ class _Login_viewState extends State<Login_view> {
         .document(sessionId.toString())
         .get()
         .then((value) {
-      print(value.data()["movies_json"]);
+      // print(value.data()["movies_json"]);
       movies_enc = value.data()["movies_json"];
     });
   }
@@ -147,7 +147,7 @@ class _Login_viewState extends State<Login_view> {
                                   heroTag: "14",
                                   onPressed: () async {
                                     String sessionId = _controller.text;
-                                    print(sessionId);
+                                    // print(sessionId);
                                     showDialog(
                                       context: context,
                                       barrierDismissible: false,
