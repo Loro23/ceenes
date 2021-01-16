@@ -102,7 +102,8 @@ class MovieHandler {
       }
     }
     // print("results length: " + moviesResults.length.toString());
-    if (moviesResults.length <= 15) return moviesResults;
+    if (moviesResults.length <= 20) return moviesResults;
+
     return moviesResults.sublist(0, 15).toList();
 
     /*

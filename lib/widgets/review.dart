@@ -392,12 +392,12 @@ class _ReviewState extends State<Review> {
                             ScrollOnExpand(
                               child: ExpandablePanel(
                                 theme: const ExpandableThemeData(
-                                    headerAlignment:
-                                        ExpandablePanelHeaderAlignment.center,
-                                    tapBodyToCollapse: true,
-                                    tapBodyToExpand: false,
-                                    tapHeaderToExpand: true,
-                                    ),
+                                  headerAlignment:
+                                      ExpandablePanelHeaderAlignment.center,
+                                  tapBodyToCollapse: true,
+                                  tapBodyToExpand: false,
+                                  tapHeaderToExpand: true,
+                                ),
                                 expanded: Container(
                                   height: 500,
                                   child: ListView.builder(

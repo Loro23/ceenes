@@ -24,12 +24,6 @@ import 'details_view.dart';
 List _movies_dec;
 int _sessionId;
 
-@override
-Widget build(BuildContext context) {
-  // TODO: implement build
-  throw UnimplementedError();
-}
-
 class Review2 extends StatefulWidget {
   final FirebaseAnalytics analytics;
 
@@ -426,25 +420,28 @@ class _Review2State extends State<Review2> {
                   language: "de-DE");
               showDetails(context, movieDetails);
             },
-            child: Row(
-              children: [
-                Image.network(
-                  "http://image.tmdb.org/t/p/w92/" +
-                      getCorrectPosterpath(
-                          sortedMap.entries.elementAt(index).key["id"]),
-                  height: 80,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      sortedMap.entries.elementAt(index).key["title"],
-                      overflow: TextOverflow.clip,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Image.network(
+                    "http://image.tmdb.org/t/p/w92/" +
+                        getCorrectPosterpath(
+                            sortedMap.entries.elementAt(index).key["id"]),
+                    height: 80,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        sortedMap.entries.elementAt(index).key["title"],
+                        overflow: TextOverflow.clip,
+                      ),
                     ),
                   ),
-                ),
-                _getPercentage(index),
-              ],
+                  _getPercentage(index),
+                ],
+              ),
             ),
           ),
         ),
@@ -629,9 +626,11 @@ class _Review2State extends State<Review2> {
                                       tapHeaderToExpand: true),
                                   expanded: Container(
                                     height: 350,
-                                    child: ListView(
+                                    child: SingleChildScrollView(
                                       physics: ClampingScrollPhysics(),
-                                      children: this.allMoviesList,
+                                      child: Column(
+                                        children: this.allMoviesList,
+                                      ),
                                     ),
                                   ),
                                   iconColor: blue_ceenes,
