@@ -23,7 +23,7 @@ class MovieHandler {
         "&with_watch_providers=" +
         providerString +
         "&watch_region=DE";
-    print(request);
+    // print(request);
 
     return request;
   }
@@ -45,13 +45,13 @@ class MovieHandler {
         "&include_adult=false" +
         "&language=de-DE";
 
-    print(request);
+    // print(request);
     final response = await http.get(request);
     // print(response.body);
     int total_pages = jsonDecode(response.body)["total_pages"];
     int total_results = jsonDecode(response.body)["total_results"];
-    print("total results: " + total_results.toString());
-    print("total pages: " + total_pages.toString());
+    // print("total results: " + total_results.toString());
+    // print("total pages: " + total_pages.toString());
     if (total_results < 15) return 0;
     return total_pages;
   }
@@ -102,7 +102,8 @@ class MovieHandler {
       }
     }
     // print("results length: " + moviesResults.length.toString());
-    if (moviesResults.length <= 15) return moviesResults;
+    if (moviesResults.length <= 20) return moviesResults;
+
     return moviesResults.sublist(0, 15).toList();
 
     /*

@@ -37,7 +37,7 @@ https://api.themoviedb.org/3/discover/movie?api_key=###&with_ott_providers=8&ott
 List<String> optionsPart = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
 List<String> getProviderIds(List<String> provider) {
-  print("in : " + provider.toString());
+  // print("in : " + provider.toString());
   List<String> providerIds = [];
   for (String prov in provider) {
     switch (prov) {
@@ -64,12 +64,12 @@ List<String> getProviderIds(List<String> provider) {
 }
 
 List<String> getGenreStrings(List<dynamic> genreIds) {
-  print(genreIds);
+  // print(genreIds);
   List<String> genres = [];
   for (int genreId in genreIds) {
     switch (genreId) {
       case (28):
-        print("action");
+        // print("action");
         genres.add("Action");
         break;
       case (16):
