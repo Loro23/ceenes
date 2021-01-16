@@ -18,7 +18,6 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:ceenes_prototype/util/movie.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
-import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 

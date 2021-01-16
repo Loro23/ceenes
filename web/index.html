@@ -21,6 +21,7 @@
 
   gtag('config', 'G-JBNGME9G3H');
 </script>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-186884748-3"></script>
   <script>
@@ -30,8 +31,6 @@
 
   gtag('config', 'UA-186884748-3');
 </script>
-
-
 
   <base href="/">
 
@@ -87,6 +86,9 @@
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
 }
+
+var measurementID = "G-2Y7EHQK4JP";
+  window['ga-disable-' + measurementID] = true;
   firebase.analytics();
 
 </script>
