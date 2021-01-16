@@ -22,7 +22,6 @@ import 'package:toast/toast.dart';
 import 'details_view.dart';
 import 'package:intl/intl.dart';
 
-import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 
 int _sessionId;
 List _movies_dec;

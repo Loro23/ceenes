@@ -102,6 +102,7 @@ class _MyAppState extends State<MyApp> {
       );
     }
     FirebaseAnalytics analytics = FirebaseAnalytics();
+    analytics.setAnalyticsCollectionEnabled(true);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

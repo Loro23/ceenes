@@ -23,7 +23,6 @@ import 'package:smart_select/smart_select.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 
 class StartView extends StatefulWidget {
   StartView({this.analytics, this.observer}) : super(key: key);
