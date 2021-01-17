@@ -105,7 +105,5 @@ class MovieHandler {
     if (moviesResults.length <= 20) return moviesResults;
 
     return moviesResults.sublist(0, 15).toList();
-
-   
   }
 }

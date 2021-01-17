@@ -22,7 +22,6 @@ import 'package:toast/toast.dart';
 import 'details_view.dart';
 import 'package:intl/intl.dart';
 
-
 int _sessionId;
 List _movies_dec;
 

@@ -20,6 +20,7 @@ import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'dart:convert';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:ceenes_prototype/widgets/start_view.dart';
 
 class Create_View extends StatefulWidget {
   Create_View({this.analytics, this.observer});
@@ -114,6 +115,7 @@ class Create_ViewState extends State<Create_View>
   }
 
   Future<void> _sendAnalyticsEvent(String what) async {
+    if (!consent) return;
     await analytics.logEvent(
       name: what,
     );

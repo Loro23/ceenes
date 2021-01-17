@@ -82,6 +82,7 @@ class _Review2State extends State<Review2> {
   }
 
   Future<void> _sendAnalyticsEvent(String what) async {
+    if (!consent) return;
     await analytics.logEvent(
       name: what,
     );

@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'create_view.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:share/share.dart';
-import 'package:google_tag_manager/google_tag_manager.dart' as gtm;
 
 Session _session;
 String _movies;

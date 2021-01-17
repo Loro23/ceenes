@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
@@ -34,6 +35,7 @@ class _Login_viewState extends State<Login_view> {
   String movies_enc;
 
   Future<void> _sendAnalyticsEvent(String what) async {
+    if (!consent) return;
     await analytics.logEvent(
       name: what,
     );

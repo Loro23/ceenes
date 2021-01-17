@@ -57,6 +57,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
   Widget feedbackWidget = SizedBox();
 
   Future<void> _sendAnalyticsEvent(String what) async {
+    if (!consent) return;
     await analytics.logEvent(
       name: what,
     );
