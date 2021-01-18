@@ -5,6 +5,7 @@ import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:http/http.dart' as http;
 
 Map details;
 
@@ -21,6 +22,7 @@ class _Details_viewState extends State<Details_view> {
   List<Widget> providerimg = [];
   List<Widget> actorImg = [];
   String genres = "";
+  String overview = details["overview"];
   @override
   void initState() {
     super.initState();
@@ -40,6 +42,9 @@ class _Details_viewState extends State<Details_view> {
       genres = genres + x["name"] + ", ";
     }
     genres = genres.substring(0, genres.length - 2);
+    if (overview== ""){
+      _getDetailsEnOverview(details["id"]);
+    }
   }
 
   Map<String, dynamic> _cast = Map();
@@ -48,6 +53,15 @@ class _Details_viewState extends State<Details_view> {
   List<Actor> actors = [];
 
   List<Widget> actorWidgets = [];
+
+  _getDetailsEnOverview(int movieId) async {
+    final rep = await http.get("https://api.themoviedb.org/3/movie/" +
+        movieId.toString() +
+        "?api_key=" +
+        apiKey+ "&language=en-US");
+    overview = jsonDecode(rep.body)["overview"];
+        
+   }
 
   _setCast() async {
     _cast = await tmdb.v3.movies.getCredits(
@@ -166,7 +180,13 @@ class _Details_viewState extends State<Details_view> {
                                               ")",
                                           style: TextStyle(
                                               color: Color.fromRGBO(
-                                                  202, 202, 202, 0.9))),
+                                                  202, 202, 202, 0.9))
+                                      ),
+                                      TextSpan(text: " "+details["runtime"].toString()+ "min",
+                                      style: TextStyle(
+                                        fontWeight:FontWeight.normal,
+                                        fontSize: 15
+                                        )),
                                     ],
                                   ),
                                 )),
@@ -216,7 +236,7 @@ class _Details_viewState extends State<Details_view> {
                 Container(
                     padding:
                         const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-                    child: Text(details["overview"],
+                    child: Text(overview,
                         style: TextStyle(fontSize: 16))),
                 Container(
                   padding: const EdgeInsets.only(left: 15, right: 15),

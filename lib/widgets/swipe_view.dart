@@ -7,7 +7,6 @@ import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
-import 'package:ceenes_prototype/widgets/review.dart';
 import 'package:ceenes_prototype/widgets/review2.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
