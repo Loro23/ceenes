@@ -15,18 +15,18 @@ import 'package:smart_select/smart_select.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 class Login_view extends StatefulWidget {
-  Login_view({this.analytics, this.observer}) : super(key: key);
-
+  Login_view({this.sessionIdee, this.analytics, this.observer}) : super(key: key);
+  final String sessionIdee;
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
 
   @override
-  _Login_viewState createState() => _Login_viewState(analytics, observer);
+  _Login_viewState createState() => _Login_viewState(analytics, observer, sessionIdee);
 }
 
 class _Login_viewState extends State<Login_view> {
-  _Login_viewState(this.analytics, this.observer);
-
+  _Login_viewState(this.analytics, this.observer,this.sessionIdee);
+  String sessionIdee;
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
 
@@ -69,7 +69,8 @@ class _Login_viewState extends State<Login_view> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    if( sessionIdee == null ){
+      return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
         onWillPop: () async => true,
@@ -287,6 +288,16 @@ class _Login_viewState extends State<Login_view> {
         ),
       ),
     );
+    }
+    else return Material(color: backgroundcolor_dark,
+    child: WillPopScope(
+      onWillPop: () async => true,
+      child: Container(color: backgroundcolor_dark,
+      child: Center(child:Text(sessionIdee.toString())),
+      ),
+    ),
+    );
+    
   }
 
   Future<bool> checkCorrect(String sessionId) async {

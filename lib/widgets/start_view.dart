@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:ceenes_prototype/util/ScreenArguments.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
@@ -213,14 +214,14 @@ class _StartViewState extends State<StartView> {
                                               onPressed: () {
                                                 _sendAnalyticsEvent(
                                                     "Erstellen");
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(builder:
-                                                        (BuildContext context) {
-                                                  return Create_View(
-                                                    analytics: this.analytics,
-                                                    observer: this.observer,
-                                                  );
-                                                }));
+                                                    Navigator.pushNamed(
+                                                      context,
+                                                      Create_View.routeName,
+                                                      arguments: ScreenArguments(
+                                                        analytics: this.analytics,
+                                                        observer:this.observer
+                                                      ),
+                                                    );
                                               },
                                             ),
                                           ),

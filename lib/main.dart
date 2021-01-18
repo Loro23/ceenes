@@ -1,3 +1,4 @@
+import 'package:ceenes_prototype/util/Router.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
 import 'package:ceenes_prototype/widgets/admin/create_view.dart';
@@ -15,6 +16,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:html';
+
+
 
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
@@ -56,6 +60,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    var url = window.location.href;
+    print(url);
     initializeFlutterFire();
     super.initState();
   }
@@ -105,6 +111,10 @@ class _MyAppState extends State<MyApp> {
     analytics.setAnalyticsCollectionEnabled(true);
 
     return MaterialApp(
+
+      onGenerateRoute:Router.genrateRoute,
+      initialRoute: "/",
+      
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
@@ -121,8 +131,6 @@ class _MyAppState extends State<MyApp> {
           colorScheme: ColorScheme.dark(),
           cardColor: backgroundcolor_dark),
       title: 'Ceenes - Findet den perfekten Film',
-      home: MyHomePage(
-          title: 'Ceenes Homepage', analytics: analytics, observer: observer),
     );
   }
 }

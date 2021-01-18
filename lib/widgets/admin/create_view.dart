@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ceenes_prototype/util/ScreenArguments.dart';
 import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/create_view_utils.dart';
@@ -22,21 +23,18 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 
 class Create_View extends StatefulWidget {
-  Create_View({this.analytics, this.observer});
-
-  final FirebaseAnalytics analytics;
-  final FirebaseAnalyticsObserver observer;
+  Create_View();
+  static const routeName = '/create';
 
   @override
-  Create_ViewState createState() => Create_ViewState(analytics, observer);
+  Create_ViewState createState() => Create_ViewState();
 }
 
 class Create_ViewState extends State<Create_View>
     with TickerProviderStateMixin {
-  Create_ViewState(this.analytics, this.observer);
-
-  final FirebaseAnalyticsObserver observer;
-  final FirebaseAnalytics analytics;
+  Create_ViewState();
+   FirebaseAnalyticsObserver observer;
+   FirebaseAnalytics analytics;
 
   String movies;
   Session session;
@@ -160,6 +158,9 @@ class Create_ViewState extends State<Create_View>
   }
 
   Widget build(BuildContext context) {
+    final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    observer = args.observer;
+    analytics = args.analytics;
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
@@ -382,6 +383,8 @@ class Create_ViewState extends State<Create_View>
                       ),
                       onPressed: _isDisabled
                           ? () {
+                            print("hier________________________________________________________________________");
+                            print(observer);
                               _sendAnalyticsEvent(
                                   "Create View - Erstellen Button");
                               showDialog(
@@ -477,7 +480,7 @@ class Create_ViewState extends State<Create_View>
 
                               await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {
-                                print(movies);
+                                //print(movies);
                                 if (movies.length == 0) {
                                   print("length i 0");
                                   this.movies = "";
@@ -495,6 +498,14 @@ class Create_ViewState extends State<Create_View>
                                 if (movies.length > 0) {
                                   _sendAnalyticsEvent(
                                       "Create View - Enough movies found");
+                                  /*Navigator.pushNamed(
+                                    context,
+                                    AdminLogin.routeName,
+                                    arguments: ScreenArguments(
+                                      'Extract Arguments Screen',
+                                      'This message is extracted in the build method.',
+                                    ),
+                                  );*/
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) {
                                     return AdminLogin(this.session, this.movies,

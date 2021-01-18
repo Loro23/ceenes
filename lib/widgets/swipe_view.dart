@@ -31,6 +31,7 @@ class Swipe_View extends StatefulWidget {
     _movies = movies;
     _sessionId = sessionId;
   }
+  String routeName = '/swipe/'+  _sessionId.toString();
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
   @override
@@ -161,6 +162,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
     //print(session.sessionId.toString());
     // print(MediaQuery.of(context).size);
     //print(movies_dec[0]);
+    final s = ModalRoute.of(context).settings.arguments;
     return Material(
       color: backgroundcolor_dark,
       child: WillPopScope(
