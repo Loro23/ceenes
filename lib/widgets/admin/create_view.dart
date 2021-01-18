@@ -153,6 +153,7 @@ class Create_ViewState extends State<Create_View>
   }
 
   String valuePart = "3";
+  RangeValues _currentRangeValues = const RangeValues(1920, 2021);
 
   @override
   void dispose() {
@@ -262,6 +263,42 @@ class Create_ViewState extends State<Create_View>
                           padding: const EdgeInsets.only(
                               left: 25, right: 25, top: 50),
                           child: Text(
+                            "Erscheinungsjahr",
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        bodyWidget: Container(
+                          height: 300,
+                          child: 
+                          Text(_currentRangeValues.start.toInt().toString()+ " - "+ _currentRangeValues.end.toInt().toString() ) ,
+                        ),
+                        footer: RangeSlider(
+                          activeColor: primary_color,
+                          inactiveColor: Colors.yellow.withOpacity(0.1),
+                          values: _currentRangeValues,
+                          min: 1920,
+                          max: 2021,
+                          divisions: 101,
+                          labels: RangeLabels(
+                            _currentRangeValues.start.round().toString(),
+                            _currentRangeValues.end.round().toString(),
+                          ),
+                          onChanged: (RangeValues values) {
+                            setState(() {
+                              _currentRangeValues = values;
+                            });
+                          },
+                        )
+                      ),
+                      PageViewModel(
+                        titleWidget: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 25, right: 25, top: 50),
+                          child: Text(
                             "Welche Streaming-Anbieter habt ihr?",
                             style: TextStyle(
                               fontSize: 40,
@@ -361,6 +398,8 @@ class Create_ViewState extends State<Create_View>
                           ),
                         ),
                       ),
+                      
+                      
                     ],
                     onDone: () {},
                     freeze: false,
@@ -475,7 +514,7 @@ class Create_ViewState extends State<Create_View>
                                 },
                               );
                               this.session = new Session(valuePart,
-                                  getGenreIds(valueGenre), valueProvider2);
+                                  getGenreIds(valueGenre), valueProvider2, releaseDateGte: this._currentRangeValues.start.toInt()-1, releaseDateSme: this._currentRangeValues.end.toInt()+1);
 
                               await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {

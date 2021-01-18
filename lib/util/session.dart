@@ -3,15 +3,21 @@ import 'dart:math';
 class Session {
   int sessionId;
   int numPats;
+  int releaseDateGte;
+  int releaseDateSme;
 
   List<String> genres;
 
   List<String> provider;
 
-  Session(String numPats, List<String> genres, List<String> provider) {
+  Session(String numPats, List<String> genres, List<String> provider,{int releaseDateGte, int releaseDateSme}) {
     // print("ins session:" + provider.toString());
     this.numPats = int.parse(numPats);
     this.genres = genres;
+    this.releaseDateSme = releaseDateSme;
+    this.releaseDateGte = releaseDateGte;
+
+    
 
     this.provider = provider;
     var rng = new Random();

@@ -298,17 +298,17 @@ class _Review2State extends State<Review2> {
     percent = percent * 100;
     if (percent >= 75) {
       return Text(
-        percent.toString() + "%",
+        percent.toInt().toString() + "%",
         style: TextStyle(color: Colors.green),
       );
     } else if (percent >= 50) {
       return Text(
-        percent.toString() + "%",
+        percent.toInt().toString() + "%",
         style: TextStyle(color: Colors.yellow),
       );
     } else
       return Text(
-        percent.toString() + "%",
+        percent.toInt().toString() + "%",
         style: TextStyle(color: Colors.red),
       );
   }
@@ -459,6 +459,17 @@ class _Review2State extends State<Review2> {
         sortedMap.keys.toList()[0]["id"].toString() +
         "/watch/providers?api_key=" +
         apiKey);
+    final details = await http.get("https://api.themoviedb.org/3/movie/" +
+        sortedMap.keys.toList()[0]["id"].toString() +
+        "?api_key=" +
+        apiKey+ "&language=en-US");
+        print(jsonDecode(details.body).toString());
+    String runtime = jsonDecode(details.body)["runtime"].toString();
+    String overview =  sortedMap.keys.toList()[0]["overview"];
+    String en_overview = jsonDecode(details.body)["overview"];
+    if( overview ==""){
+      overview = en_overview;
+    }
     //füge alle Provider Bilder providerimg hinzu als Widget
     for (Map x in jsonDecode(response.body)["results"]["DE"]["flatrate"]) {
       providerimg.add(Padding(
@@ -505,7 +516,7 @@ class _Review2State extends State<Review2> {
                         Builder(builder: (context) {
                           if (this._numVotes == 1) {
                             return Text(
-                              "Bis jetzt hast nur du abgestimmt. Zum aktualisieren den Button klicken oder runterziehen.",
+                              "Bis jetzt hast nur du abgestimmt.",
                               style: TextStyle(fontSize: 18),
                               textAlign: TextAlign.center,
                             );
@@ -513,7 +524,7 @@ class _Review2State extends State<Review2> {
                           return Text(
                             "Es haben " +
                                 this._numVotes.toString() +
-                                " Personen abgestimmt. Zum aktualisieren den Button klicken oder runterziehen.",
+                                " Personen abgestimmt.",
                             style: TextStyle(fontSize: 18),
                             textAlign: TextAlign.center,
                           );
@@ -543,6 +554,10 @@ class _Review2State extends State<Review2> {
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(238, 238, 238, 1)),
                               )),
+                              Padding(
+                                padding: const EdgeInsets.only(left:8.0, right: 8.0),
+                                child: Text(runtime + "min"),
+                              ),
                               _getPercentage(0),
                             ],
                           ),
@@ -581,7 +596,7 @@ class _Review2State extends State<Review2> {
                                   collapsed: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      sortedMap.keys.toList()[0]["overview"],
+                                      overview,
                                       style: TextStyle(fontSize: 15),
                                       softWrap: true,
                                       textAlign: TextAlign.left,
