@@ -7,7 +7,6 @@ import 'package:ceenes_prototype/widgets/admin/create_view.dart';
 import 'package:ceenes_prototype/widgets/license_view.dart';
 import 'package:ceenes_prototype/widgets/login_view.dart';
 import 'package:ceenes_prototype/widgets/privacy.dart';
-import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 bool consent = false;
 
 class StartView extends StatefulWidget {
-  StartView({this.analytics, this.observer}) : super(key: key);
+  StartView({this.analytics, this.observer});
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
@@ -124,14 +123,6 @@ class _StartViewState extends State<StartView> {
   void initState() {
     super.initState();
     _sendAnalyticsEvent("Start View - Init State");
-  }
-
-  bool firstCall = true;
-
-  BuildContext contextMain;
-
-  @override
-  Widget build(BuildContext context) {
     if (js.context.callMethod("getCookie", ["acceptedAllCookies"]) != "true") {
       Timer(Duration(milliseconds: 100), () {
         showModalBottomSheet(
@@ -456,7 +447,14 @@ class _StartViewState extends State<StartView> {
       });
       firstCall = false;
     }
+  }
 
+  bool firstCall = true;
+
+  BuildContext contextMain;
+
+  @override
+  Widget build(BuildContext context) {
     return Material(
       color: backgroundcolor_dark,
       child: Stack(
@@ -629,7 +627,7 @@ class _StartViewState extends State<StartView> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 50),
+                                padding: const EdgeInsets.only(top: 30),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [

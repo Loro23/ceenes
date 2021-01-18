@@ -89,18 +89,18 @@ class _Login_viewState extends State<Login_view> {
                           children: [
                             Image.asset(
                               "assets/giphy_tired.gif",
-                              height: 150,
+                              height: 100,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
+                              padding: const EdgeInsets.only(bottom: 20),
                               child: Text(
                                 "Gib hier den Code ein.",
-                                style: TextStyle(fontSize: 35),
+                                style: TextStyle(fontSize: 25),
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 30),
+                              padding: const EdgeInsets.only(top: 20),
                               child: PinPut(
                                 textStyle: TextStyle(
                                     color: Colors.white,
@@ -108,8 +108,8 @@ class _Login_viewState extends State<Login_view> {
                                     fontSize: 30),
                                 pinAnimationType: PinAnimationType.slide,
                                 keyboardType: TextInputType.number,
-                                eachFieldWidth: 50,
-                                eachFieldHeight: 50,
+                                eachFieldWidth: 40,
+                                eachFieldHeight: 40,
                                 fieldsCount: 6,
                                 toolbarOptions: ToolbarOptions(
                                     paste: true,
@@ -135,188 +135,221 @@ class _Login_viewState extends State<Login_view> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(30),
-                              child: SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: FloatingActionButton(
-                                  heroTag: "14",
-                                  onPressed: () async {
-                                    String sessionId = _controller.text;
-                                    // print(sessionId);
-                                    showDialog(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return Dialog(
-                                          child: new Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child:
-                                                    new CircularProgressIndicator(),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: new Text(
-                                                    "Prüfe eingabe..."),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                    await checkCorrect(sessionId)
-                                        .then((exists) {
-                                      if (!exists) {
-                                        _sendAnalyticsEvent(
-                                            "Login View - Fehler bei Code Eingabe");
-                                        Navigator.pop(context);
-                                        showDialog(
-                                          child: Dialog(
-                                            child: Row(
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: FlatButton(
+                                    height: 75,
+                                    color: blue_ceenes,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                        "Ergebnisse\nansehen",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w600),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      String sessionId = _controller.text;
+                                      // print(sessionId);
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            child: new Row(
+                                              mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Icon(
-                                                    Icons.error_outline,
-                                                    color: Colors.red,
-                                                    size: 40,
+                                                  child:
+                                                      new CircularProgressIndicator(
+                                                    valueColor:
+                                                        new AlwaysStoppedAnimation<
+                                                            Color>(blue_ceenes),
                                                   ),
                                                 ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: new Text(
-                                                        "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                        overflow:
-                                                            TextOverflow.clip),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          context: context,
-                                        );
-                                      } else {
-                                        fetchMovies(int.parse(sessionId))
-                                            .whenComplete(() {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(builder:
-                                                  (BuildContext context) {
-                                            return Swipe_View(movies_enc,
-                                                int.parse(sessionId));
-                                          }));
-                                        });
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    "Start",
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        color: Colors.grey[700],
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  backgroundColor: primary_color,
-                                  //label: Text("Start"),
-                                ),
-                              ),
-                            ),
-                            FlatButton(
-                                onPressed: () async {
-                                  String sessionId = _controller.text;
-                                  // print(sessionId);
-
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: new Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child:
-                                                  new CircularProgressIndicator(),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child:
-                                                  new Text("Prüfe eingabe..."),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                  await checkCorrect(sessionId).then((exists) {
-                                    if (!exists) {
-                                      _sendAnalyticsEvent(
-                                          "Login View - Fehler bei Code Eingabe");
-                                      Navigator.pop(context);
-                                      showDialog(
-                                        child: Dialog(
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  Icons.error_outline,
-                                                  color: Colors.red,
-                                                  size: 40,
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
+                                                Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
                                                   child: new Text(
-                                                      "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                      overflow:
-                                                          TextOverflow.clip),
+                                                      "Prüfe eingabe..."),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        context: context,
+                                              ],
+                                            ),
+                                          );
+                                        },
                                       );
-                                    } else {
-                                      fetchMovies(int.parse(sessionId))
-                                          .whenComplete(() {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(builder:
-                                                (BuildContext context) {
-                                          return Review2(int.parse(sessionId),
-                                              jsonDecode(movies_enc));
-                                        }));
+                                      await checkCorrect(sessionId)
+                                          .then((exists) {
+                                        if (!exists) {
+                                          _sendAnalyticsEvent(
+                                              "Login View - Fehler bei Code Eingabe");
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            child: Dialog(
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons.error_outline,
+                                                      color: Colors.red,
+                                                      size: 40,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: new Text(
+                                                          "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .clip),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            context: context,
+                                          );
+                                        } else {
+                                          fetchMovies(int.parse(sessionId))
+                                              .whenComplete(() {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder:
+                                                    (BuildContext context) {
+                                              return Review2(
+                                                  int.parse(sessionId),
+                                                  jsonDecode(movies_enc));
+                                            }));
+                                          });
+                                        }
                                       });
-                                    }
-                                  });
-                                },
-                                color: blue_ceenes,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("Ergebnisse\nansehen"),
-                                ))
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Expanded(
+                                  child: FlatButton(
+                                    height: 75,
+                                    onPressed: () async {
+                                      String sessionId = _controller.text;
+                                      // print(sessionId);
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return Dialog(
+                                            child: new Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child:
+                                                      new CircularProgressIndicator(
+                                                    valueColor:
+                                                        new AlwaysStoppedAnimation<
+                                                            Color>(blue_ceenes),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: new Text(
+                                                      "Prüfe eingabe..."),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      await checkCorrect(sessionId)
+                                          .then((exists) {
+                                        if (!exists) {
+                                          _sendAnalyticsEvent(
+                                              "Login View - Fehler bei Code Eingabe");
+                                          Navigator.pop(context);
+                                          showDialog(
+                                            child: Dialog(
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(
+                                                      Icons.error_outline,
+                                                      color: Colors.red,
+                                                      size: 40,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: new Text(
+                                                          "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                          ),
+                                                          overflow: TextOverflow
+                                                              .clip),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            context: context,
+                                          );
+                                        } else {
+                                          fetchMovies(int.parse(sessionId))
+                                              .whenComplete(() {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder:
+                                                    (BuildContext context) {
+                                              return Swipe_View(movies_enc,
+                                                  int.parse(sessionId));
+                                            }));
+                                          });
+                                        }
+                                      });
+                                    },
+
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Text(
+                                        "Jetzt swipen",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w600),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    color: primary_color,
+                                    //label: Text("Start"),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
