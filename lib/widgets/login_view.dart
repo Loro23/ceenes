@@ -1,18 +1,14 @@
 import 'dart:convert';
 
-import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:ceenes_prototype/util/colors.dart';
-import 'package:ceenes_prototype/util/session.dart';
-import 'package:ceenes_prototype/widgets/swipe_view.dart';
+import 'package:ceenes_prototype/widgets/review2.dart';
+import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tindercard/flutter_tindercard.dart';
-import 'package:sticky_headers/sticky_headers.dart';
-import 'package:smart_select/smart_select.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 class Login_view extends StatefulWidget {
@@ -106,7 +102,6 @@ class _Login_viewState extends State<Login_view> {
                             Padding(
                               padding: const EdgeInsets.only(top: 30),
                               child: PinPut(
-                                autofocus: true,
                                 textStyle: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
@@ -238,6 +233,90 @@ class _Login_viewState extends State<Login_view> {
                                 ),
                               ),
                             ),
+                            FlatButton(
+                                onPressed: () async {
+                                  String sessionId = _controller.text;
+                                  // print(sessionId);
+
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Dialog(
+                                        child: new Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child:
+                                                  new CircularProgressIndicator(),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child:
+                                                  new Text("Prüfe eingabe..."),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                  await checkCorrect(sessionId).then((exists) {
+                                    if (!exists) {
+                                      _sendAnalyticsEvent(
+                                          "Login View - Fehler bei Code Eingabe");
+                                      Navigator.pop(context);
+                                      showDialog(
+                                        child: Dialog(
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Icon(
+                                                  Icons.error_outline,
+                                                  color: Colors.red,
+                                                  size: 40,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: new Text(
+                                                      "Bitte überprüfe deine Eingabe und gib den richtigen Code ein.",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.clip),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        context: context,
+                                      );
+                                    } else {
+                                      fetchMovies(int.parse(sessionId))
+                                          .whenComplete(() {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(builder:
+                                                (BuildContext context) {
+                                          return Review2(int.parse(sessionId),
+                                              jsonDecode(movies_enc));
+                                        }));
+                                      });
+                                    }
+                                  });
+                                },
+                                color: blue_ceenes,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Ergebnisse\nansehen"),
+                                ))
                           ],
                         ),
                       ),
