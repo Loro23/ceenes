@@ -74,7 +74,7 @@ class _Details_viewState extends State<Details_view> {
         padding: const EdgeInsets.only(left: 5, top: 2),
         child: Container(
           width: 100,
-          height: 150,
+          height: 130,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -84,6 +84,7 @@ class _Details_viewState extends State<Details_view> {
                   aspectRatio: 1,
                   child: ClipOval(
                     child: FadeInImage.memoryNetwork(
+                      fadeInDuration: Duration(milliseconds: 300),
                       fit: BoxFit.cover,
                       placeholder: kTransparentImage,
                       image: "https://image.tmdb.org/t/p/w185/" +
@@ -132,6 +133,7 @@ class _Details_viewState extends State<Details_view> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         child: FadeInImage.memoryNetwork(
+                          fadeInDuration: Duration(milliseconds: 300),
                           width: 90,
                           placeholderCacheWidth: 90,
                           imageCacheWidth: 90,
@@ -243,9 +245,9 @@ class _Details_viewState extends State<Details_view> {
               Container(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-                  child: Text(overview, style: TextStyle(fontSize: 16))),
+                  child: Text(overview, style: TextStyle(fontSize: 15))),
               Container(
-                height: 150,
+                height: 130,
                 child: FutureBuilder(
                   future: _setCast(),
                   builder: (context, AsyncSnapshot snapshot) {
@@ -258,7 +260,7 @@ class _Details_viewState extends State<Details_view> {
                         ),
                       );
                     } else
-                      return CircularProgressIndicator();
+                      return SizedBox();
                   },
                 ),
               ),

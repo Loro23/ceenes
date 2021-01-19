@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
+
 import 'package:ceenes_prototype/util/create_view_utils.dart';
 import 'package:ceenes_prototype/util/session.dart';
-import 'package:ceenes_prototype/widgets/admin/create_view.dart';
-import 'dart:math';
-import 'api.dart';
 import 'package:http/http.dart' as http;
+
+import 'api.dart';
 
 class MovieHandler {
   static String _createRequestMoviesAllProvider(
@@ -115,7 +116,7 @@ class MovieHandler {
       }
     }
     // print("results length: " + moviesResults.length.toString());
-    if (moviesResults.length <= 20) return moviesResults;
+    if (moviesResults.length <= 15) return moviesResults;
 
     return moviesResults.sublist(0, 15).toList();
   }

@@ -214,20 +214,19 @@ class _Swipe_ViewState extends State<Swipe_View> {
                               cardBuilder: (context, index) {
                                 currentIndex = index;
 
-                                return Card(
-                                    elevation: 10,
-                                    color: Color.fromRGBO(37, 37, 37, 1),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 20,
-                                            ),
-                                            child: Container(
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(14),
+                                return Container(
+                                  margin: EdgeInsets.only(top: 35),
+                                  child: Stack(
+                                    children: [
+                                      Card(
+                                          elevation: 10,
+                                          color: Color.fromRGBO(37, 37, 37, 1),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Expanded(
                                                 child: Image.network(
                                                   "http://image.tmdb.org/t/p/w500/" +
                                                       movies_dec[index]
@@ -235,229 +234,253 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                   height: getHeightPoster(),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5,
-                                                          left: 20,
-                                                          bottom: 5),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: RichText(
-                                                    overflow: TextOverflow.clip,
-                                                    text: TextSpan(
-                                                      text: movies_dec[index]
-                                                              ["title"] +
-                                                          " ",
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 17,
-                                                        color: Color.fromRGBO(
-                                                            238, 238, 238, 1),
-                                                      ),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                            text: "(" +
-                                                                movies_dec[index]
-                                                                        [
-                                                                        "release_date"]
-                                                                    .toString()
-                                                                    .substring(
-                                                                        0, 4) +
-                                                                ")",
-                                                            style: TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        202,
-                                                                        202,
-                                                                        202,
-                                                                        0.9)))
-                                                      ],
-                                                    ),
-                                                  )),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 20),
-                                              child: IconButton(
-                                                splashRadius: 20,
-                                                iconSize: 28,
-                                                icon: Icon(Icons.info),
-                                                tooltip: 'mehr Details',
-                                                onPressed: () async {
-                                                  _sendAnalyticsEvent(
-                                                      "Swipe View - More Details Button");
-                                                  Map movieDetails = await tmdb
-                                                      .v3.movies
-                                                      .getDetails(
-                                                          movies_dec[index]
-                                                              ["id"],
-                                                          appendToResponse:
-                                                              "watch/providers",
-                                                          language: "de-DE");
-
-                                                  var rep = await http.get(
-                                                      "https://api.themoviedb.org/3/movie/" +
-                                                          movies_dec[index]
-                                                                  ['id']
-                                                              .toString() +
-                                                          "?api_key=" +
-                                                          apiKey +
-                                                          "&language=en-US");
-                                                  String overview = jsonDecode(
-                                                      rep.body)["overview"];
-
-                                                  showDetails(context,
-                                                      movieDetails, overview);
-                                                },
+                                              SizedBox(
+                                                height: 8,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                            alignment: Alignment.topLeft,
-                                            padding: const EdgeInsets.only(
-                                                left: 20,
-                                                top: 5,
-                                                bottom: 5,
-                                                right: 20),
-                                            child: Text(
-                                              movies_dec[index]["overview"],
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 3,
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                    238, 238, 238, 1),
-                                              ),
-                                            )),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              /*
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5)),
-                                                  color: Color.fromRGBO(
-                                                      68, 68, 68, 1),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(10),
-                                                margin: const EdgeInsets.only(
-                                                    left: 20,
-                                                    right: 20,
-                                                    top: 5,
-                                                    bottom: 5),
-                                                child: Text(
-                                                    getGenresForMovie(index),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color.fromRGBO(
-                                                          238, 238, 238, 1),
-                                                    )),
-                                              ),
-
-                                               */
                                               Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              bottom: 8),
-                                                      child: Wrap(
-                                                        children:
-                                                            getGenresChipsForMovie(
-                                                                index),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 5.5,
-                                                            right: 20),
                                                     child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 5,
+                                                                left: 20,
+                                                                bottom: 5),
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: RichText(
+                                                          overflow:
+                                                              TextOverflow.clip,
+                                                          text: TextSpan(
+                                                            text: movies_dec[
+                                                                        index]
+                                                                    ["title"] +
+                                                                " ",
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 17,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      238,
+                                                                      238,
+                                                                      238,
+                                                                      1),
+                                                            ),
+                                                            children: <
+                                                                TextSpan>[
+                                                              TextSpan(
+                                                                  text: "(" +
+                                                                      movies_dec[index]
+                                                                              [
+                                                                              "release_date"]
+                                                                          .toString()
+                                                                          .substring(
+                                                                              0,
+                                                                              4) +
+                                                                      ")",
+                                                                  style: TextStyle(
+                                                                      color: Color.fromRGBO(
+                                                                          202,
+                                                                          202,
+                                                                          202,
+                                                                          0.9)))
+                                                            ],
+                                                          ),
+                                                        )),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 20),
+                                                    child: Icon(Icons.info),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                  alignment: Alignment.topLeft,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 20,
+                                                          top: 5,
+                                                          bottom: 5,
+                                                          right: 20),
+                                                  child: Text(
+                                                    movies_dec[index]
+                                                        ["overview"],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 3,
+                                                    style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          238, 238, 238, 1),
+                                                    ),
+                                                  )),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    /*
+                                                    Container(
                                                       decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.all(
-                                                                Radius.circular(
-                                                                    5)),
+                                                                Radius.circular(5)),
                                                         color: Color.fromRGBO(
                                                             68, 68, 68, 1),
                                                       ),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8),
-                                                            child: Text(
-                                                                movies_dec[index]
-                                                                            [
-                                                                            "vote_average"]
-                                                                        .toString() +
-                                                                    "/10",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                          238,
-                                                                          238,
-                                                                          238,
-                                                                          1),
-                                                                )),
-                                                          ),
-                                                          Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(10),
+                                                      margin: const EdgeInsets.only(
+                                                          left: 20,
+                                                          right: 20,
+                                                          top: 5,
+                                                          bottom: 5),
+                                                      child: Text(
+                                                          getGenresForMovie(index),
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Color.fromRGBO(
+                                                                238, 238, 238, 1),
+                                                          )),
+                                                    ),
+
+                                                     */
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
-                                                                    right: 8),
-                                                            child: Icon(
-                                                              Icons.star,
-                                                              color:
-                                                                  Colors.yellow,
-                                                              size: 20.0,
-                                                              semanticLabel:
-                                                                  'Stern',
+                                                                    left: 10,
+                                                                    bottom: 8),
+                                                            child: Wrap(
+                                                              children:
+                                                                  getGenresChipsForMovie(
+                                                                      index),
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 5.5,
+                                                                  right: 20),
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(Radius
+                                                                          .circular(
+                                                                              5)),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      68,
+                                                                      68,
+                                                                      68,
+                                                                      1),
+                                                            ),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(8),
+                                                                  child: Text(
+                                                                      movies_dec[index]["vote_average"]
+                                                                              .toString() +
+                                                                          "/10",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Color.fromRGBO(
+                                                                            238,
+                                                                            238,
+                                                                            238,
+                                                                            1),
+                                                                      )),
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      right: 8),
+                                                                  child: Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .yellow,
+                                                                    size: 20.0,
+                                                                    semanticLabel:
+                                                                        'Stern',
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                     ),
-                                                  ),
-                                                ],
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                  ],
+                                                ),
                                               ),
                                             ],
-                                          ),
-                                        ),
-                                      ],
-                                    ));
+                                          )),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          showDialog(
+                                              context: context,
+                                              child: Center(
+                                                  child: CircularProgressIndicator(
+                                                      valueColor:
+                                                          new AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              blue_ceenes))));
+                                          _sendAnalyticsEvent(
+                                              "Swipe View - More Details Button");
+                                          Map movieDetails =
+                                              await tmdb.v3.movies.getDetails(
+                                                  movies_dec[index]["id"],
+                                                  appendToResponse:
+                                                      "watch/providers",
+                                                  language: "de-DE");
+
+                                          var rep = await http.get(
+                                              "https://api.themoviedb.org/3/movie/" +
+                                                  movies_dec[index]['id']
+                                                      .toString() +
+                                                  "?api_key=" +
+                                                  apiKey +
+                                                  "&language=en-US");
+                                          String overview =
+                                              jsonDecode(rep.body)["overview"];
+                                          Navigator.pop(context);
+                                          showDetails(
+                                              context, movieDetails, overview);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
                               },
                               cardController: controller,
                               swipeUpdateCallback:

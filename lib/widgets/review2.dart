@@ -294,7 +294,7 @@ class _Review2State extends State<Review2> {
     );
   }
 
-  Widget _getPercentage(int _index) {
+  Text _getPercentage(int _index) {
     double percent;
     percent = sortedMap.entries.elementAt(_index).value.toDouble();
     percent = percent / _numVotes;
@@ -410,28 +410,32 @@ class _Review2State extends State<Review2> {
   Future<Widget> getReviewView() async {
     allMoviesList.clear();
     for (int index = 0; index < sortedMap.length; index++) {
-      allMoviesList.add(ListTile(
-        title: Card(
-          elevation: 0,
-          child: InkWell(
-            onTap: () async {
-              // print("id: " +
-              //     sortedMap.entries.elementAt(index).key["id"].toString());
-              Map movieDetails = await tmdb.v3.movies.getDetails(
-                  sortedMap.entries.elementAt(index).key["id"],
-                  appendToResponse: "watch/providers",
-                  language: "de-DE");
+      allMoviesList.add(InkWell(
+        splashColor: Colors.white.withOpacity(0.5),
+        onTap: () async {
+          // print("id: " +
+          //     sortedMap.entries.elementAt(index).key["id"].toString());
+          Map movieDetails = await tmdb.v3.movies.getDetails(
+              sortedMap.entries.elementAt(index).key["id"],
+              appendToResponse: "watch/providers",
+              language: "de-DE");
 
-              var rep = await http.get("https://api.themoviedb.org/3/movie/" +
-                  sortedMap.entries.elementAt(index).key["id"].toString() +
-                  "?api_key=" +
-                  apiKey +
-                  "&language=en-US");
-              String overview = jsonDecode(rep.body)["overview"];
+          var rep = await http.get("https://api.themoviedb.org/3/movie/" +
+              sortedMap.entries.elementAt(index).key["id"].toString() +
+              "?api_key=" +
+              apiKey +
+              "&language=en-US");
+          String overview = jsonDecode(rep.body)["overview"];
 
-              showDetails(context, movieDetails, overview);
-            },
+          showDetails(context, movieDetails, overview);
+        },
+        child: Card(
+          color: Colors.grey[850],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
                   "http://image.tmdb.org/t/p/w92/" +
@@ -439,13 +443,13 @@ class _Review2State extends State<Review2> {
                           sortedMap.entries.elementAt(index).key["id"]),
                   height: 80,
                 ),
+                SizedBox(
+                  width: 8,
+                ),
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8),
-                    child: Text(
-                      sortedMap.entries.elementAt(index).key["title"],
-                      overflow: TextOverflow.clip,
-                    ),
+                  child: Text(
+                    sortedMap.entries.elementAt(index).key["title"],
+                    overflow: TextOverflow.clip,
                   ),
                 ),
                 _getPercentage(index),
@@ -520,24 +524,27 @@ class _Review2State extends State<Review2> {
                       physics: const ClampingScrollPhysics(),
                       children: [
                         SizedBox(
-                          height: 50,
+                          height: 60,
                         ),
-                        Builder(builder: (context) {
-                          if (this._numVotes == 1) {
+                        Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Builder(builder: (context) {
+                            if (this._numVotes == 1) {
+                              return Text(
+                                "Bis jetzt hast nur du abgestimmt.",
+                                style: TextStyle(fontSize: 19),
+                                textAlign: TextAlign.center,
+                              );
+                            }
                             return Text(
-                              "Bis jetzt hast nur du abgestimmt.",
-                              style: TextStyle(fontSize: 18),
+                              "Es haben " +
+                                  this._numVotes.toString() +
+                                  " Personen abgestimmt.",
+                              style: TextStyle(fontSize: 19),
                               textAlign: TextAlign.center,
                             );
-                          }
-                          return Text(
-                            "Es haben " +
-                                this._numVotes.toString() +
-                                " Personen abgestimmt.",
-                            style: TextStyle(fontSize: 18),
-                            textAlign: TextAlign.center,
-                          );
-                        }),
+                          }),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ConstrainedBox(
@@ -641,6 +648,7 @@ class _Review2State extends State<Review2> {
                           ),
                         ),
                         ExpandableNotifier(
+                          initialExpanded: true,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -653,7 +661,7 @@ class _Review2State extends State<Review2> {
                                       tapBodyToExpand: true,
                                       tapHeaderToExpand: true),
                                   expanded: Container(
-                                    height: 350,
+                                    height: 400,
                                     child: SingleChildScrollView(
                                       physics: ClampingScrollPhysics(),
                                       child: Column(
@@ -665,7 +673,7 @@ class _Review2State extends State<Review2> {
                                   header: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "Hier klicken für alle Filme",
+                                      "Alle Filme",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 23),
@@ -741,18 +749,42 @@ class _Review2State extends State<Review2> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                          onPressed: () {
-                            _sendAnalyticsEvent("Review View - Home Button");
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        StartView()),
-                                (Route<dynamic> route) => false);
-                          },
-                          icon: Icon(Icons.home),
-                          splashRadius: 20,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                _sendAnalyticsEvent(
+                                    "Review View - Home Button");
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            StartView()),
+                                    (Route<dynamic> route) => false);
+                              },
+                              icon: Icon(Icons.home),
+                              splashRadius: 20,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Container(
+                                color: Color.fromRGBO(68, 68, 68, 1)
+                                    .withOpacity(0.5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    _sessionId.toString(),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Row(

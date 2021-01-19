@@ -1,23 +1,12 @@
-import 'package:ceenes_prototype/util/colors.dart';
-import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
-import 'package:ceenes_prototype/widgets/admin/create_view.dart';
-import 'package:ceenes_prototype/widgets/login_view.dart';
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:html' as html;
+
 import 'package:ceenes_prototype/widgets/start_view.dart';
-import 'package:ceenes_prototype/widgets/swipe_view.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'util/api.dart';
-import 'util/movie.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -111,14 +100,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primaryColor: Colors.white,
           scaffoldBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
-          secondaryHeaderColor: Color.fromRGBO(25, 25, 25, 1),
           backgroundColor: Color.fromRGBO(25, 25, 25, 1),
           primaryColorDark: Color.fromRGBO(25, 25, 25, 1),
           dialogBackgroundColor: Color.fromRGBO(25, 25, 25, 1),
           bottomAppBarColor: Color.fromRGBO(25, 25, 25, 1),
-          accentColor: Color.fromRGBO(25, 25, 25, 1),
           colorScheme: ColorScheme.dark(),
-          cardColor: backgroundcolor_dark),
+          cardColor: Colors.grey[700]),
       title: 'Ceenes - Findet den perfekten Film',
       home: MyHomePage(
           title: 'Ceenes Homepage', analytics: analytics, observer: observer),
