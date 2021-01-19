@@ -1,17 +1,17 @@
-import 'dart:convert';
-
 import 'package:ceenes_prototype/util/actor.dart';
 import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:http/http.dart' as http;
 
 Map details;
+String _overviewEn = "";
 
 class Details_view extends StatefulWidget {
-  Details_view(Map _details) {
+  Details_view(Map _details, String overviewEn) {
     details = _details;
+    _overviewEn = overviewEn;
   }
 
   @override
@@ -23,6 +23,7 @@ class _Details_viewState extends State<Details_view> {
   List<Widget> actorImg = [];
   String genres = "";
   String overview = details["overview"];
+
   @override
   void initState() {
     super.initState();
@@ -42,8 +43,8 @@ class _Details_viewState extends State<Details_view> {
       genres = genres + x["name"] + ", ";
     }
     genres = genres.substring(0, genres.length - 2);
-    if (overview== ""){
-      _getDetailsEnOverview(details["id"]);
+    if (overview == "") {
+      overview = _overviewEn;
     }
   }
 
@@ -53,15 +54,6 @@ class _Details_viewState extends State<Details_view> {
   List<Actor> actors = [];
 
   List<Widget> actorWidgets = [];
-
-  _getDetailsEnOverview(int movieId) async {
-    final rep = await http.get("https://api.themoviedb.org/3/movie/" +
-        movieId.toString() +
-        "?api_key=" +
-        apiKey+ "&language=en-US");
-    overview = jsonDecode(rep.body)["overview"];
-        
-   }
 
   _setCast() async {
     _cast = await tmdb.v3.movies.getCredits(
@@ -79,47 +71,41 @@ class _Details_viewState extends State<Details_view> {
     for (Actor actor in actors) {
       if (actor.profil_path == null) continue;
       actorWidgets.add(Padding(
-        padding: const EdgeInsets.only(right: 5),
-        child: Card(
-          color: Colors.grey[800],
-          child: Container(
-            width: 100,
-            height: 150,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  flex: 10,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 3, left: 3, right: 3),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: ClipOval(
-                        child: FadeInImage.memoryNetwork(
-                          fit: BoxFit.cover,
-                          placeholder: kTransparentImage,
-                          image: "https://image.tmdb.org/t/p/w185/" +
-                              actor.profil_path,
-                        ),
-                      ),
+        padding: const EdgeInsets.only(left: 5, top: 2),
+        child: Container(
+          width: 100,
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 10,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ClipOval(
+                    child: FadeInImage.memoryNetwork(
+                      fit: BoxFit.cover,
+                      placeholder: kTransparentImage,
+                      image: "https://image.tmdb.org/t/p/w185/" +
+                          actor.profil_path,
                     ),
                   ),
                 ),
-                Expanded(
-                    flex: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: Center(
-                        child: Text(
-                          actor.name + " als " + actor.character,
-                          style: TextStyle(fontSize: 10),
-                          overflow: TextOverflow.clip,
-                          textAlign: TextAlign.center,
-                        ),
+              ),
+              Expanded(
+                  flex: 5,
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Center(
+                      child: Text(
+                        actor.name + " als " + actor.character,
+                        style: TextStyle(fontSize: 10),
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
                       ),
-                    ))
-              ],
-            ),
+                    ),
+                  ))
+            ],
           ),
         ),
       ));
@@ -135,40 +121,43 @@ class _Details_viewState extends State<Details_view> {
         color: backgroundcolor_dark,
         //height: MediaQuery.of(context).size.height * .60,
         child: Stack(children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(
-                        top: 8,
-                        right: 8,
-                        left: 20,
-                      ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            "https://image.tmdb.org/t/p/w500/" +
-                                details["poster_path"],
-                            height: 120,
-                          )),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: FadeInImage.memoryNetwork(
+                          width: 90,
+                          placeholderCacheWidth: 90,
+                          imageCacheWidth: 90,
+                          placeholder: kTransparentImage,
+                          image: "https://image.tmdb.org/t/p/w500/" +
+                              details["poster_path"],
+                        ),
+                      ),
                     ),
                     Flexible(
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                padding: const EdgeInsets.all(8),
-                                child: RichText(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 2, bottom: 5),
+                                child: Container(
+                                    child: RichText(
                                   overflow: TextOverflow.clip,
                                   text: TextSpan(
                                     text: details["title"] + " ",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 17,
+                                      fontSize: 18,
                                       color: Color.fromRGBO(238, 238, 238, 1),
                                     ),
                                     children: <TextSpan>[
@@ -180,100 +169,115 @@ class _Details_viewState extends State<Details_view> {
                                               ")",
                                           style: TextStyle(
                                               color: Color.fromRGBO(
-                                                  202, 202, 202, 0.9))
-                                      ),
-                                      TextSpan(text: " "+details["runtime"].toString()+ "min",
-                                      style: TextStyle(
-                                        fontWeight:FontWeight.normal,
-                                        fontSize: 15
-                                        )),
+                                                  202, 202, 202, 0.9))),
                                     ],
                                   ),
                                 )),
-                            Card(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        details["vote_average"].toString() +
-                                            "/10",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromRGBO(238, 238, 238, 1),
-                                        )),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.star,
-                                      color: Colors.yellow[300],
-                                      size: 15.0,
-                                      semanticLabel: 'Star with rating',
+                                  Card(
+                                    color: Colors.grey[800],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                              details["vote_average"]
+                                                      .toString() +
+                                                  "/10 ",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromRGBO(
+                                                    238, 238, 238, 1),
+                                              )),
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow[300],
+                                            size: 16.0,
+                                            semanticLabel: 'Star with rating',
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Card(
+                                    color: Colors.grey[800],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                        details["runtime"].toString() + "min ",
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
-                            ),
-                            Wrap(
-                              children: providerimg,
-                            ),
-                          ]),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Wrap(
+                                children: providerimg,
+                              ),
+                            ]),
+                      ),
                     ),
-                    SizedBox(width: 30),
+                    SizedBox(width: 40),
                   ],
                 ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Text(genres,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(238, 238, 238, 1),
-                      )),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Text(genres,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(238, 238, 238, 1),
+                    )),
+              ),
+              Container(
+                  padding:
+                      const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+                  child: Text(overview, style: TextStyle(fontSize: 16))),
+              Container(
+                height: 150,
+                child: FutureBuilder(
+                  future: _setCast(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        //color: Colors.blue,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: snapshot.data,
+                        ),
+                      );
+                    } else
+                      return CircularProgressIndicator();
+                  },
                 ),
-                Container(
-                    padding:
-                        const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-                    child: Text(overview,
-                        style: TextStyle(fontSize: 16))),
-                Container(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  height: 150,
-                  child: FutureBuilder(
-                    future: _setCast(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return Container(
-                          //color: Colors.blue,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: snapshot.data,
-                          ),
-                        );
-                      } else
-                        return CircularProgressIndicator();
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 10,
+              )
+            ],
           ),
           Container(
             alignment: Alignment.topRight,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             child: CircleAvatar(
               radius: 20,
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.black54.withOpacity(0.5),
               child: IconButton(
                 icon: Icon(
                   Icons.clear,
                   color: Colors.white,
-                  size: 25,
+                  size: 23,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();

@@ -22,9 +22,13 @@ class MovieHandler {
         "&language=de-DE" +
         "&with_watch_providers=" +
         providerString +
-        "&watch_region=DE"+
-        "&primary_release_date.lte=" + session.releaseDateSme.toString()+"-01-01"+
-        "&primary_release_date.Gte=" + session.releaseDateSme.toString()+"-01-01";
+        "&watch_region=DE" +
+        "&primary_release_date.lte=" +
+        session.releaseDateSme.toString() +
+        "-01-01" +
+        "&primary_release_date.Gte=" +
+        session.releaseDateSme.toString() +
+        "-01-01";
     // print(request);
 
     return request;
@@ -46,8 +50,12 @@ class MovieHandler {
         "&vote_count.gte=160" +
         "&include_adult=false" +
         "&language=de-DE" +
-        "&primary_release_date.lte=" + session.releaseDateSme.toString()+"-01-01"+
-        "&primary_release_date.Gte=" + session.releaseDateSme.toString()+"-01-01";
+        "&primary_release_date.lte=" +
+        session.releaseDateSme.toString() +
+        "-01-01" +
+        "&primary_release_date.Gte=" +
+        session.releaseDateSme.toString() +
+        "-01-01";
 
     // print(request);
     final response = await http.get(request);

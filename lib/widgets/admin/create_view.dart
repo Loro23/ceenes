@@ -1,26 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/create_view_utils.dart';
+import 'package:ceenes_prototype/util/movie_handler.dart';
 import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/admin/admin_login.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_tindercard/flutter_tindercard.dart';
-import 'package:smart_select/smart_select.dart';
-import 'package:smart_select/smart_select.dart';
-import 'package:sticky_headers/sticky_headers.dart';
-import 'package:smart_select/smart_select.dart';
+import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:ceenes_prototype/util/movie.dart';
-import 'package:ceenes_prototype/util/movie_handler.dart';
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:ceenes_prototype/widgets/start_view.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
 class Create_View extends StatefulWidget {
   Create_View({this.analytics, this.observer});
@@ -153,7 +146,7 @@ class Create_ViewState extends State<Create_View>
   }
 
   String valuePart = "3";
-  RangeValues _currentRangeValues = const RangeValues(1920, 2021);
+  RangeValues _currentRangeValues = const RangeValues(2000, 2021);
 
   @override
   void dispose() {
@@ -259,41 +252,60 @@ class Create_ViewState extends State<Create_View>
                         ),
                       ),
                       PageViewModel(
-                        titleWidget: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 25, right: 25, top: 50),
-                          child: Text(
-                            "Erscheinungsjahr",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w600,
+                          titleWidget: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 25, right: 25, top: 50),
+                            child: Text(
+                              "Erscheinungsjahr",
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        bodyWidget: Container(
-                          height: 300,
-                          child: 
-                          Text(_currentRangeValues.start.toInt().toString()+ " - "+ _currentRangeValues.end.toInt().toString() ) ,
-                        ),
-                        footer: RangeSlider(
-                          activeColor: primary_color,
-                          inactiveColor: Colors.yellow.withOpacity(0.1),
-                          values: _currentRangeValues,
-                          min: 1920,
-                          max: 2021,
-                          divisions: 101,
-                          labels: RangeLabels(
-                            _currentRangeValues.start.round().toString(),
-                            _currentRangeValues.end.round().toString(),
+                          bodyWidget: Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: Text(
+                              _currentRangeValues.start.toInt().toString() +
+                                  " - " +
+                                  _currentRangeValues.end.toInt().toString(),
+                              style: TextStyle(fontSize: 35),
+                            ),
                           ),
-                          onChanged: (RangeValues values) {
-                            setState(() {
-                              _currentRangeValues = values;
-                            });
-                          },
-                        )
-                      ),
+                          footer: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Row(
+                              children: [
+                                Text("1920"),
+                                Expanded(
+                                  child: RangeSlider(
+                                    activeColor: primary_color,
+                                    inactiveColor:
+                                        Colors.yellow.withOpacity(0.1),
+                                    values: _currentRangeValues,
+                                    min: 1920,
+                                    max: 2021,
+                                    divisions: 101,
+                                    labels: RangeLabels(
+                                      _currentRangeValues.start
+                                          .round()
+                                          .toString(),
+                                      _currentRangeValues.end
+                                          .round()
+                                          .toString(),
+                                    ),
+                                    onChanged: (RangeValues values) {
+                                      setState(() {
+                                        _currentRangeValues = values;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Text("2021"),
+                              ],
+                            ),
+                          )),
                       PageViewModel(
                         titleWidget: Padding(
                           padding: const EdgeInsets.only(
@@ -398,8 +410,6 @@ class Create_ViewState extends State<Create_View>
                           ),
                         ),
                       ),
-                      
-                      
                     ],
                     onDone: () {},
                     freeze: false,
@@ -514,7 +524,12 @@ class Create_ViewState extends State<Create_View>
                                 },
                               );
                               this.session = new Session(valuePart,
-                                  getGenreIds(valueGenre), valueProvider2, releaseDateGte: this._currentRangeValues.start.toInt()-1, releaseDateSme: this._currentRangeValues.end.toInt()+1);
+                                  getGenreIds(valueGenre), valueProvider2,
+                                  releaseDateGte:
+                                      this._currentRangeValues.start.toInt() -
+                                          1,
+                                  releaseDateSme:
+                                      this._currentRangeValues.end.toInt() + 1);
 
                               await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {

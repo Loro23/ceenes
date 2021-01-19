@@ -4,21 +4,18 @@ import 'dart:math';
 
 import 'package:ceenes_prototype/util/colors.dart';
 import 'package:ceenes_prototype/util/create_view_utils.dart';
-import 'package:ceenes_prototype/util/movie_handler.dart';
-import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/details_view.dart';
 import 'package:ceenes_prototype/widgets/review2.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import '../util/api.dart';
-import '../util/movie.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 GlobalKey key = GlobalKey();
 String _movies;
@@ -80,14 +77,14 @@ class _Swipe_ViewState extends State<Swipe_View> {
         .setData({"rating": json.encode(movies_rating)});
   }
 
-  showDetails(context, Map moviedetails) async {
+  showDetails(context, Map moviedetails, String overviewEn) async {
     showModalBottomSheet(
         backgroundColor: backgroundcolor_dark,
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
           return Wrap(
-            children: [Details_view(moviedetails)],
+            children: [Details_view(moviedetails, overviewEn)],
           );
         });
   }
@@ -141,6 +138,29 @@ class _Swipe_ViewState extends State<Swipe_View> {
     minWidth = MediaQuery.of(context).size.width * 0.8;
     //print(minWidth);
     return minWidth;
+  }
+
+  List<Widget> genresChips = [];
+
+  List<Widget> getGenresChipsForMovie(int index) {
+    genresChips = [];
+    List<String> genres = getGenreStrings(movies_dec[index]["genre_ids"]);
+
+    for (String genre in genres) {
+      genresChips.add(Padding(
+        padding: const EdgeInsets.only(left: 2, top: 2),
+        child: Card(
+          color: Colors.grey[800],
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(genre),
+          ),
+        ),
+      ));
+    }
+    // print(genresFinal);
+
+    return genresChips;
   }
 
   String getGenresForMovie(int index) {
@@ -230,18 +250,39 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                           bottom: 5),
                                                   alignment:
                                                       Alignment.centerLeft,
-                                                  child: Text(
-                                                      movies_dec[index]
-                                                          ["title"],
-                                                      overflow:
-                                                          TextOverflow.clip,
+                                                  child: RichText(
+                                                    overflow: TextOverflow.clip,
+                                                    text: TextSpan(
+                                                      text: movies_dec[index]
+                                                              ["title"] +
+                                                          " ",
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 20,
+                                                        fontSize: 17,
                                                         color: Color.fromRGBO(
                                                             238, 238, 238, 1),
-                                                      ))),
+                                                      ),
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                            text: "(" +
+                                                                movies_dec[index]
+                                                                        [
+                                                                        "release_date"]
+                                                                    .toString()
+                                                                    .substring(
+                                                                        0, 4) +
+                                                                ")",
+                                                            style: TextStyle(
+                                                                color: Color
+                                                                    .fromRGBO(
+                                                                        202,
+                                                                        202,
+                                                                        202,
+                                                                        0.9)))
+                                                      ],
+                                                    ),
+                                                  )),
                                             ),
                                             SizedBox(
                                               width: 5,
@@ -265,8 +306,20 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                           appendToResponse:
                                                               "watch/providers",
                                                           language: "de-DE");
-                                                  showDetails(
-                                                      context, movieDetails);
+
+                                                  var rep = await http.get(
+                                                      "https://api.themoviedb.org/3/movie/" +
+                                                          movies_dec[index]
+                                                                  ['id']
+                                                              .toString() +
+                                                          "?api_key=" +
+                                                          apiKey +
+                                                          "&language=en-US");
+                                                  String overview = jsonDecode(
+                                                      rep.body)["overview"];
+
+                                                  showDetails(context,
+                                                      movieDetails, overview);
                                                 },
                                               ),
                                             ),
@@ -295,6 +348,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              /*
                                               Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
@@ -319,56 +373,85 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                           238, 238, 238, 1),
                                                     )),
                                               ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(5)),
-                                                  color: Color.fromRGBO(
-                                                      68, 68, 68, 1),
-                                                ),
-                                                margin: const EdgeInsets.only(
-                                                    left: 20,
-                                                    right: 20,
-                                                    top: 5,
-                                                    bottom: 10),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          10, 10, 2, 10),
-                                                      child: Text(
-                                                          movies_dec[index][
-                                                                      "vote_average"]
-                                                                  .toString() +
-                                                              "/10",
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    238,
-                                                                    238,
-                                                                    238,
-                                                                    1),
-                                                          )),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .fromLTRB(
-                                                          2, 10, 10, 10),
-                                                      child: Icon(
-                                                        Icons.star,
-                                                        color: Colors.yellow,
-                                                        size: 20.0,
-                                                        semanticLabel: 'Stern',
+
+                                               */
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 10,
+                                                              bottom: 8),
+                                                      child: Wrap(
+                                                        children:
+                                                            getGenresChipsForMovie(
+                                                                index),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 5.5,
+                                                            right: 20),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    5)),
+                                                        color: Color.fromRGBO(
+                                                            68, 68, 68, 1),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Text(
+                                                                movies_dec[index]
+                                                                            [
+                                                                            "vote_average"]
+                                                                        .toString() +
+                                                                    "/10",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          238,
+                                                                          238,
+                                                                          238,
+                                                                          1),
+                                                                )),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 8),
+                                                            child: Icon(
+                                                              Icons.star,
+                                                              color:
+                                                                  Colors.yellow,
+                                                              size: 20.0,
+                                                              semanticLabel:
+                                                                  'Stern',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                               ),
                                             ],
                                           ),

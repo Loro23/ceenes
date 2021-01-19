@@ -4,8 +4,6 @@ import 'dart:convert';
 
 import 'package:ceenes_prototype/util/api.dart';
 import 'package:ceenes_prototype/util/colors.dart';
-import 'package:ceenes_prototype/util/create_view_utils.dart';
-import 'package:ceenes_prototype/util/session.dart';
 import 'package:ceenes_prototype/widgets/start_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expandable/expandable.dart';
@@ -14,8 +12,6 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 import 'package:toast/toast.dart';
 
 import 'details_view.dart';
@@ -72,12 +68,15 @@ class _Review2State extends State<Review2> {
     });
   }
 
-  showDetails(context, Map moviedetails) async {
+  showDetails(context, Map moviedetails, String overviewEn) async {
     showModalBottomSheet(
+        backgroundColor: backgroundcolor_dark,
         context: context,
         isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(children: [Details_view(moviedetails)]);
+          return Wrap(
+            children: [Details_view(moviedetails, overviewEn)],
+          );
         });
   }
 
@@ -123,7 +122,9 @@ class _Review2State extends State<Review2> {
         children: [
           //Feedback Button
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            padding: const EdgeInsets.only(
+              left: 8.0,
+            ),
             child: FloatingActionButton.extended(
                 backgroundColor: red_ceenes,
                 onPressed: () {
@@ -208,7 +209,9 @@ class _Review2State extends State<Review2> {
           ),
           //Nochmal swipen Button
           Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            padding: const EdgeInsets.only(
+              left: 8.0,
+            ),
             child: FloatingActionButton.extended(
                 backgroundColor: blue_ceenes,
                 onPressed: () {
@@ -271,7 +274,7 @@ class _Review2State extends State<Review2> {
           ),
           //Refresh Button
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(8),
             child: FloatingActionButton(
               heroTag: "10",
               onPressed: () async {
@@ -418,30 +421,35 @@ class _Review2State extends State<Review2> {
                   sortedMap.entries.elementAt(index).key["id"],
                   appendToResponse: "watch/providers",
                   language: "de-DE");
-              showDetails(context, movieDetails);
+
+              var rep = await http.get("https://api.themoviedb.org/3/movie/" +
+                  sortedMap.entries.elementAt(index).key["id"].toString() +
+                  "?api_key=" +
+                  apiKey +
+                  "&language=en-US");
+              String overview = jsonDecode(rep.body)["overview"];
+
+              showDetails(context, movieDetails, overview);
             },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Image.network(
-                    "http://image.tmdb.org/t/p/w92/" +
-                        getCorrectPosterpath(
-                            sortedMap.entries.elementAt(index).key["id"]),
-                    height: 80,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Text(
-                        sortedMap.entries.elementAt(index).key["title"],
-                        overflow: TextOverflow.clip,
-                      ),
+            child: Row(
+              children: [
+                Image.network(
+                  "http://image.tmdb.org/t/p/w92/" +
+                      getCorrectPosterpath(
+                          sortedMap.entries.elementAt(index).key["id"]),
+                  height: 80,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: Text(
+                      sortedMap.entries.elementAt(index).key["title"],
+                      overflow: TextOverflow.clip,
                     ),
                   ),
-                  _getPercentage(index),
-                ],
-              ),
+                ),
+                _getPercentage(index),
+              ],
             ),
           ),
         ),
@@ -462,12 +470,13 @@ class _Review2State extends State<Review2> {
     final details = await http.get("https://api.themoviedb.org/3/movie/" +
         sortedMap.keys.toList()[0]["id"].toString() +
         "?api_key=" +
-        apiKey+ "&language=en-US");
-        print(jsonDecode(details.body).toString());
+        apiKey +
+        "&language=en-US");
+    print(jsonDecode(details.body).toString());
     String runtime = jsonDecode(details.body)["runtime"].toString();
-    String overview =  sortedMap.keys.toList()[0]["overview"];
+    String overview = sortedMap.keys.toList()[0]["overview"];
     String en_overview = jsonDecode(details.body)["overview"];
-    if( overview ==""){
+    if (overview == "") {
       overview = en_overview;
     }
     //füge alle Provider Bilder providerimg hinzu als Widget
@@ -555,7 +564,8 @@ class _Review2State extends State<Review2> {
                                     color: Color.fromRGBO(238, 238, 238, 1)),
                               )),
                               Padding(
-                                padding: const EdgeInsets.only(left:8.0, right: 8.0),
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8.0),
                                 child: Text(runtime + "min"),
                               ),
                               _getPercentage(0),
