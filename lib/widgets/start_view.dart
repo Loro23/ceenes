@@ -156,23 +156,7 @@ class _StartViewState extends State<StartView> {
                                             fontSize: 18),
                                       ),
                                       Text(
-                                          "Wir setzen auf unserer Website verschiedene Cookies und "
-                                          "Trackingdienste ein. Dadurch ist es uns möglich, "
-                                          "unser Angebot fortlaufend zu verbessern "
-                                          "und an Nutzerbedürfnisse anzupassen. Cookies werden von "
-                                          "Drittanbieterdiensten genutzt, um einen schnelleren Zugriff "
-                                          "auf die Website zu ermöglichen. Wir selber setzen einen Cookie, "
-                                          "wenn Sie auf den \"Alles akzeptieren\"-Button klicken, um "
-                                          "Ihnen beim erneuten Aufruf der Website diesen "
-                                          "Hinweis nicht erneut anzuzeigen. Sie können selber "
-                                          "entscheiden, welche Cookies und Dienste Sie akzeptieren "
-                                          "möchten, indem Sie auf \"Verwalten\" klicken. "
-                                          "Beachten Sie bitte weiterhin: Für die Bereitstellung "
-                                          "unseres Dienstes wird Google Firestore (ein Dienst von "
-                                          "Google Firebase) benötigt. Dieser Dienst ist essentieller "
-                                          "Bestandteil unseres Angebots. Auch wenn aktuell keine Cookies "
-                                          "durch Firestore gesetzt werden, können wir eine Verarbeitung "
-                                          "ihrer Daten durch Google Firebase nicht ausschließen."),
+                                          'Wir verwenden auf unserer Website Cookies, um ein schnelleres und an den Nutzer besser angepasstes Erlebnis zu generieren. Dabei setzen wir Drittanbietercookies und -tracking ein sowie selbst gesetzte Cookies.'),
                                     ],
                                   ),
                                 ),

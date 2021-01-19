@@ -218,7 +218,7 @@ class Create_ViewState extends State<Create_View>
                           child: Text(
                             "Welche Genres?",
                             style: TextStyle(
-                              fontSize: 36,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.center,
@@ -258,7 +258,7 @@ class Create_ViewState extends State<Create_View>
                             child: Text(
                               "Erscheinungsjahr",
                               style: TextStyle(
-                                fontSize: 36,
+                                fontSize: 30,
                                 fontWeight: FontWeight.w600,
                               ),
                               textAlign: TextAlign.center,
@@ -313,7 +313,7 @@ class Create_ViewState extends State<Create_View>
                           child: Text(
                             "Welche Streaming-Anbieter habt ihr?",
                             style: TextStyle(
-                              fontSize: 40,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.center,
