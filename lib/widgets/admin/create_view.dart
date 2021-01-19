@@ -526,8 +526,8 @@ class Create_ViewState extends State<Create_View>
                               this.session = new Session(valuePart,
                                   getGenreIds(valueGenre), valueProvider2,
                                   releaseDateGte:
-                                      this._currentRangeValues.start.toInt() -1
-                                          ,
+                                      this._currentRangeValues.start.toInt() -
+                                          1,
                                   releaseDateSme:
                                       this._currentRangeValues.end.toInt() + 1);
 

@@ -563,11 +563,14 @@ class _Review2State extends State<Review2> {
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromRGBO(238, 238, 238, 1)),
                               )),
+                              /*
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 8.0, right: 8.0),
                                 child: Text(runtime + "min"),
                               ),
+
+                               */
                               _getPercentage(0),
                             ],
                           ),

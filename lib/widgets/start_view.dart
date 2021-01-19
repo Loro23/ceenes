@@ -156,7 +156,23 @@ class _StartViewState extends State<StartView> {
                                             fontSize: 18),
                                       ),
                                       Text(
-                                          "Um unseren Service auf einem hohen Qualitätslevel halten zu können, setzen wir wenige, technisch notwendige, und nicht-personenbezogene Drittanbieterdienste und Cookies ein."),
+                                          "Wir setzen auf unserer Website verschiedene Cookies und "
+                                          "Trackingdienste ein. Dadurch ist es uns möglich, "
+                                          "unser Angebot fortlaufend zu verbessern "
+                                          "und an Nutzerbedürfnisse anzupassen. Cookies werden von "
+                                          "Drittanbieterdiensten genutzt, um einen schnelleren Zugriff "
+                                          "auf die Website zu ermöglichen. Wir selber setzen einen Cookie, "
+                                          "wenn Sie auf den \"Alles akzeptieren\"-Button klicken, um "
+                                          "Ihnen beim erneuten Aufruf der Website diesen "
+                                          "Hinweis nicht erneut anzuzeigen. Sie können selber "
+                                          "entscheiden, welche Cookies und Dienste Sie akzeptieren "
+                                          "möchten, indem Sie auf \"Verwalten\" klicken. "
+                                          "Beachten Sie bitte weiterhin: Für die Bereitstellung "
+                                          "unseres Dienstes wird Google Firestore (ein Dienst von "
+                                          "Google Firebase) benötigt. Dieser Dienst ist essentieller "
+                                          "Bestandteil unseres Angebots. Auch wenn aktuell keine Cookies "
+                                          "durch Firestore gesetzt werden, können wir eine Verarbeitung "
+                                          "ihrer Daten durch Google Firebase nicht ausschließen."),
                                     ],
                                   ),
                                 ),
@@ -169,7 +185,7 @@ class _StartViewState extends State<StartView> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 FlatButton(
-                                    color: Colors.grey[700],
+                                    color: backgroundcolor_dark,
                                     height: 50,
                                     onPressed: () {
                                       showModalBottomSheet<void>(
@@ -219,7 +235,7 @@ class _StartViewState extends State<StartView> {
                                                                             18),
                                                                   ),
                                                                   Text(
-                                                                    "Klicken sie rechts auf das Symbol um zu der Datenschutzerklörung zu gelangen.",
+                                                                    "Klicken sie rechts auf das Symbol um zu der Datenschutzerklärung zu gelangen.",
                                                                     style: TextStyle(
                                                                         fontSize:
                                                                             12),
@@ -291,8 +307,8 @@ class _StartViewState extends State<StartView> {
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                  "Ergeinis Tracking: Ergeinis (\"Event\") Tracking beinhaltet das Sammeln vo Daten bezüglich "
-                                                                  "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Button sein, "
+                                                                  "Ereignis Tracking: Ereignis (\"Event\") Tracking beinhaltet das Sammeln von Daten bezüglich "
+                                                                  "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Buttons sein, "
                                                                   "Interaktionen mit der Website, und deren Zeitpunkt. Das Hauptziel von Event Tracking ist herauszufinden, "
                                                                   "wie Nutzer sich auf unserer Website verhalten, also hauptsächlich, auf welche Buttons am meisten geklickt wird. "
                                                                   "Dabei werden keine personenbezogenen Daten gesammelt und Events sind niemanden zuordnungsbar."),
@@ -322,25 +338,28 @@ class _StartViewState extends State<StartView> {
                                                             Row(
                                                               children: [
                                                                 FlatButton(
-                                                                    height: 50,
-                                                                    color: Colors
-                                                                            .grey[
-                                                                        700],
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                        "Zurück")),
+                                                                  height: 50,
+                                                                  color:
+                                                                      backgroundcolor_dark,
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                    "Zurück",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white70),
+                                                                  ),
+                                                                ),
                                                                 SizedBox(
                                                                   width: 8,
                                                                 ),
                                                                 FlatButton(
                                                                     height: 50,
-                                                                    color: Colors
-                                                                            .grey[
-                                                                        700],
+                                                                    color:
+                                                                        backgroundcolor_dark,
                                                                     onPressed:
                                                                         () {
                                                                       disableAnalytics =
@@ -365,7 +384,10 @@ class _StartViewState extends State<StartView> {
                                                                           context);
                                                                     },
                                                                     child: Text(
-                                                                        "Auswahl\nbestätigen")),
+                                                                        "Auswahl\nbestätigen",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white70))),
                                                               ],
                                                             ),
                                                             FlatButton(
@@ -412,7 +434,9 @@ class _StartViewState extends State<StartView> {
                                         },
                                       );
                                     },
-                                    child: Text("Verwalten")),
+                                    child: Text("Verwalten",
+                                        style:
+                                            TextStyle(color: Colors.white70))),
                                 FlatButton(
                                     color: Colors.blue,
                                     height: 50,
@@ -433,7 +457,7 @@ class _StartViewState extends State<StartView> {
 
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Akzeptieren"))
+                                    child: Text("Alles akzeptieren"))
                               ],
                             ),
                           )
