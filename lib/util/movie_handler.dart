@@ -26,9 +26,9 @@ class MovieHandler {
         "&primary_release_date.lte=" +
         session.releaseDateSme.toString() +
         "-01-01" +
-        "&primary_release_date.Gte=" +
-        session.releaseDateSme.toString() +
-        "-01-01";
+        "&primary_release_date.gte=" +
+        session.releaseDateGte.toString() +
+        "-12-31";
     // print(request);
 
     return request;
@@ -53,9 +53,10 @@ class MovieHandler {
         "&primary_release_date.lte=" +
         session.releaseDateSme.toString() +
         "-01-01" +
-        "&primary_release_date.Gte=" +
-        session.releaseDateSme.toString() +
-        "-01-01";
+        "&primary_release_date.gte=" +
+        session.releaseDateGte.toString() +
+        "-12-31";
+    print(request);
 
     // print(request);
     final response = await http.get(request);

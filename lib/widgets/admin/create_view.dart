@@ -277,16 +277,16 @@ class Create_ViewState extends State<Create_View>
                             padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                             child: Row(
                               children: [
-                                Text("1920"),
+                                Text("1950"),
                                 Expanded(
                                   child: RangeSlider(
                                     activeColor: primary_color,
                                     inactiveColor:
                                         Colors.yellow.withOpacity(0.1),
                                     values: _currentRangeValues,
-                                    min: 1920,
+                                    min: 1950,
                                     max: 2021,
-                                    divisions: 101,
+                                    divisions: 71,
                                     labels: RangeLabels(
                                       _currentRangeValues.start
                                           .round()
@@ -526,8 +526,8 @@ class Create_ViewState extends State<Create_View>
                               this.session = new Session(valuePart,
                                   getGenreIds(valueGenre), valueProvider2,
                                   releaseDateGte:
-                                      this._currentRangeValues.start.toInt() -
-                                          1,
+                                      this._currentRangeValues.start.toInt() -1
+                                          ,
                                   releaseDateSme:
                                       this._currentRangeValues.end.toInt() + 1);
 
