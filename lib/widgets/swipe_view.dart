@@ -213,7 +213,6 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                   MediaQuery.of(context).size.height * 0.8,
                               cardBuilder: (context, index) {
                                 currentIndex = index;
-
                                 return Container(
                                   margin: EdgeInsets.only(top: 35),
                                   child: Stack(
@@ -330,33 +329,6 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    /*
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(5)),
-                                                        color: Color.fromRGBO(
-                                                            68, 68, 68, 1),
-                                                      ),
-                                                      padding:
-                                                          const EdgeInsets.all(10),
-                                                      margin: const EdgeInsets.only(
-                                                          left: 20,
-                                                          right: 20,
-                                                          top: 5,
-                                                          bottom: 5),
-                                                      child: Text(
-                                                          getGenresForMovie(index),
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Color.fromRGBO(
-                                                                238, 238, 238, 1),
-                                                          )),
-                                                    ),
-
-                                                     */
                                                     Row(
                                                       children: [
                                                         Expanded(
@@ -448,6 +420,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                       GestureDetector(
                                         onTap: () async {
                                           showDialog(
+                                              barrierDismissible: false,
                                               context: context,
                                               child: Center(
                                                   child: CircularProgressIndicator(
@@ -471,6 +444,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                   "?api_key=" +
                                                   apiKey +
                                                   "&language=en-US");
+
                                           String overview =
                                               jsonDecode(rep.body)["overview"];
                                           Navigator.pop(context);
