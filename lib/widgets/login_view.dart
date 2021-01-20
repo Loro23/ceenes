@@ -165,7 +165,7 @@ class _Login_viewState extends State<Login_view> {
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return Dialog(
-                                              child: new Row(
+                                              child: new Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(
@@ -265,7 +265,7 @@ class _Login_viewState extends State<Login_view> {
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return Dialog(
-                                              child: new Row(
+                                              child: new Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(

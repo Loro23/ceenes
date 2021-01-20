@@ -324,7 +324,7 @@ class _Review2State extends State<Review2> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.2,
           width: MediaQuery.of(context).size.width * 0.9,
-          child: Row(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(

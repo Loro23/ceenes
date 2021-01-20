@@ -571,7 +571,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     barrierDismissible: false,
                                     builder: (BuildContext context) {
                                       return Dialog(
-                                        child: new Row(
+                                        child: new Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(

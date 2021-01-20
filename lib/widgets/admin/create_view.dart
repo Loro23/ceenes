@@ -491,7 +491,7 @@ class Create_ViewState extends State<Create_View>
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.8,
-                                        child: Row(
+                                        child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Padding(
@@ -504,16 +504,14 @@ class Create_ViewState extends State<Create_View>
                                                         Color>(blue_ceenes),
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: new Text(
-                                                  "Filme werden ausgesucht. Das kann einen Moment dauern...",
-                                                  overflow: TextOverflow.clip,
-                                                  style:
-                                                      TextStyle(fontSize: 22),
-                                                ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: new Text(
+                                                "Filme werden ausgesucht. Das kann einen Moment dauern...",
+                                                overflow: TextOverflow.clip,
+                                                style:
+                                                    TextStyle(fontSize: 22),
                                               ),
                                             ),
                                           ],

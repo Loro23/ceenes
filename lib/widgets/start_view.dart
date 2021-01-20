@@ -97,19 +97,23 @@ class _StartViewState extends State<StartView> {
 
   getButtonFontSize() {
     double height = MediaQuery.of(context).size.height;
-    if (_getWidth() < 300) {
-      return height * 0.02;
-    }
+    if (height> 750) return height*0.023;
     return height * 0.025;
   }
 
   getButtonHeightSize() {
-    double height = MediaQuery.of(context).size.height;
-    return _getHeight() * 0.08;
+    if (_getHeight() > 750){
+      return _getHeight() *0.08;
+    }
+    return _getHeight() * 0.1;
   }
+
 
   getLogoSize() {
     return _getHeight() * 0.11;
+  }
+  getHeaderFontSize(){
+    return _getHeight() *0.038;
   }
 
   Future<void> _sendAnalyticsEvent(String what) async {
@@ -156,7 +160,7 @@ class _StartViewState extends State<StartView> {
                                             fontSize: 18),
                                       ),
                                       Text(
-                                          'Wir verwenden auf unserer Website Cookies, um ein schnelleres und an den Nutzer besser angepasstes Erlebnis zu generieren. Dabei setzen wir Drittanbietercookies und -tracking ein sowie selbst gesetzte Cookies.'),
+                                          'Wir verwenden auf unserer Website Cookies, um ein schnelleres und an den Nutzer besser angepasstes Erlebnis zu generieren. Dabei setzen wir Drittanbietercookies und -tracking ein sowie selbst gesetzte Cookies.', style: TextStyle(fontSize: getSubtitleFontSize()*0.8),),
                                     ],
                                   ),
                                 ),
@@ -170,7 +174,7 @@ class _StartViewState extends State<StartView> {
                               children: [
                                 FlatButton(
                                     color: backgroundcolor_dark,
-                                    height: 50,
+                                    height: getButtonHeightSize()*0.8,
                                     onPressed: () {
                                       showModalBottomSheet<void>(
                                         context: context,
@@ -216,7 +220,7 @@ class _StartViewState extends State<StartView> {
                                                                             FontWeight
                                                                                 .bold,
                                                                         fontSize:
-                                                                            18),
+                                                                            getTitleFontSize()*0.8),
                                                                   ),
                                                                   Text(
                                                                     "Klicken sie rechts auf das Symbol um zu der Datenschutzerklärung zu gelangen.",
@@ -257,12 +261,16 @@ class _StartViewState extends State<StartView> {
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                  "Cookies & Tracking (Google Analytics): Wir nutzen den Google Dienst Google "
-                                                                  "Analytics um zu erfahren, wie viele Leute sich wann auf unserer Website befinden. "
-                                                                  "Dabei werden nicht-personenbezogene und nicht-zuordnungsbare Informationen gesammelt, wie "
-                                                                  "unteranderem Zeitpunkt des Aufrufs der Webseite, Aufenthaltsdauer auf der Webseite, ungefährer "
-                                                                  "Standort des Nutzers, Informationen zum Endgerät etc. Weitere Informationen zu Google Analytics finden "
-                                                                  "Sie in unserer Datenschutzerklärung."),
+                                                                "Cookies & Tracking (Google Analytics): Wir nutzen den Google Dienst Google "
+                                                                "Analytics um zu erfahren, wie viele Leute sich wann auf unserer Website befinden. "
+                                                                "Dabei werden nicht-personenbezogene und nicht-zuordnungsbare Informationen gesammelt, wie "
+                                                                "unteranderem Zeitpunkt des Aufrufs der Webseite, Aufenthaltsdauer auf der Webseite, ungefährer "
+                                                                "Standort des Nutzers, Informationen zum Endgerät etc. Weitere Informationen zu Google Analytics finden "
+                                                                "Sie in unserer Datenschutzerklärung.",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        getSubtitleFontSize()*0.8),
+                                                              ),
                                                             ),
                                                             Checkbox(
                                                                 value:
@@ -291,11 +299,15 @@ class _StartViewState extends State<StartView> {
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                  "Ereignis Tracking: Ereignis (\"Event\") Tracking beinhaltet das Sammeln von Daten bezüglich "
-                                                                  "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Buttons sein, "
-                                                                  "Interaktionen mit der Website, und deren Zeitpunkt. Das Hauptziel von Event Tracking ist herauszufinden, "
-                                                                  "wie Nutzer sich auf unserer Website verhalten, also hauptsächlich, auf welche Buttons am meisten geklickt wird. "
-                                                                  "Dabei werden keine personenbezogenen Daten gesammelt und Events sind niemanden zuordnungsbar."),
+                                                                "Ereignis Tracking: Ereignis (\"Event\") Tracking beinhaltet das Sammeln von Daten bezüglich "
+                                                                "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Buttons sein, "
+                                                                "Interaktionen mit der Website, und deren Zeitpunkt. Das Hauptziel von Event Tracking ist herauszufinden, "
+                                                                "wie Nutzer sich auf unserer Website verhalten, also hauptsächlich, auf welche Buttons am meisten geklickt wird. "
+                                                                "Dabei werden keine personenbezogenen Daten gesammelt und Events sind niemanden zuordnungsbar.",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        getSubtitleFontSize()*0.8),
+                                                              ),
                                                             ),
                                                             Checkbox(
                                                                 value: _consent,
@@ -334,7 +346,7 @@ class _StartViewState extends State<StartView> {
                                                                     "Zurück",
                                                                     style: TextStyle(
                                                                         color: Colors
-                                                                            .white70),
+                                                                            .white70, fontSize: getButtonFontSize()*0.8),
                                                                   ),
                                                                 ),
                                                                 SizedBox(
@@ -371,7 +383,7 @@ class _StartViewState extends State<StartView> {
                                                                         "Auswahl\nbestätigen",
                                                                         style: TextStyle(
                                                                             color:
-                                                                                Colors.white70))),
+                                                                                Colors.white70, fontSize: getButtonFontSize()*0.8))),
                                                               ],
                                                             ),
                                                             FlatButton(
@@ -405,7 +417,7 @@ class _StartViewState extends State<StartView> {
                                                                       context);
                                                                 },
                                                                 child: Text(
-                                                                    "Alle auswählen\nund bestätigen")),
+                                                                    "Alle auswählen\nund bestätigen", style: TextStyle(fontSize: getButtonFontSize()*0.8),)),
                                                           ],
                                                         )
                                                       ],
@@ -420,10 +432,10 @@ class _StartViewState extends State<StartView> {
                                     },
                                     child: Text("Verwalten",
                                         style:
-                                            TextStyle(color: Colors.white70))),
+                                            TextStyle(color: Colors.white70, fontSize: getButtonFontSize()*0.8), )),
                                 FlatButton(
                                     color: Colors.blue,
-                                    height: 50,
+                                    height: getButtonHeightSize()*0.8,
                                     onPressed: () {
                                       consent = true;
                                       disableAnalytics = false;
@@ -604,7 +616,7 @@ class _StartViewState extends State<StartView> {
                                             MainAxisAlignment.spaceEvenly,
                                       ),
                                     ),
-                                    height: getButtonHeightSize(),
+                                    height: getButtonHeightSize()*0.8,
                                   ),
                                 ],
                               ),
@@ -627,7 +639,7 @@ class _StartViewState extends State<StartView> {
                                     child: Text(
                                       "Wie funktioniert's?",
                                       style: TextStyle(
-                                          fontSize: 28,
+                                          fontSize: getHeaderFontSize(),
                                           fontWeight: FontWeight.w700),
                                       textAlign: TextAlign.center,
                                     ),
@@ -829,7 +841,7 @@ class _StartViewState extends State<StartView> {
                                     child: Text(
                                       "Was ist Ceenes überhaupt?",
                                       style: TextStyle(
-                                          fontSize: 28,
+                                          fontSize: getHeaderFontSize(),
                                           fontWeight: FontWeight.w700),
                                       textAlign: TextAlign.center,
                                     ),
@@ -861,7 +873,7 @@ class _StartViewState extends State<StartView> {
                                     child: Text(
                                       "Über uns",
                                       style: TextStyle(
-                                          fontSize: 28,
+                                          fontSize: getHeaderFontSize(),
                                           fontWeight: FontWeight.w700),
                                       textAlign: TextAlign.center,
                                     ),
@@ -934,7 +946,7 @@ class _StartViewState extends State<StartView> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 25,
+                                    width: 15,
                                   ),
                                   //Profil benji
                                   InkWell(
