@@ -12,7 +12,6 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 bool consent = false;
@@ -43,17 +42,7 @@ class _StartViewState extends State<StartView> {
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
   bool firstCall = true;
-  consentSetTrueSP() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('consentSet', true);
-  }
 
-  getBoolValuesSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return bool
-    int boolValue = await prefs.getBool('consent') ?? 0;
-    return boolValue;
-  }
 
   _launchURL() async {
     const url =
@@ -389,7 +378,6 @@ class _StartViewState extends State<StartView> {
                                                                                 disableAnalytics
                                                                               ]);
                                                                         }
-                                                                        consentSetTrueSP();
                                                                         Navigator.pop(
                                                                             context);
                                                                         Navigator.pop(
@@ -427,7 +415,6 @@ class _StartViewState extends State<StartView> {
                                                                             disableAnalytics
                                                                           ]);
                                                                     }
-                                                                    consentSetTrueSP();
                                                                     Navigator.pop(
                                                                         context);
                                                                     Navigator.pop(
@@ -467,7 +454,6 @@ class _StartViewState extends State<StartView> {
                                         js.context.callMethod(
                                             'disableAnalytics',
                                             [disableAnalytics]);
-                                        consentSetTrueSP();
 
                                         Navigator.pop(context);
                                       },

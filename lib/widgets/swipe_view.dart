@@ -14,6 +14,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 
 import '../util/api.dart';
 
@@ -78,13 +80,15 @@ class _Swipe_ViewState extends State<Swipe_View> {
   }
 
   showDetails(context, Map moviedetails, String overviewEn) async {
-    showModalBottomSheet(
+    showBarModalBottomSheet(
         backgroundColor: backgroundcolor_dark,
         context: context,
-        isScrollControlled: true,
+
         builder: (BuildContext bc) {
-          return Wrap(
-            children: [Details_view(moviedetails, overviewEn)],
+          return SingleChildScrollView(
+            child: Wrap(
+              children: [Details_view(moviedetails, overviewEn)],
+            ),
           );
         });
   }

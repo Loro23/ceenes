@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'details_view.dart';
 
@@ -78,13 +79,14 @@ class _Review2State extends State<Review2> {
   }
 
   showDetails(context, Map moviedetails, String overviewEn) async {
-    showModalBottomSheet(
+    showBarModalBottomSheet(
         backgroundColor: backgroundcolor_dark,
         context: context,
-        isScrollControlled: true,
         builder: (BuildContext bc) {
-          return Wrap(
-            children: [Details_view(moviedetails, overviewEn)],
+          return SingleChildScrollView(
+            child: Wrap(
+              children: [Details_view(moviedetails, overviewEn)],
+            ),
           );
         });
   }
