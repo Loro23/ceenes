@@ -20,7 +20,7 @@ dependencies:
   smart_select: ^4.3.2
   firebase_core: ^0.5.2
   cloud_firestore: "^0.14.3"
-  pinput: ^0.2.0
+  pin_code_fields: ^6.1.0
   chips_choice: ^2.0.1
   introduction_screen: ^1.0.9
   circular_reveal_animation: ^1.1.5
