@@ -127,6 +127,7 @@ class _Review2State extends State<Review2> {
             ),
             child: FloatingActionButton.extended(
                 backgroundColor: red_ceenes,
+                heroTag: "tag23",
                 onPressed: () {
                   _sendAnalyticsEvent("Review View - Feedback Button");
                   showDialog(
@@ -179,6 +180,7 @@ class _Review2State extends State<Review2> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: FloatingActionButton.extended(
+                                heroTag: "tag3276",
                                 label: Text(
                                   "Jetzt senden",
                                   style: TextStyle(
@@ -213,6 +215,7 @@ class _Review2State extends State<Review2> {
               left: 8.0,
             ),
             child: FloatingActionButton.extended(
+                heroTag: "tag9822",
                 backgroundColor: blue_ceenes,
                 onPressed: () {
                   _sendAnalyticsEvent("Review View - Nochmal Swipen Button");
@@ -276,7 +279,7 @@ class _Review2State extends State<Review2> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: FloatingActionButton(
-              heroTag: "10",
+              heroTag: "tag1921",
               onPressed: () async {
                 _sendAnalyticsEvent("Review View - Refresh Button");
                 await setNumberVotes();
@@ -759,7 +762,9 @@ class _Review2State extends State<Review2> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (BuildContext context) =>
-                                            StartView()),
+                                            StartView(
+                                              firstCall: false,
+                                            )),
                                     (Route<dynamic> route) => false);
                               },
                               icon: Icon(Icons.home),

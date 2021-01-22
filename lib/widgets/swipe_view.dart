@@ -678,7 +678,9 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                                   MaterialPageRoute(
                                                       builder: (BuildContext
                                                               context) =>
-                                                          StartView()),
+                                                          StartView(
+                                                            firstCall: false,
+                                                          )),
                                                   (Route<dynamic> route) =>
                                                       false);
                                             },

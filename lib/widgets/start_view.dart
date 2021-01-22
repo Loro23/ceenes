@@ -18,13 +18,19 @@ import 'package:url_launcher/url_launcher.dart';
 bool consent = false;
 
 class StartView extends StatefulWidget {
-  StartView({this.analytics, this.observer});
+  StartView({this.analytics, this.observer, this.firstCall});
 
   final FirebaseAnalytics analytics;
   final FirebaseAnalyticsObserver observer;
+  bool firstCall;
 
   @override
-  _StartViewState createState() => _StartViewState(analytics, observer);
+  _StartViewState createState() {
+    if (firstCall == null) {
+      return _StartViewState(analytics, observer, true);
+    }
+    return _StartViewState(analytics, observer, firstCall);
+  }
 }
 
 class _StartViewState extends State<StartView> {
@@ -32,11 +38,11 @@ class _StartViewState extends State<StartView> {
 
   bool disableAnalytics = true;
 
-  _StartViewState(this.analytics, this.observer);
+  _StartViewState(this.analytics, this.observer, this.firstCall);
 
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
-
+  bool firstCall = true;
   consentSetTrueSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('consentSet', true);
@@ -127,7 +133,11 @@ class _StartViewState extends State<StartView> {
   void initState() {
     super.initState();
     _sendAnalyticsEvent("Start View - Init State");
-    if (js.context.callMethod("getCookie", ["acceptedAllCookies"]) != "true") {
+    print("fir" + firstCall.toString());
+    print(
+        js.context.callMethod("getCookie", ["acceptedAllCookies"]).toString());
+    if (js.context.callMethod("getCookie", ["acceptedAllCookies"]) != "true" &&
+        firstCall == true) {
       Timer(Duration(milliseconds: 100), () {
         showModalBottomSheet(
             backgroundColor: Colors.transparent,
@@ -136,332 +146,347 @@ class _StartViewState extends State<StartView> {
             isDismissible: false,
             isScrollControlled: true,
             builder: (BuildContext context) {
-              return Wrap(
-                children: [
-                  Center(
-                    child: Container(
-                      constraints: BoxConstraints(maxWidth: 600),
-                      color: backgroundcolor_dark,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Datenschutz und Cookies",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                      Text(
-                                          'Wir verwenden auf unserer Website Cookies, um ein schnelleres und an den Nutzer besser angepasstes Erlebnis zu generieren. Dabei setzen wir Drittanbietercookies und -tracking ein sowie selbst gesetzte Cookies.'),
-                                    ],
+              return WillPopScope(
+                onWillPop: () async {
+                  return;
+                },
+                child: Wrap(
+                  children: [
+                    Center(
+                      child: Container(
+                        constraints: BoxConstraints(maxWidth: 600),
+                        color: backgroundcolor_dark,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Datenschutz und Cookies",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ),
+                                        Text(
+                                            'Wir verwenden auf unserer Website Cookies, um ein schnelleres und an den Nutzer besser angepasstes Erlebnis zu generieren. Dabei setzen wir Drittanbietercookies und -tracking ein sowie selbst gesetzte Cookies.'),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                FlatButton(
-                                    color: backgroundcolor_dark,
-                                    height: 50,
-                                    onPressed: () {
-                                      showModalBottomSheet<void>(
-                                        context: context,
-                                        isDismissible: false,
-                                        enableDrag: false,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (BuildContext context) {
-                                          bool _disableAnalytics = true;
-                                          bool _consent = false;
-                                          return Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              color: backgroundcolor_dark,
-                                              constraints: BoxConstraints(
-                                                  maxWidth: 600,
-                                                  maxHeight:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .height),
-                                              child: SingleChildScrollView(
-                                                child: StatefulBuilder(builder:
-                                                    (BuildContext context,
-                                                        StateSetter setState) {
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: Column(
-                                                                children: [
-                                                                  Text(
-                                                                    "Präferenzen auswählen - Was möchten Sie erlauben?",
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontSize:
-                                                                            18),
-                                                                  ),
-                                                                  Text(
-                                                                    "Klicken sie rechts auf das Symbol um zu der Datenschutzerklärung zu gelangen.",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            12),
-                                                                  )
-                                                                ],
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  FlatButton(
+                                      color: backgroundcolor_dark,
+                                      height: 50,
+                                      onPressed: () {
+                                        showModalBottomSheet<void>(
+                                          context: context,
+                                          isDismissible: false,
+                                          enableDrag: false,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (BuildContext context) {
+                                            bool _disableAnalytics = true;
+                                            bool _consent = false;
+                                            return Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Container(
+                                                color: backgroundcolor_dark,
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 600,
+                                                    maxHeight:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height),
+                                                child: SingleChildScrollView(
+                                                  child: StatefulBuilder(
+                                                      builder:
+                                                          (BuildContext context,
+                                                              StateSetter
+                                                                  setState) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      "Präferenzen auswählen - Was möchten Sie erlauben?",
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              18),
+                                                                    ),
+                                                                    Text(
+                                                                      "Klicken sie rechts auf das Symbol um zu der Datenschutzerklärung zu gelangen.",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              12),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                            Tooltip(
-                                                              message:
-                                                                  'Datenschutzerklärung',
-                                                              child: IconButton(
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(MaterialPageRoute(builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                    return PrivacyPolicy();
-                                                                  }));
-                                                                },
-                                                                icon: Icon(Icons
-                                                                    .security),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Divider(
-                                                          thickness: 1,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Text(
-                                                                  "Cookies & Tracking (Google Analytics): Wir nutzen den Google Dienst Google "
-                                                                  "Analytics um zu erfahren, wie viele Leute sich wann auf unserer Website befinden. "
-                                                                  "Dabei werden nicht-personenbezogene und nicht-zuordnungsbare Informationen gesammelt, wie "
-                                                                  "unteranderem Zeitpunkt des Aufrufs der Webseite, Aufenthaltsdauer auf der Webseite, ungefährer "
-                                                                  "Standort des Nutzers, Informationen zum Endgerät etc. Weitere Informationen zu Google Analytics finden "
-                                                                  "Sie in unserer Datenschutzerklärung."),
-                                                            ),
-                                                            Checkbox(
-                                                                value:
-                                                                    !_disableAnalytics,
-                                                                activeColor:
-                                                                    Colors.blue,
-                                                                onChanged:
-                                                                    (value) {
-                                                                  setState(() {
-                                                                    _disableAnalytics =
-                                                                        !value;
-                                                                  });
-                                                                  print(
-                                                                      _disableAnalytics);
-                                                                })
-                                                          ],
-                                                        ),
-                                                        Divider(
-                                                          thickness: 1,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Text(
-                                                                  "Ereignis Tracking: Ereignis (\"Event\") Tracking beinhaltet das Sammeln von Daten bezüglich "
-                                                                  "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Buttons sein, "
-                                                                  "Interaktionen mit der Website, und deren Zeitpunkt. Das Hauptziel von Event Tracking ist herauszufinden, "
-                                                                  "wie Nutzer sich auf unserer Website verhalten, also hauptsächlich, auf welche Buttons am meisten geklickt wird. "
-                                                                  "Dabei werden keine personenbezogenen Daten gesammelt und Events sind niemanden zuordnungsbar."),
-                                                            ),
-                                                            Checkbox(
-                                                                value: _consent,
-                                                                activeColor:
-                                                                    Colors.blue,
-                                                                onChanged:
-                                                                    (value) {
-                                                                  setState(() {
-                                                                    _consent =
-                                                                        value;
-                                                                  });
-                                                                })
-                                                          ],
-                                                        ),
-                                                        Divider(
-                                                          thickness: 1,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                FlatButton(
-                                                                  height: 50,
-                                                                  color:
-                                                                      backgroundcolor_dark,
+                                                              Tooltip(
+                                                                message:
+                                                                    'Datenschutzerklärung',
+                                                                child:
+                                                                    IconButton(
                                                                   onPressed:
                                                                       () {
-                                                                    Navigator.pop(
-                                                                        context);
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .push(MaterialPageRoute(builder:
+                                                                            (BuildContext
+                                                                                context) {
+                                                                      return PrivacyPolicy();
+                                                                    }));
                                                                   },
-                                                                  child: Text(
-                                                                    "Zurück",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white70),
-                                                                  ),
+                                                                  icon: Icon(Icons
+                                                                      .security),
                                                                 ),
-                                                                SizedBox(
-                                                                  width: 8,
-                                                                ),
-                                                                FlatButton(
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Divider(
+                                                            thickness: 1,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                    "Cookies & Tracking (Google Analytics): Wir nutzen den Google Dienst Google "
+                                                                    "Analytics um zu erfahren, wie viele Leute sich wann auf unserer Website befinden. "
+                                                                    "Dabei werden nicht-personenbezogene und nicht-zuordnungsbare Informationen gesammelt, wie "
+                                                                    "unteranderem Zeitpunkt des Aufrufs der Webseite, Aufenthaltsdauer auf der Webseite, ungefährer "
+                                                                    "Standort des Nutzers, Informationen zum Endgerät etc. Weitere Informationen zu Google Analytics finden "
+                                                                    "Sie in unserer Datenschutzerklärung."),
+                                                              ),
+                                                              Checkbox(
+                                                                  value:
+                                                                      !_disableAnalytics,
+                                                                  activeColor:
+                                                                      Colors
+                                                                          .blue,
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _disableAnalytics =
+                                                                          !value;
+                                                                    });
+                                                                    print(
+                                                                        _disableAnalytics);
+                                                                  })
+                                                            ],
+                                                          ),
+                                                          Divider(
+                                                            thickness: 1,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                    "Ereignis Tracking: Ereignis (\"Event\") Tracking beinhaltet das Sammeln von Daten bezüglich "
+                                                                    "Eingaben, die Nutzer auf unserer Website machen. Eingaben können zum Beispiel Klicks auf Buttons sein, "
+                                                                    "Interaktionen mit der Website, und deren Zeitpunkt. Das Hauptziel von Event Tracking ist herauszufinden, "
+                                                                    "wie Nutzer sich auf unserer Website verhalten, also hauptsächlich, auf welche Buttons am meisten geklickt wird. "
+                                                                    "Dabei werden keine personenbezogenen Daten gesammelt und Events sind niemanden zuordnungsbar."),
+                                                              ),
+                                                              Checkbox(
+                                                                  value:
+                                                                      _consent,
+                                                                  activeColor:
+                                                                      Colors
+                                                                          .blue,
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      _consent =
+                                                                          value;
+                                                                    });
+                                                                  })
+                                                            ],
+                                                          ),
+                                                          Divider(
+                                                            thickness: 1,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  FlatButton(
                                                                     height: 50,
                                                                     color:
                                                                         backgroundcolor_dark,
                                                                     onPressed:
                                                                         () {
-                                                                      disableAnalytics =
-                                                                          _disableAnalytics;
-                                                                      consent =
-                                                                          _consent;
-
-                                                                      print(
-                                                                          disableAnalytics);
-
-                                                                      if (!disableAnalytics) {
-                                                                        js.context.callMethod(
-                                                                            'disableAnalytics',
-                                                                            [
-                                                                              disableAnalytics
-                                                                            ]);
-                                                                      }
-                                                                      consentSetTrueSP();
-                                                                      Navigator.pop(
-                                                                          context);
                                                                       Navigator.pop(
                                                                           context);
                                                                     },
                                                                     child: Text(
-                                                                        "Auswahl\nbestätigen",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.white70))),
-                                                              ],
-                                                            ),
-                                                            FlatButton(
-                                                                height: 50,
-                                                                color:
-                                                                    Colors.blue,
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    _disableAnalytics =
-                                                                        false;
-                                                                    _consent =
-                                                                        true;
-                                                                  });
-                                                                  disableAnalytics =
-                                                                      _disableAnalytics;
-                                                                  consent =
-                                                                      _consent;
+                                                                      "Zurück",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.white70),
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 8,
+                                                                  ),
+                                                                  FlatButton(
+                                                                      height:
+                                                                          50,
+                                                                      color:
+                                                                          backgroundcolor_dark,
+                                                                      onPressed:
+                                                                          () {
+                                                                        disableAnalytics =
+                                                                            _disableAnalytics;
+                                                                        consent =
+                                                                            _consent;
 
-                                                                  if (!disableAnalytics) {
-                                                                    js.context
-                                                                        .callMethod(
-                                                                            'disableAnalytics',
-                                                                            [
-                                                                          disableAnalytics
-                                                                        ]);
-                                                                  }
-                                                                  consentSetTrueSP();
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: Text(
-                                                                    "Alle auswählen\nund bestätigen")),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  );
-                                                }),
+                                                                        print(
+                                                                            disableAnalytics);
+
+                                                                        if (!disableAnalytics) {
+                                                                          js.context.callMethod(
+                                                                              'disableAnalytics',
+                                                                              [
+                                                                                disableAnalytics
+                                                                              ]);
+                                                                        }
+                                                                        consentSetTrueSP();
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: Text(
+                                                                          "Auswahl\nbestätigen",
+                                                                          style:
+                                                                              TextStyle(color: Colors.white70))),
+                                                                ],
+                                                              ),
+                                                              FlatButton(
+                                                                  height: 50,
+                                                                  color: Colors
+                                                                      .blue,
+                                                                  onPressed:
+                                                                      () {
+                                                                    setState(
+                                                                        () {
+                                                                      _disableAnalytics =
+                                                                          false;
+                                                                      _consent =
+                                                                          true;
+                                                                    });
+                                                                    disableAnalytics =
+                                                                        _disableAnalytics;
+                                                                    consent =
+                                                                        _consent;
+
+                                                                    if (!disableAnalytics) {
+                                                                      js.context
+                                                                          .callMethod(
+                                                                              'disableAnalytics',
+                                                                              [
+                                                                            disableAnalytics
+                                                                          ]);
+                                                                    }
+                                                                    consentSetTrueSP();
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      "Alle auswählen\nund bestätigen")),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }),
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: Text("Verwalten",
-                                        style:
-                                            TextStyle(color: Colors.white70))),
-                                FlatButton(
-                                    color: Colors.blue,
-                                    height: 50,
-                                    onPressed: () {
-                                      consent = true;
-                                      disableAnalytics = false;
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text("Verwalten",
+                                          style: TextStyle(
+                                              color: Colors.white70))),
+                                  FlatButton(
+                                      color: Colors.blue,
+                                      height: 50,
+                                      onPressed: () {
+                                        consent = true;
+                                        disableAnalytics = false;
 
-                                      js.context.callMethod('setCookie',
-                                          ["acceptedAllCookies", "true", 30]);
+                                        js.context.callMethod('setCookie',
+                                            ["acceptedAllCookies", "true", 30]);
 
-                                      print(js.context.callMethod(
-                                          "getCookie", ["acceptedAllCookies"]));
+                                        print(js.context.callMethod("getCookie",
+                                            ["acceptedAllCookies"]));
 
-                                      //cookie setzten dass alles akzeptiert wurde
-                                      js.context.callMethod('disableAnalytics',
-                                          [disableAnalytics]);
-                                      consentSetTrueSP();
+                                        //cookie setzten dass alles akzeptiert wurde
+                                        js.context.callMethod(
+                                            'disableAnalytics',
+                                            [disableAnalytics]);
+                                        consentSetTrueSP();
 
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Alles akzeptieren"))
-                              ],
-                            ),
-                          )
-                        ],
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Alles akzeptieren"))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             });
       });
       firstCall = false;
     }
   }
-
-  bool firstCall = true;
 
   BuildContext contextMain;
 
