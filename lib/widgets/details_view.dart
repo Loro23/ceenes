@@ -245,7 +245,7 @@ class _Details_viewState extends State<Details_view> {
               Container(
                   padding:
                       const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-                  child: Text(overview, style: TextStyle(fontSize: 15))),
+                  child: Text(overview, style: TextStyle(fontSize: 16))),
               Container(
                 height: 130,
                 child: FutureBuilder(

@@ -16,7 +16,6 @@ import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-
 import '../util/api.dart';
 
 GlobalKey key = GlobalKey();
@@ -24,8 +23,7 @@ String _movies;
 int _sessionId;
 
 class Swipe_View extends StatefulWidget {
-  Swipe_View(String movies, int sessionId, {this.analytics, this.observer})
-     {
+  Swipe_View(String movies, int sessionId, {this.analytics, this.observer}) {
     _movies = movies;
     _sessionId = sessionId;
   }
@@ -83,7 +81,6 @@ class _Swipe_ViewState extends State<Swipe_View> {
     showBarModalBottomSheet(
         backgroundColor: backgroundcolor_dark,
         context: context,
-
         builder: (BuildContext bc) {
           return SingleChildScrollView(
             child: Wrap(
