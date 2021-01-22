@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:ceenes_prototype/util/colors.dart';
@@ -9,7 +10,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pinput/pin_put/pin_put.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Login_view extends StatefulWidget {
   Login_view({this.analytics, this.observer}) : super(key: key);
@@ -49,7 +50,8 @@ class _Login_viewState extends State<Login_view> {
   }
 
   final TextEditingController _controller = TextEditingController();
-  final FocusNode _pinPutFocusNode = FocusNode();
+  StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
+
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
@@ -99,42 +101,46 @@ class _Login_viewState extends State<Login_view> {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: PinPut(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 30),
-                                pinAnimationType: PinAnimationType.slide,
-                                keyboardType: TextInputType.number,
-                                eachFieldWidth: 40,
-                                eachFieldHeight: 40,
-                                fieldsCount: 6,
-                                toolbarOptions: ToolbarOptions(
-                                    paste: true,
-                                    copy: true,
-                                    cut: true,
-                                    selectAll: true),
-                                onSubmit: (String pin) => print(pin),
-                                focusNode: _pinPutFocusNode,
+                            PinCodeTextField(
+                                appContext: context,
+                                animationType: AnimationType.fade,
+                                length: 6,
+                                backgroundColor: backgroundcolor_dark,
                                 controller: _controller,
-                                submittedFieldDecoration:
-                                    _pinPutDecoration.copyWith(
-                                        borderRadius: BorderRadius.circular(5),
-                                        border:
-                                            Border.all(color: primary_color)),
-                                selectedFieldDecoration: _pinPutDecoration,
-                                followingFieldDecoration:
-                                    _pinPutDecoration.copyWith(
-                                  //color: Colors.black12,
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  border: Border.all(
-                                    color: Colors.white70,
-                                  ),
-                                ),
+                              errorAnimationController: errorController, // Pass it here
+                              textStyle: TextStyle(color: Colors.white),
+                                onChanged: (value) {
+                                  print(value);
+                                },
+                              onCompleted: (value){
+                                  print("comlpeted");
+                              },
+                              autoFocus: true,
+                              keyboardType: TextInputType.number,
+
+                              pinTheme: PinTheme(
+
+                                shape: PinCodeFieldShape.box,
+                                borderRadius: BorderRadius.circular(5),
+                                fieldHeight: 50,
+                                fieldWidth: 40,
+                                activeFillColor: Colors.black26,
+                                activeColor: yellow_ceenes.withOpacity(0.65),
+                                selectedColor: yellow_ceenes,
+                                inactiveFillColor: Colors.black26,
+                                selectedFillColor: Colors.black26,
+                                inactiveColor: yellow_ceenes.withOpacity(0.2)
                               ),
+                              beforeTextPaste: (text) {
+                                print("Allowing to paste $text");
+                                //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                                //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                                return true;
+                              },
+                              enableActiveFill: true,
+
                             ),
+
                             SizedBox(
                               height: 15,
                             ),
@@ -240,7 +246,7 @@ class _Login_viewState extends State<Login_view> {
                                                       (BuildContext context) {
                                                 return Review2(
                                                     int.parse(sessionId),
-                                                    jsonDecode(movies_enc));
+                                                    jsonDecode(movies_enc), analytics: this.analytics, observer: this.observer, asSpectator: true,);
                                               }));
                                             });
                                           }

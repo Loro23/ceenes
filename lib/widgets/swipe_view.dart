@@ -23,7 +23,7 @@ int _sessionId;
 
 class Swipe_View extends StatefulWidget {
   Swipe_View(String movies, int sessionId, {this.analytics, this.observer})
-      : super(key: key) {
+     {
     _movies = movies;
     _sessionId = sessionId;
   }

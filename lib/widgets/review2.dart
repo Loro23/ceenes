@@ -23,18 +23,27 @@ class Review2 extends StatefulWidget {
   final FirebaseAnalytics analytics;
 
   final FirebaseAnalyticsObserver observer;
-  Review2(int sessionId, List movies_dec, {this.analytics, this.observer}) {
+
+  bool asSpectator;
+  Review2(int sessionId, List movies_dec, {this.analytics, this.observer, this.asSpectator}) {
     _sessionId = sessionId;
     _movies_dec = movies_dec;
   }
   @override
-  _Review2State createState() => _Review2State(analytics, observer);
+  _Review2State createState() {
+    if (asSpectator == true){
+      return _Review2State(analytics, observer, true);
+    }
+    return _Review2State(analytics, observer, false);
+  }
 }
 
 class _Review2State extends State<Review2> {
   final FirebaseAnalyticsObserver observer;
-
   final FirebaseAnalytics analytics;
+  bool asSpectator;
+
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   List<int> rating = [];
@@ -53,7 +62,7 @@ class _Review2State extends State<Review2> {
 
   List<Widget> allMoviesList = [];
 
-  _Review2State(this.analytics, this.observer);
+  _Review2State(this.analytics, this.observer, this.asSpectator);
 
   setNumberVotes() async {
     await firestore
@@ -526,28 +535,36 @@ class _Review2State extends State<Review2> {
                     child: ListView(
                       physics: const ClampingScrollPhysics(),
                       children: [
-                        SizedBox(
-                          height: 60,
-                        ),
                         Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Builder(builder: (context) {
-                            if (this._numVotes == 1) {
-                              return Text(
-                                "Bis jetzt hast nur du abgestimmt.",
-                                style: TextStyle(fontSize: 19),
-                                textAlign: TextAlign.center,
-                              );
-                            }
-                            return Text(
-                              "Es haben " +
-                                  this._numVotes.toString() +
-                                  " Personen abgestimmt.",
-                              style: TextStyle(fontSize: 19),
-                              textAlign: TextAlign.center,
-                            );
-                          }),
-                        ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 60,
+                              ),
+                              Builder(builder: (context){
+                                if (this._numVotes == 1) {
+                                  if (asSpectator){
+                                    return Text("Es hat eine Person abgestimmt.");
+                                  }
+                                  return Text(
+                                    "Bis jetzt hast nur du abgestimmt.",
+                                    style: TextStyle(fontSize: 19),
+                                    textAlign: TextAlign.center,
+                                  );
+                                }
+                                return Text(
+                                  "Es haben " +
+                                      this._numVotes.toString() +
+                                      " Personen abgestimmt.",
+                                  style: TextStyle(fontSize: 19),
+                                  textAlign: TextAlign.center,
+                                );
+                              }),
+                            ],
+                          ),
+                        )
+                        ,
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ConstrainedBox(
