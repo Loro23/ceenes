@@ -92,6 +92,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
 
   @override
   void initState() {
+    super.initState();
     _sendAnalyticsEvent("Swipe View - Init State");
     movies_dec = jsonDecode(_movies);
     //  print(movies_dec);
@@ -106,6 +107,44 @@ class _Swipe_ViewState extends State<Swipe_View> {
         });
       }
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => new Dialog(
+          child: Padding(
+            padding: const EdgeInsets.only(top:20, left: 8, right: 8, bottom: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                new Text("So funktioniert's:",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+                SizedBox(height: 10),
+                new Text("Swipe nach rechts: Film gefällt dir",style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
+                SizedBox(height: 10),
+                new Text("Swipe nach links: Film gefällt dir nicht",style: TextStyle( fontSize: 17), textAlign: TextAlign.center,),
+                SizedBox(height: 10),
+                Center(
+                  child: Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width*0.8,
+                    child: new FlatButton(
+                      color: yellow_ceenes,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: new Text("Los geht's", style: TextStyle(color: Colors.black, fontSize: 18),),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        ),
+      );
+    });
   }
 
   double getHeightPoster() {
