@@ -531,9 +531,7 @@ class Create_ViewState extends State<Create_View>
 
                               await MovieHandler.getMoviesNew2(this.session)
                                   .then((movies) {
-                                print(movies);
                                 if (movies.length == 0) {
-                                  print("length i 0");
                                   this.movies = "";
                                   return;
                                 }

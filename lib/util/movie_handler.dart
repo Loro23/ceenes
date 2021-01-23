@@ -57,7 +57,6 @@ class MovieHandler {
         "&primary_release_date.gte=" +
         session.releaseDateGte.toString() +
         "-12-31";
-    print(request);
 
     // print(request);
     final response = await http.get(request);

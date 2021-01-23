@@ -62,7 +62,7 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Container(
               constraints: BoxConstraints(maxWidth: 600),
               child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
+                padding: const EdgeInsets.only(top: 50),
                 child: Stack(
                   children: [
                     SingleChildScrollView(
@@ -71,10 +71,10 @@ class _AdminLoginState extends State<AdminLogin> {
                           children: [
                             Image.asset(
                               "assets/giphy_happy.gif",
-                              height: 150,
+                              height: 140,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
+                              padding: const EdgeInsets.only(left:25, right:25, bottom: 22),
                               child: SelectableText(
                                 "Deine Gruppe wurde erstellt!",
                                 style: TextStyle(
@@ -83,7 +83,7 @@ class _AdminLoginState extends State<AdminLogin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
+                              padding: const EdgeInsets.only(left:25, right:25, bottom: 22),
                               child: SelectableText(
                                 "Um zu starten, teile den Code mit deinen Freunden und klicke dann auf Start!",
                                 style: TextStyle(
@@ -93,39 +93,40 @@ class _AdminLoginState extends State<AdminLogin> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
+                              padding: const EdgeInsets.only(bottom: 22),
                               child: SelectableText(
                                 _session.sessionId.toString(),
                                 style: TextStyle(
                                     letterSpacing: 10,
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            FlatButton(
+                            FloatingActionButton.extended(
                               onPressed: () {
                                 _sendAnalyticsEvent(
                                     "Admin Login - Kopieren Button");
                                 FlutterClipboard.copy(
                                     _session.sessionId.toString());
                               },
-                              color: Colors.grey[800],
-                              child: Row(
+                              backgroundColor: Colors.grey[800],
+                              label: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(2),
                                     child: Text(
                                       "Kopieren",
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                          color: Colors.white, fontSize: 18),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.copy),
+                                    padding: const EdgeInsets.all(2),
+                                    child: Icon(Icons.copy, color: Colors.white,),
                                   )
                                 ],
                               ),
@@ -137,7 +138,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Padding(
-                        padding: const EdgeInsets.all(25),
+                        padding: const EdgeInsets.only(right: 20, bottom:18),
                         child: FloatingActionButton.extended(
                           onPressed: () {
                             _sendAnalyticsEvent("Admin Login - Start Button");

@@ -473,7 +473,6 @@ class _Review2State extends State<Review2> {
         ),
       ));
     }
-    print("nach for");
 
     //daten für das Ergebnis holen
 
@@ -490,7 +489,6 @@ class _Review2State extends State<Review2> {
         "?api_key=" +
         apiKey +
         "&language=en-US");
-    print(jsonDecode(details.body).toString());
     String runtime = jsonDecode(details.body)["runtime"].toString();
     String overview = sortedMap.keys.toList()[0]["overview"];
     String en_overview = jsonDecode(details.body)["overview"];

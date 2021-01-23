@@ -61,7 +61,6 @@ class _Details_viewState extends State<Details_view> {
     );
     cast = _cast.values.toList()[1];
     for (int i = 0; i < cast.length; i++) {
-      print(cast[i]);
       actors.add(new Actor(cast[i]["name"], cast[i]["profile_path"],
           cast[i]["character"], cast[i]["popularity"]));
     }
