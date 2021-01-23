@@ -323,10 +323,11 @@ class _Swipe_ViewState extends State<Swipe_View> {
                                     ),
                                     child: Stack(
                                       children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(20),
-                                          child: Card(
-                                            color: Colors.transparent,
+                                        Card(
+                                          color: Colors.transparent,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                            clipBehavior: Clip.antiAliasWithSaveLayer,
                                             child: Container(
 
                                                 decoration: BoxDecoration(
