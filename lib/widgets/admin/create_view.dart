@@ -609,6 +609,7 @@ class Create_ViewState extends State<Create_View>
               alignment: Alignment.topLeft,
               child: Container(
                 width: MediaQuery.of(context).size.width,
+                /*
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -617,6 +618,8 @@ class Create_ViewState extends State<Create_View>
                       Colors.black.withOpacity(0.8),
                       Colors.transparent
                     ])),
+
+                 */
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -299,424 +299,420 @@ class _Swipe_ViewState extends State<Swipe_View> {
                           ),
                           Align(
                             alignment: Alignment.topCenter,
-                            child: TinderSwapCard(
-                              swipeUp: false,
-                              swipeDown: false,
-                              animDuration: 200,
-                              orientation: AmassOrientation.TOP,
-                              totalNum: movies_dec.length,
-                              stackNum: 3,
-                              swipeEdge: 4,
-                              maxWidth: getMaxWidth(),
-                              maxHeight:
-                                  MediaQuery.of(context).size.height * 0.9,
-                              minWidth: getMinWidth(),
-                              minHeight:
-                                  MediaQuery.of(context).size.height * 0.8,
-                              cardBuilder: (context, index) {
-                                currentIndex = index;
-                                return Container(
-                                  margin: EdgeInsets.only(top: 35, bottom: 40),
+                            child: Container(
+                              child: TinderSwapCard(
+                                swipeUp: false,
+                                swipeDown: false,
+                                animDuration: 200,
+                                orientation: AmassOrientation.TOP,
+                                totalNum: movies_dec.length,
+                                stackNum: 3,
+                                swipeEdge: 4,
+                                maxWidth: getMaxWidth(),
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.9,
+                                minWidth: getMinWidth(),
+                                minHeight:
+                                    MediaQuery.of(context).size.height * 0.8,
+                                cardBuilder: (context, index) {
+                                  currentIndex = index;
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 35, bottom: 40),
 
-                                  child: Stack(
-                                    children: [
-                                      Container(
+                                    child: Stack(
+                                      children: [
+                                        Container(
 
-                                          decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15)
+                                            decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15)
 ,
-                                  image: DecorationImage(
+                                    image: DecorationImage(
 
-                                              image:NetworkImage(
-                                                "http://image.tmdb.org/t/p/w500/" +
-                                                    movies_dec[index]
-                                                    ["poster_path"],
-                                              ),
-                                              fit: BoxFit.cover
-                                            )
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 8,
-                                              ),
-                                              Spacer(),
-                                              //------------------------------------------------------------------
-                                              Container(
-
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black.withOpacity(0.7),
-                                                    borderRadius: BorderRadius.circular(15)
-
-                                                  /*
-                                                  gradient: LinearGradient(
-
-                                                    colors: [Colors.black.withOpacity(0.8), Colors.transparent],
-                                                    begin: Alignment.bottomCenter,
-                                                    end: Alignment.topCenter,
-                                                    stops: [0.7, 1]
-
-                                                  )*/
+                                                image:NetworkImage(
+                                                  "http://image.tmdb.org/t/p/w500/" +
+                                                      movies_dec[index]
+                                                      ["poster_path"],
                                                 ),
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    Row(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        Expanded(
-                                                          child: Container(
-                                                              padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  top: 5,
-                                                                  left: 20,
-                                                                  bottom: 5),
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: RichText(
-                                                                overflow:
-                                                                TextOverflow.clip,
-                                                                text: TextSpan(
-                                                                  text: movies_dec[
-                                                                  index]
-                                                                  ["title"] +
-                                                                      " ",
-                                                                  style: TextStyle(
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                    fontSize: 17,
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                        238,
-                                                                        238,
-                                                                        238,
-                                                                        1),
-                                                                  ),
-                                                                  children: <
-                                                                      TextSpan>[
-                                                                    TextSpan(
-                                                                        text: "(" +
-                                                                            movies_dec[index]
-                                                                            [
-                                                                            "release_date"]
-                                                                                .toString()
-                                                                                .substring(
-                                                                                0,
-                                                                                4) +
-                                                                            ")",
-                                                                        style: TextStyle(
-                                                                            color: Color.fromRGBO(
-                                                                                202,
-                                                                                202,
-                                                                                202,
-                                                                                0.9)))
-                                                                  ],
-                                                                ),
-                                                              )),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                          const EdgeInsets.only(
-                                                              right: 20),
-                                                          child: Icon(Icons.info),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                fit: BoxFit.cover
+                                              )
+                                            ),
+                                            child: Column(
+                                              children: [
 
+                                                Spacer(),
+                                                //------------------------------------------------------------------
+                                                Container(
 
-                                                    Container(
-                                                        alignment: Alignment.topLeft,
-                                                        padding:
-                                                        const EdgeInsets.only(
-                                                            left: 20,
-                                                            top: 5,
-                                                            bottom: 5,
-                                                            right: 20),
-                                                        child: Text(
-                                                          movies_dec[index]
-                                                          ["overview"],
-                                                          overflow:
-                                                          TextOverflow.ellipsis,
-                                                          maxLines: 3,
-                                                          style: TextStyle(
-                                                            color: Color.fromRGBO(
-                                                                238, 238, 238, 1),
-                                                          ),
-                                                        )),
-                                                    Align(
-                                                      alignment: Alignment.centerLeft,
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                        MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black.withOpacity(0.7),
+                                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15) )
+
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize: MainAxisSize.min,
                                                         children: [
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Padding(
-                                                                  padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 10,
-                                                                      bottom: 8),
-                                                                  child: Wrap(
-                                                                    children:
-                                                                    getGenresChipsForMovie(
-                                                                        index),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
+                                                          Expanded(
+                                                            child: Container(
                                                                 padding:
                                                                 const EdgeInsets
                                                                     .only(
-                                                                    top: 5.5,
-                                                                    right: 20),
-                                                                child: Container(
-                                                                  decoration:
-                                                                  BoxDecoration(
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .all(Radius
-                                                                        .circular(
-                                                                        5)),
-                                                                    color: Colors.grey[800].withOpacity(0.7)
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding:
-                                                                        const EdgeInsets
-                                                                            .all(8),
-                                                                        child: Text(
-                                                                            movies_dec[index]["vote_average"]
-                                                                                .toString() +
-                                                                                "/10",
-                                                                            style:
-                                                                            TextStyle(
-                                                                              fontWeight:
-                                                                              FontWeight.bold,
+                                                                    top: 5,
+                                                                    left: 20,
+                                                                    bottom: 5),
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: RichText(
+                                                                  overflow:
+                                                                  TextOverflow.clip,
+                                                                  text: TextSpan(
+                                                                    text: movies_dec[
+                                                                    index]
+                                                                    ["title"] +
+                                                                        " ",
+                                                                    style: TextStyle(
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                      fontSize: 17,
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                          238,
+                                                                          238,
+                                                                          238,
+                                                                          1),
+                                                                    ),
+                                                                    children: <
+                                                                        TextSpan>[
+                                                                      TextSpan(
+                                                                          text: "(" +
+                                                                              movies_dec[index]
+                                                                              [
+                                                                              "release_date"]
+                                                                                  .toString()
+                                                                                  .substring(
+                                                                                  0,
+                                                                                  4) +
+                                                                              ")",
+                                                                          style: TextStyle(
                                                                               color: Color.fromRGBO(
-                                                                                  238,
-                                                                                  238,
-                                                                                  238,
-                                                                                  1),
-                                                                            )),
-                                                                      ),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .only(
-                                                                            right: 8),
-                                                                        child: Icon(
-                                                                          Icons.star,
-                                                                          color: Colors
-                                                                              .yellow,
-                                                                          size: 20.0,
-                                                                          semanticLabel:
-                                                                          'Stern',
-                                                                        ),
-                                                                      ),
+                                                                                  202,
+                                                                                  202,
+                                                                                  202,
+                                                                                  0.9)))
                                                                     ],
                                                                   ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                                )),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Container(
+                                                            margin:
+                                                            const EdgeInsets.only(
+                                                                right: 20),
+                                                            child: Icon(Icons.info),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-
-                                                  ],
-                                                ),
-                                              )
 
 
-                                            ],
+                                                      Container(
+                                                          alignment: Alignment.topLeft,
+                                                          padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20,
+                                                              top: 5,
+                                                              bottom: 5,
+                                                              right: 20),
+                                                          child: Text(
+                                                            movies_dec[index]
+                                                            ["overview"],
+                                                            overflow:
+                                                            TextOverflow.ellipsis,
+                                                            maxLines: 3,
+                                                            style: TextStyle(
+                                                              color: Color.fromRGBO(
+                                                                  238, 238, 238, 1),
+                                                            ),
+                                                          )),
+                                                      Align(
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                          MainAxisSize.min,
+                                                          crossAxisAlignment:
+                                                          CrossAxisAlignment.start,
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child: Padding(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 10,
+                                                                        bottom: 8),
+                                                                    child: Wrap(
+                                                                      children:
+                                                                      getGenresChipsForMovie(
+                                                                          index),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      top: 5.5,
+                                                                      right: 20),
+                                                                  child: Container(
+                                                                    decoration:
+                                                                    BoxDecoration(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .all(Radius
+                                                                          .circular(
+                                                                          5)),
+                                                                      color: Colors.grey[800].withOpacity(0.7)
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                          const EdgeInsets
+                                                                              .all(8),
+                                                                          child: Text(
+                                                                              movies_dec[index]["vote_average"]
+                                                                                  .toString() +
+                                                                                  "/10",
+                                                                              style:
+                                                                              TextStyle(
+                                                                                fontWeight:
+                                                                                FontWeight.bold,
+                                                                                color: Color.fromRGBO(
+                                                                                    238,
+                                                                                    238,
+                                                                                    238,
+                                                                                    1),
+                                                                              )),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets
+                                                                              .only(
+                                                                              right: 8),
+                                                                          child: Icon(
+                                                                            Icons.star,
+                                                                            color: Colors
+                                                                                .yellow,
+                                                                            size: 20.0,
+                                                                            semanticLabel:
+                                                                            'Stern',
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                    ],
+                                                  ),
+                                                )
+
+
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          showDialog(
-                                              barrierDismissible: false,
-                                              context: context,
-                                              child: Center(
-                                                  child: CircularProgressIndicator(
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              blue_ceenes))));
-                                          _sendAnalyticsEvent(
-                                              "Swipe View - More Details Button");
-                                          Map movieDetails =
-                                              await tmdb.v3.movies.getDetails(
-                                                  movies_dec[index]["id"],
-                                                  appendToResponse:
-                                                      "watch/providers",
-                                                  language: "de-DE");
+                                        GestureDetector(
+                                          onTap: () async {
+                                            showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                child: Center(
+                                                    child: CircularProgressIndicator(
+                                                        valueColor:
+                                                            new AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                                blue_ceenes))));
+                                            _sendAnalyticsEvent(
+                                                "Swipe View - More Details Button");
+                                            Map movieDetails =
+                                                await tmdb.v3.movies.getDetails(
+                                                    movies_dec[index]["id"],
+                                                    appendToResponse:
+                                                        "watch/providers",
+                                                    language: "de-DE");
 
-                                          var rep = await http.get(
-                                              "https://api.themoviedb.org/3/movie/" +
-                                                  movies_dec[index]['id']
-                                                      .toString() +
-                                                  "?api_key=" +
-                                                  apiKey +
-                                                  "&language=en-US");
+                                            var rep = await http.get(
+                                                "https://api.themoviedb.org/3/movie/" +
+                                                    movies_dec[index]['id']
+                                                        .toString() +
+                                                    "?api_key=" +
+                                                    apiKey +
+                                                    "&language=en-US");
 
-                                          String overview =
-                                              jsonDecode(rep.body)["overview"];
-                                          Navigator.pop(context);
-                                          showDetails(
-                                              context, movieDetails, overview);
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              cardController: controller,
-                              swipeUpdateCallback:
-                                  (DragUpdateDetails details, Alignment align) {
-                                if (align.x < -0.2) {
-                                  setState(() {
-                                    feedbackWidget = Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 50, left: 15),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(100)),
-                                          child: Container(
-                                            color: Colors.grey[800],
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: Icon(
-                                                Icons.clear,
-                                                color: Colors.red,
-                                                size: 50,
+                                            String overview =
+                                                jsonDecode(rep.body)["overview"];
+                                            Navigator.pop(context);
+                                            showDetails(
+                                                context, movieDetails, overview);
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                                cardController: controller,
+                                  /*
+                                swipeUpdateCallback:
+                                    (DragUpdateDetails details, Alignment align) {
+                                  if (align.x < -0.2) {
+                                    setState(() {
+                                      feedbackWidget = Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 50, left: 15),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(100)),
+                                            child: Container(
+                                              color: Colors.grey[800],
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(15),
+                                                child: Icon(
+                                                  Icons.clear,
+                                                  color: Colors.red,
+                                                  size: 50,
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  });
-                                } else if (align.x > 0.2) {
-                                  //Card is RIGHT swiping
-                                  setState(() {
-                                    feedbackWidget = Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 50, right: 15),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(100)),
-                                          child: Container(
-                                            color: Colors.grey[800],
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(15),
-                                              child: Icon(Icons.favorite,
-                                                  color: Colors.yellow,
-                                                  size: 50),
+                                      );
+                                    });
+                                  } else if (align.x > 0.2) {
+                                    //Card is RIGHT swiping
+                                    setState(() {
+                                      feedbackWidget = Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 50, right: 15),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(100)),
+                                            child: Container(
+                                              color: Colors.grey[800],
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(15),
+                                                child: Icon(Icons.favorite,
+                                                    color: Colors.yellow,
+                                                    size: 50),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  });
-                                } else {
+                                      );
+                                    });
+                                  } else {
+                                    setState(() {
+                                      feedbackWidget = SizedBox();
+                                    });
+                                  }
+                                },
+                                */
+                                swipeCompleteCallback:
+                                    (CardSwipeOrientation orientation,
+                                        int index) async {
+                                  if (orientation == CardSwipeOrientation.LEFT) {
+                                    _sendAnalyticsEvent(
+                                        "Swipe View - Swipe left");
+                                    setState(() {
+                                      counter += 1;
+                                      movies_rating.add(0);
+                                    });
+                                  } else if (orientation ==
+                                      CardSwipeOrientation.RIGHT) {
+                                    _sendAnalyticsEvent(
+                                        "Swipe View - Swipe right");
+                                    setState(() {
+                                      counter += 1;
+                                      movies_rating.add(1);
+                                    });
+                                  }
+
+                                  /*
                                   setState(() {
                                     feedbackWidget = SizedBox();
                                   });
-                                }
-                              },
-                              swipeCompleteCallback:
-                                  (CardSwipeOrientation orientation,
-                                      int index) async {
-                                if (orientation == CardSwipeOrientation.LEFT) {
-                                  _sendAnalyticsEvent(
-                                      "Swipe View - Swipe left");
-                                  setState(() {
-                                    counter += 1;
-                                    movies_rating.add(0);
-                                  });
-                                } else if (orientation ==
-                                    CardSwipeOrientation.RIGHT) {
-                                  _sendAnalyticsEvent(
-                                      "Swipe View - Swipe right");
-                                  setState(() {
-                                    counter += 1;
-                                    movies_rating.add(1);
-                                  });
-                                }
 
-                                setState(() {
-                                  feedbackWidget = SizedBox();
-                                });
+                                   */
 
-                                if (counter == movies_dec.length) {
-                                  //  print("letzte karte" + index.toString());
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return Dialog(
-                                        child: new Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child:
-                                                  new CircularProgressIndicator(
-                                                valueColor:
-                                                    new AlwaysStoppedAnimation<
-                                                        Color>(blue_ceenes),
+                                  if (counter == movies_dec.length) {
+                                    //  print("letzte karte" + index.toString());
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          child: new Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child:
+                                                    new CircularProgressIndicator(
+                                                  valueColor:
+                                                      new AlwaysStoppedAnimation<
+                                                          Color>(blue_ceenes),
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: new Text(
-                                                "Laden...",
-                                                style: TextStyle(fontSize: 25),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: new Text(
+                                                  "Laden...",
+                                                  style: TextStyle(fontSize: 25),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                  await uploadRanking(movies_rating)
-                                      .whenComplete(() {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) {
-                                      return Review2(_sessionId, movies_dec,
-                                          analytics: this.analytics,
-                                          observer: this.observer);
-                                    }));
-                                  });
-                                }
-                              },
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    await uploadRanking(movies_rating)
+                                        .whenComplete(() {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) {
+                                        return Review2(_sessionId, movies_dec,
+                                            analytics: this.analytics,
+                                            observer: this.observer);
+                                      }));
+                                    });
+                                  }
+                                },
+                              ),
                             ),
                           ),
-                          feedbackWidget
+                        //  feedbackWidget
                         ],
                       ),
                     ),
@@ -730,6 +726,7 @@ class _Swipe_ViewState extends State<Swipe_View> {
               alignment: Alignment.topLeft,
               child: Container(
                 width: MediaQuery.of(context).size.width,
+                /*
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -738,6 +735,8 @@ class _Swipe_ViewState extends State<Swipe_View> {
                       Colors.black.withOpacity(0.8),
                       Colors.transparent
                     ])),
+
+                 */
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

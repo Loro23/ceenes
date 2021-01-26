@@ -168,6 +168,7 @@ class _AdminLoginState extends State<AdminLogin> {
             alignment: Alignment.topLeft,
             child: Container(
               width: MediaQuery.of(context).size.width,
+              /*
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -176,6 +177,8 @@ class _AdminLoginState extends State<AdminLogin> {
                     Colors.black.withOpacity(0.8),
                     Colors.transparent
                   ])),
+
+               */
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

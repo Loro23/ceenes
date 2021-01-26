@@ -26,13 +26,14 @@ class Review2 extends StatefulWidget {
   final FirebaseAnalyticsObserver observer;
 
   bool asSpectator;
-  Review2(int sessionId, List movies_dec, {this.analytics, this.observer, this.asSpectator}) {
+  Review2(int sessionId, List movies_dec,
+      {this.analytics, this.observer, this.asSpectator}) {
     _sessionId = sessionId;
     _movies_dec = movies_dec;
   }
   @override
   _Review2State createState() {
-    if (asSpectator == true){
+    if (asSpectator == true) {
       return _Review2State(analytics, observer, true);
     }
     return _Review2State(analytics, observer, false);
@@ -43,7 +44,6 @@ class _Review2State extends State<Review2> {
   final FirebaseAnalyticsObserver observer;
   final FirebaseAnalytics analytics;
   bool asSpectator;
-
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -129,9 +129,10 @@ class _Review2State extends State<Review2> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           //Feedback Button
+          /*
           Padding(
             padding: const EdgeInsets.only(
               left: 8.0,
@@ -220,7 +221,10 @@ class _Review2State extends State<Review2> {
                       color: Colors.white, fontWeight: FontWeight.w700),
                 )),
           ),
+          */
+
           //Nochmal swipen Button
+          /*
           Padding(
             padding: const EdgeInsets.only(
               left: 8.0,
@@ -286,7 +290,37 @@ class _Review2State extends State<Review2> {
                       color: Colors.white, fontWeight: FontWeight.w700),
                 )),
           ),
+          */
+
           //Refresh Button
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20, right: 20),
+            child: GestureDetector(
+              onTap: () async {
+                _sendAnalyticsEvent("Review View - Refresh Button");
+                await setNumberVotes();
+                getRating();
+              },
+              child: AnimatedContainer(
+                height: _height.toDouble(),
+                width: _width.toDouble(),
+                duration: _animationDuration,
+                decoration: BoxDecoration(
+                  color: _color,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.refresh, color: Colors.black87,),
+                    SizedBox(width: 5,),
+                    Text("Update", style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),)
+                  ],
+                ),
+              ),
+            ),
+          ),
+          /*
           Padding(
             padding: const EdgeInsets.all(8),
             child: FloatingActionButton(
@@ -303,9 +337,39 @@ class _Review2State extends State<Review2> {
               backgroundColor: Colors.grey[800],
             ),
           ),
+
+           */
         ],
       ),
     );
+  }
+
+  final _animationDuration = Duration(milliseconds: 550);
+  Timer _timer;
+  Color _color;
+  int _width;
+  int _height;
+  void _changeColor() {
+    final newColor = _color == Colors.yellow ? Colors.grey : Colors.yellow;
+    setState(() {
+      _color = newColor;
+    });
+  }
+
+  void _changeSize(){
+    final newWidth = _width == 100 ? 105 : 100;
+    final newHeight = _height == 60 ? 75 : 60;
+
+    setState(() {
+      _width = newWidth;
+      _height = newHeight;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   Text _getPercentage(int _index) {
@@ -413,7 +477,7 @@ class _Review2State extends State<Review2> {
           key: (k) => k, value: (k) => mapping[k]);
     });
     //damit nicht zu schnell erneut vom Nutzer aktualisert wird, muss mindestens 1 Sekunden gewartet werden
-    Timer(Duration(milliseconds: 1000), () {
+    Timer(Duration(milliseconds: 200), () {
       setState(() {
         Navigator.pop(context);
       });
@@ -542,10 +606,11 @@ class _Review2State extends State<Review2> {
                               SizedBox(
                                 height: 60,
                               ),
-                              Builder(builder: (context){
+                              Builder(builder: (context) {
                                 if (this._numVotes == 1) {
-                                  if (asSpectator){
-                                    return Text("Es hat eine Person abgestimmt.");
+                                  if (asSpectator) {
+                                    return Text(
+                                        "Es hat eine Person abgestimmt.");
                                   }
                                   return Text(
                                     "Bis jetzt hast nur du abgestimmt.",
@@ -563,8 +628,7 @@ class _Review2State extends State<Review2> {
                               }),
                             ],
                           ),
-                        )
-                        ,
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ConstrainedBox(
@@ -722,6 +786,13 @@ class _Review2State extends State<Review2> {
     _sendAnalyticsEvent("Review View - Init State");
     super.initState();
     setNumberVotes();
+    _timer = Timer.periodic(_animationDuration, (timer) {
+      _changeColor();
+      //_changeSize();
+    });
+    _color = Colors.yellow;
+    _width = 100;
+    _height = 60;
   }
 
   bool firstCall = true;

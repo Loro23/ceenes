@@ -375,6 +375,7 @@ class _Login_viewState extends State<Login_view> {
                 alignment: Alignment.topLeft,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
+                  /*
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -383,6 +384,7 @@ class _Login_viewState extends State<Login_view> {
                         Colors.black.withOpacity(0.8),
                         Colors.transparent
                       ])),
+                  */
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
