@@ -1,7 +1,7 @@
 # Ceenes Project
 This is a PWA used to identify common interests in a movie within seconds. 
 The idea started in Sep. 2020 and we have released the first prototype just yet. 
-It is available under [ceenes.com](https://ceenes.com "Ceenes").
+It is available under [ceenes](https://prototype-ceenes.web.app/#/ "Ceenes").
 
 ## How it works
 We used Flutter to realize our Frontend and connect the users input with our firebase Backend to bring together the users common interests. 
